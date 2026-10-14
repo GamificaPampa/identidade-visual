@@ -1,0 +1,22 @@
+/* Cores e medidas do estilo de jogo, iguais às do site do hub */
+:root {
+  --ink: #2f2a4a;
+  --soft: #5d5880;
+  --sky1: #5fbcff;
+  --sky2: #cdeeff;
+  --hill: #8ddf6a;
+  --hill2: #6cc653;
+  --blue: #4da3ff;
+  --pink: #ff5f8f;
+  --mint: #4fd6a6;
+  --orange: #ff8a3d;
+  --purple: #a08bff;
+  --yellow: #ffd23f;
+  --white: #fff;
+  --cream: #fff8e1;
+  --radius: clamp(22px, 3vw, 36px);
+  --line: 6px solid var(--ink);
+  --drop: 0 12px 0 var(--ink);
+  --bounce: cubic-bezier(.34, 1.56, .64, 1);
+  --font: "Fredoka", "Trebuchet MS", system-ui, sans-serif;
+}
