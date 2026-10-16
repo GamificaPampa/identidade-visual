@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Identidade visual · GamificaPampa</title>
+  <meta name="description" content="Cores, fonte, componentes, cenário, animações, o mascote Bit e os logos do GamificaPampa, com o código para usar nas páginas.">
+  <meta property="og:title" content="Identidade visual do GamificaPampa">
+  <meta property="og:description" content="Cores, fonte, componentes, cenário, animações, o Bit e os logos, com o código para copiar.">
+  <meta property="og:image" content="https://gamificapampa.github.io/identidade-visual/logos/gamificapampa-github-avatar.png">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#5fbcff">
+  <link rel="icon" type="image/svg+xml" href="logos/gamificapampa-icone.svg">
+  <link rel="stylesheet" href="css/fontes.css">
+  <link rel="stylesheet" href="css/cores.css">
+  <link rel="stylesheet" href="css/componentes.css">
+  <link rel="stylesheet" href="css/cenario.css">
+  <link rel="stylesheet" href="css/animacoes.css">
+  <style>
+    body { background: var(--cream); }
+    :focus-visible { outline: 4px solid var(--pink); outline-offset: 3px; }
+    .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .caixa { width: min(1120px, 100% - 32px); margin-inline: auto; }
+    @media (min-width: 768px) { .caixa { width: min(1120px, 100% - 64px); } }
+    p, ul { margin: 0; }
+    code, pre { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; }
+    :not(pre) > code { white-space: nowrap; }
+    code.quebra { white-space: normal; overflow-wrap: anywhere; }
+
+    /* Topo */
+    .topo { padding-block: clamp(24px, 4vw, 48px) clamp(120px, 15vw, 200px); }
+    .topo__dentro { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
+    .logo { padding: 0 8px 0 4px; background: var(--white); border: 4px solid var(--ink); border-radius: 999px; box-shadow: 0 5px 0 var(--ink); transition: transform .12s ease, box-shadow .12s ease; }
+    .logo:hover { transform: translateY(2px); box-shadow: 0 3px 0 var(--ink); }
+    .logo img { width: 190px; height: auto; }
+    .topo h1 { margin-top: 8px; }
+    .fala { display: flex; align-items: center; gap: 22px; max-width: 660px; }
+    .fala img { flex: none; width: clamp(72px, 10vw, 104px); height: auto; }
+    .fala .bubble { min-width: 0; font-size: clamp(16px, 1.8vw, 20px); line-height: 1.35; box-shadow: 0 6px 0 rgb(47 42 74 / .3); }
+    .atalhos { display: flex; flex-wrap: wrap; gap: 10px; }
+    .atalhos a { display: inline-flex; align-items: center; min-height: 44px; padding: 4px 16px; background: var(--white); border: 3px solid var(--ink); border-radius: 999px; box-shadow: 0 4px 0 var(--ink); font-weight: 600; font-size: 16px; text-decoration: none; transition: transform .12s ease, box-shadow .12s ease; }
+    .atalhos a:hover { transform: translateY(2px); box-shadow: 0 2px 0 var(--ink); }
+    .atalhos a:active { transform: translateY(4px); box-shadow: none; }
+
+    /* Seções */
+    .secao { padding-block: clamp(56px, 8vw, 100px); }
+    .secao.ceu { padding-bottom: clamp(130px, 16vw, 210px); }
+    .secao__topo { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; margin-bottom: clamp(28px, 4vw, 48px); }
+    .secao__topo > p:not(.pill) { max-width: 660px; font-weight: 600; font-size: clamp(17px, 1.6vw, 20px); }
+    .noite .secao__topo > p:not(.pill) { color: rgb(255 255 255 / .85); }
+    .grupo { margin: 36px 0 16px; font-size: 24px; }
+    .grupo:first-of-type { margin-top: 0; }
+    .noite a { color: var(--yellow); }
+
+    /* Bloco de código com botão de copiar */
+    .codigo { position: relative; min-width: 0; background: var(--ink); color: var(--white); border: 4px solid var(--ink); border-radius: 20px; }
+    .codigo pre { margin: 0; padding: 16px 18px; padding-top: 58px; overflow-x: auto; font-size: 14px; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .copiar { position: absolute; top: 10px; right: 10px; display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 2px 14px; background: var(--yellow); color: var(--ink); border: 3px solid var(--white); border-radius: 999px; font: 600 15px var(--font); cursor: pointer; transition: transform .12s ease; }
+    .copiar:hover { transform: translateY(2px); }
+    .copiar:active { transform: translateY(4px); }
+    .codigo__nome { position: absolute; top: 16px; left: 18px; color: rgb(255 255 255 / .6); font: 600 14px var(--font); letter-spacing: .04em; }
+
+    /* Cores */
+    .cores { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px; }
+    .cor { display: flex; flex-direction: column; gap: 2px; padding: 0 0 14px; overflow: hidden; background: var(--white); color: var(--ink); border: 4px solid var(--ink); border-radius: 22px; box-shadow: 0 6px 0 var(--ink); font: inherit; text-align: left; cursor: pointer; transition: transform .12s ease, box-shadow .12s ease; }
+    .cor:hover { transform: translateY(3px); box-shadow: 0 3px 0 var(--ink); }
+    .cor:active { transform: translateY(6px); box-shadow: none; }
+    .cor__amostra { height: 84px; margin-bottom: 8px; background: var(--c); border-bottom: 4px solid var(--ink); }
+    .cor > span:not(.cor__amostra) { padding-inline: 14px; }
+    .cor__nome { font-weight: 700; font-size: 18px; }
+    .cor__hex { color: var(--soft); font: 600 14px ui-monospace, Consolas, monospace; }
+    .cor__uso { color: var(--soft); font-size: 15px; line-height: 1.3; }
+    .medidas { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; }
+    .medida { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: center; gap: 4px 16px; padding: 16px; background: var(--white); color: var(--ink); border: 4px solid var(--ink); border-radius: 22px; box-shadow: 0 6px 0 var(--ink); font: inherit; text-align: left; }
+    .medida__amostra { grid-row: span 2; width: 64px; height: 52px; background: var(--sky2); border: 4px solid var(--ink); border-radius: 12px; }
+    .medida b { align-self: end; font-family: ui-monospace, Consolas, monospace; font-size: 16px; }
+    .medida span:last-child { align-self: start; color: var(--soft); font-size: 15px; line-height: 1.3; }
+    button.medida { cursor: pointer; }
+    .bola { width: 40px; height: 40px; margin: auto; background: var(--yellow); border: 4px solid var(--ink); border-radius: 50%; }
+
+    /* Fonte */
+    .fonte { display: grid; gap: 28px; align-items: center; }
+    @media (min-width: 860px) { .fonte { grid-template-columns: auto minmax(0, 1fr); gap: 48px; } }
+    .fonte__aa { font-weight: 700; font-size: clamp(110px, 18vw, 200px); line-height: .9; }
+    .fonte__pesos { display: grid; gap: 14px; }
+    .fonte__pesos p { display: grid; gap: 0; font-size: clamp(21px, 2.4vw, 28px); line-height: 1.2; }
+    .fonte__pesos small { color: var(--soft); font: 600 14px var(--font); letter-spacing: .04em; text-transform: uppercase; }
+    .fonte__letras { margin-top: 6px; color: var(--soft); font-size: 18px; overflow-wrap: anywhere; }
+    .fonte-uso { display: grid; gap: 24px; margin-top: 32px; }
+    @media (min-width: 860px) { .fonte-uso { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: start; } }
+    .fonte-uso ul { display: grid; gap: 10px; padding: 0; list-style: none; font-weight: 600; }
+    .fonte-uso li { position: relative; padding-left: 30px; }
+    .fonte-uso li::before { content: ""; position: absolute; left: 0; top: .22em; width: 18px; height: 18px; background: var(--yellow); border: 4px solid var(--ink); border-radius: 50%; }
+
+    /* Componentes */
+    .demos { display: grid; align-items: start; gap: 32px; }
+    @media (min-width: 900px) { .demos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .demo { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+    .demo h3 { font-size: 26px; }
+    .demo > p { color: var(--soft); font-size: 16px; }
+    .palco { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 18px 16px; padding: 26px 16px 30px; background: var(--cream); border: 4px solid var(--ink); border-radius: 20px; }
+    .palco .card { max-width: 300px; }
+    .palco .card h4 { margin: 0 0 6px; font-size: 22px; }
+    .palco .card p { color: var(--soft); font-size: 16px; }
+    .palco .fala img { width: 72px; }
+    .palco .bubble { font-size: 17px; }
+
+    /* Cenário */
+    .quadros { display: grid; gap: 28px; }
+    @media (min-width: 760px) { .quadros { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .quadro { display: grid; place-items: center; min-height: 260px; padding: 24px; border: var(--line); border-radius: var(--radius); box-shadow: var(--drop); text-align: center; }
+    .quadro h3 { font-size: clamp(40px, 6vw, 60px); }
+    .noite .quadro, .quadro.noite { border-color: var(--ink); }
+    .cenario-uso { display: grid; gap: 24px; margin-top: 36px; }
+    @media (min-width: 900px) { .cenario-uso { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: start; } }
+    .pecas { display: grid; gap: 10px; }
+    .pecas div { display: grid; gap: 2px; padding: 12px 16px 12px 26px; background: var(--white); border: 4px solid var(--ink); border-radius: 18px; box-shadow: inset 10px 0 0 var(--c, var(--sky1)), 0 5px 0 var(--ink); }
+    .pecas dt { font: 700 16px ui-monospace, Consolas, monospace; }
+    .pecas dd { margin: 0; color: var(--soft); font-size: 16px; }
+
+    /* Animações */
+    .anims { display: grid; grid-template-columns: repeat(auto-fill, minmax(156px, 1fr)); gap: 20px; }
+    .anim { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 12px 16px; background: var(--white); color: var(--ink); border: 4px solid var(--ink); border-radius: 22px; box-shadow: 0 6px 0 var(--ink); font: inherit; text-align: center; }
+    button.anim { cursor: pointer; transition: transform .12s ease, box-shadow .12s ease; }
+    button.anim:hover { transform: translateY(3px); box-shadow: 0 3px 0 var(--ink); }
+    .anim__palco { display: grid; place-items: center; width: 100%; height: 104px; }
+    .anim__palco img { width: 68px; height: auto; }
+    .anim code { font-weight: 700; font-size: 14px; }
+    .anim small { color: var(--soft); font-size: 14px; line-height: 1.25; }
+    .anim__denovo { display: inline-flex; align-items: center; gap: 5px; margin-top: auto; padding: 1px 10px; background: var(--yellow); border: 3px solid var(--ink); border-radius: 999px; font-weight: 600; font-size: 13px; }
+    .ponto { width: 22px; height: 22px; background: var(--mint); border: 4px solid var(--ink); border-radius: 50%; }
+    .codigo-solto { color: var(--purple); font-weight: 700; font-size: 38px; -webkit-text-stroke: 6px var(--ink); paint-order: stroke fill; }
+    .mini { width: 92px; height: 64px; background: var(--white); border: 4px solid var(--ink); border-radius: 16px; box-shadow: 0 6px 0 var(--ink), inset 0 12px 0 var(--mint); }
+    .mais { color: var(--yellow); font-weight: 700; font-size: 34px; -webkit-text-stroke: 7px var(--ink); paint-order: stroke fill; }
+    .anim .loud { font-size: 40px; }
+    .anim .bubble { padding: 6px 14px; font-size: 18px; }
+    .anim .btn { min-height: 48px; padding: 4px 22px; }
+    .anim .pill { box-shadow: 0 5px 0 var(--ink); }
+    .anim-dica { margin-top: 28px; }
+
+    /* Bit e logos */
+    .bit { display: grid; gap: 28px; align-items: center; }
+    @media (min-width: 760px) { .bit { grid-template-columns: auto minmax(0, 1fr); gap: 44px; } }
+    .bit__figura { display: grid; place-items: center; width: clamp(170px, 24vw, 240px); aspect-ratio: 1; margin-inline: auto; background: var(--sky2); border: var(--line); border-radius: 50%; }
+    .bit__figura img { width: 66%; height: auto; }
+    .bit__texto { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+    .regras { display: grid; gap: 10px; padding: 0; list-style: none; font-weight: 600; }
+    .regras li { position: relative; padding-left: 30px; }
+    .regras li::before { content: ""; position: absolute; left: 0; top: .22em; width: 18px; height: 18px; background: var(--c, var(--blue)); border: 4px solid var(--ink); border-radius: 50%; }
+    .logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; }
+    .logo-item { display: flex; flex-direction: column; gap: 10px; padding: 16px; }
+    .logo-item__fundo { display: grid; place-items: center; height: 150px; padding: 18px; background: var(--white); border: 4px solid var(--ink); border-radius: 18px; }
+    .logo-item__fundo--escuro { background: var(--ink); }
+    .logo-item__fundo img { width: auto; height: 104px; max-width: 100%; object-fit: contain; }
+    .logo-item__fundo--largo img { width: 100%; height: auto; }
+    .logo-item h3 { font-size: 21px; }
+    .logo-item p { color: var(--soft); font-size: 15px; }
+    .logo-item code { font-size: 13px; white-space: normal; overflow-wrap: anywhere; }
+    .logo-item .btn { align-self: flex-start; min-height: 44px; margin-top: 4px; padding: 4px 18px; font-size: 16px; box-shadow: 0 5px 0 var(--ink); }
+
+    /* Como usar */
+    .uso { display: grid; gap: 28px; }
+    @media (min-width: 900px) { .uso { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: start; } }
+    .uso .codigo { border-color: var(--white); }
+    .uso .regras { color: var(--white); }
+    .uso .regras li::before { border-color: var(--white); }
+    .uso .regras code { color: var(--yellow); }
+
+    .rodape { padding-block: 32px; border-top: var(--line); }
+    .rodape__dentro { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+    .rodape img { width: 200px; height: auto; margin-left: -6px; }
+    .rodape p { color: var(--soft); font-size: 15px; }
+
+    /* Aviso de copiado */
+    .aviso { position: fixed; left: 50%; bottom: 20px; z-index: 50; translate: -50% 0; padding: 8px 22px; background: var(--ink); color: var(--white); border: 4px solid var(--white); border-radius: 999px; box-shadow: 0 6px 0 rgb(47 42 74 / .4); font-weight: 600; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .2s ease; }
+    .aviso.is-on { opacity: 1; }
+  </style>
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true">
+    <symbol id="i-copiar" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="3" fill="#fff" stroke="#2f2a4a" stroke-width="2.6"/><path d="M16 5.5V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h.5" fill="none" stroke="#2f2a4a" stroke-width="2.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-baixar" viewBox="0 0 24 24"><path d="M12 3v11m-5-5 5 5 5-5" fill="none" stroke="#2f2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="#2f2a4a" stroke-width="3" stroke-linecap="round"/></symbol>
+    <symbol id="i-denovo" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9" fill="none" stroke="#2f2a4a" stroke-width="3" stroke-linecap="round"/><path d="M19 2.5v5h-5" fill="none" stroke="#2f2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="estrela" viewBox="0 0 24 24"><path d="M12 0c1 7.5 4.5 11 12 12-7.5 1-11 4.5-12 12-1-7.5-4.5-11-12-12 7.5-1 11-4.5 12-12z" fill="#ffd23f" stroke="#2f2a4a" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="moeda" viewBox="0 0 44 44"><circle cx="22" cy="22" r="19" fill="#ffd23f" stroke="#2f2a4a" stroke-width="4"/><circle cx="22" cy="22" r="12.5" fill="none" stroke="#e6b400" stroke-width="2.5"/><text x="22" y="27" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="13" font-weight="700" fill="#2f2a4a">XP</text></symbol>
+    <symbol id="coracao" viewBox="0 0 24 22"><path d="M12 20C5 15 2 11.5 2 7.5 2 4.5 4.3 2 7.2 2c2 0 3.7 1 4.8 2.8C13.1 3 14.8 2 16.8 2 19.7 2 22 4.5 22 7.5 22 11.5 19 15 12 20z" fill="#ff5f8f" stroke="#2f2a4a" stroke-width="2.5" stroke-linejoin="round"/></symbol>
+  </svg>
+
+  <header class="cena ceu topo">
+    <div class="cenario" aria-hidden="true">
+      <span class="nuvem" style="top: 4%; --w: 190px; --t: 70s; --d: -10s"></span>
+      <span class="nuvem" style="top: 12%; --w: 230px; --t: 95s; --d: -70s"></span>
+      <span class="nuvem" style="top: 34%; --w: 130px; --t: 60s; --d: -26s"></span>
+      <span class="nuvem" style="top: 54%; --w: 170px; --t: 80s; --d: -64s"></span>
+      <span class="simbolo" style="right: 6%; top: 8%">&lt;/&gt;</span>
+      <span class="simbolo" style="right: 26%; top: 30%; --d: -2s">{ }</span>
+      <span class="simbolo" style="right: 4%; top: 46%; --d: -4s">01</span>
+      <span class="simbolo" style="left: 54%; top: 64%; --d: -5s">[ ]</span>
+      <span class="morros"></span>
+    </div>
+    <div class="caixa topo__dentro">
+      <a class="logo" href="https://gamificapampa.github.io/" aria-label="GamificaPampa, ir para o site"><img src="logos/gamificapampa-horizontal.svg" alt="GamificaPampa" width="650" height="144"></a>
+      <h1 class="loud anima-letras"><span>Identidade</span> <span class="yellow">visual</span></h1>
+      <div class="fala">
+        <img class="anima-flutuar" src="mascote/bit.svg" width="100" height="100" alt="Bit, o robô do GamificaPampa">
+        <p class="bubble anima-balao" style="--d: .5s">Aqui está tudo o que dá cara de jogo às nossas páginas. Clique numa cor ou num código para copiar.</p>
+      </div>
+      <nav class="atalhos" aria-label="Seções">
+        <a href="#cores">Cores</a>
+        <a href="#fonte">Fonte</a>
+        <a href="#componentes">Componentes</a>
+        <a href="#cenario">Cenário</a>
+        <a href="#animacoes">Animações</a>
+        <a href="#bit">Bit e logos</a>
+        <a href="#como-usar">Como usar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="secao" id="cores">
+      <div class="caixa">
+        <div class="secao__topo">
+          <p class="pill" style="--c: var(--yellow)">Fase 1</p>
+          <h2 class="loud">Cores</h2>
+          <p>Ficam em <code>cores.css</code>. Na página, use sempre o nome da cor, como <code>var(--ink)</code>, e não o código. Clique numa cor para copiar o código dela.</p>
+        </div>
+
+        <h3 class="grupo">Base</h3>
+        <div class="cores">
+          <button class="cor" type="button" data-var="--ink" style="--c: var(--ink)"><span class="cor__amostra"></span><span class="cor__nome">--ink</span><span class="cor__hex">#2f2a4a</span><span class="cor__uso">Texto, contornos e sombras</span></button>
+          <button class="cor" type="button" data-var="--soft" style="--c: var(--soft)"><span class="cor__amostra"></span><span class="cor__nome">--soft</span><span class="cor__hex">#5d5880</span><span class="cor__uso">Texto de apoio</span></button>
+          <button class="cor" type="button" data-var="--white" style="--c: var(--white)"><span class="cor__amostra"></span><span class="cor__nome">--white</span><span class="cor__hex">#fff</span><span class="cor__uso">Cartões, botões e balões</span></button>
+          <button class="cor" type="button" data-var="--cream" style="--c: var(--cream)"><span class="cor__amostra"></span><span class="cor__nome">--cream</span><span class="cor__hex">#fff8e1</span><span class="cor__uso">Fundo das partes claras</span></button>
+        </div>
+
+        <h3 class="grupo">Céu e morros</h3>
+        <div class="cores">
+          <button class="cor" type="button" data-var="--sky1" style="--c: var(--sky1)"><span class="cor__amostra"></span><span class="cor__nome">--sky1</span><span class="cor__hex">#5fbcff</span><span class="cor__uso">Alto do céu</span></button>
+          <button class="cor" type="button" data-var="--sky2" style="--c: var(--sky2)"><span class="cor__amostra"></span><span class="cor__nome">--sky2</span><span class="cor__hex">#cdeeff</span><span class="cor__uso">Pé do céu</span></button>
+          <button class="cor" type="button" data-var="--hill" style="--c: var(--hill)"><span class="cor__amostra"></span><span class="cor__nome">--hill</span><span class="cor__hex">#8ddf6a</span><span class="cor__uso">Morro claro</span></button>
+          <button class="cor" type="button" data-var="--hill2" style="--c: var(--hill2)"><span class="cor__amostra"></span><span class="cor__nome">--hill2</span><span class="cor__hex">#6cc653</span><span class="cor__uso">Morro escuro</span></button>
+        </div>
+
+        <h3 class="grupo">Destaques</h3>
+        <div class="cores">
+          <button class="cor" type="button" data-var="--yellow" style="--c: var(--yellow)"><span class="cor__amostra"></span><span class="cor__nome">--yellow</span><span class="cor__hex">#ffd23f</span><span class="cor__uso">Botão principal, estrelas e pontos</span></button>
+          <button class="cor" type="button" data-var="--pink" style="--c: var(--pink)"><span class="cor__amostra"></span><span class="cor__nome">--pink</span><span class="cor__hex">#ff5f8f</span><span class="cor__uso">Foco do teclado e palavra em destaque</span></button>
+          <button class="cor" type="button" data-var="--mint" style="--c: var(--mint)"><span class="cor__amostra"></span><span class="cor__nome">--mint</span><span class="cor__hex">#4fd6a6</span><span class="cor__uso">Botão de jogar e níveis</span></button>
+          <button class="cor" type="button" data-var="--blue" style="--c: var(--blue)"><span class="cor__amostra"></span><span class="cor__nome">--blue</span><span class="cor__hex">#4da3ff</span><span class="cor__uso">Corpo do Bit e faixas</span></button>
+          <button class="cor" type="button" data-var="--orange" style="--c: var(--orange)"><span class="cor__amostra"></span><span class="cor__nome">--orange</span><span class="cor__hex">#ff8a3d</span><span class="cor__uso">Listras da barra de pontos</span></button>
+          <button class="cor" type="button" data-var="--purple" style="--c: var(--purple)"><span class="cor__amostra"></span><span class="cor__nome">--purple</span><span class="cor__hex">#a08bff</span><span class="cor__uso">Etiquetas</span></button>
+        </div>
+
+        <h3 class="grupo">Só no logo</h3>
+        <div class="cores">
+          <button class="cor" type="button" style="--c: #013968"><span class="cor__amostra"></span><span class="cor__nome">Azul do logo</span><span class="cor__hex">#013968</span><span class="cor__uso">Fundo do ícone</span></button>
+          <button class="cor" type="button" style="--c: #f07916"><span class="cor__amostra"></span><span class="cor__nome">Laranja do logo</span><span class="cor__hex">#f07916</span><span class="cor__uso">Desenho do ícone</span></button>
+        </div>
+
+        <h3 class="grupo">Medidas</h3>
+        <div class="medidas">
+          <div class="medida"><span class="medida__amostra" style="border-radius: 22px"></span><b>--radius</b><span>Canto dos cartões, de 22 a 36&nbsp;px</span></div>
+          <div class="medida"><span class="medida__amostra" style="border-width: 6px"></span><b>--line</b><span>Contorno grosso de 6&nbsp;px</span></div>
+          <div class="medida"><span class="medida__amostra" style="height: 44px; box-shadow: 0 8px 0 var(--ink)"></span><b>--drop</b><span>Sombra dura, sem borrão</span></div>
+          <button class="medida" type="button" data-anima="surgir" aria-label="--bounce: curva de mola. Clique para ver"><span class="medida__amostra" style="display: grid; background: var(--white)"><span class="bola alvo" style="width: 28px; height: 28px; border-width: 3px"></span></span><b>--bounce</b><span>Mola: passa do ponto e volta. Clique</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao cena ceu" id="fonte">
+      <div class="cenario" aria-hidden="true">
+        <span class="nuvem" style="top: 6%; --w: 200px; --t: 85s; --d: -25s"></span>
+        <span class="nuvem" style="top: 30%; --w: 150px; --t: 65s; --d: -50s"></span>
+        <span class="nuvem" style="top: 62%; --w: 180px; --t: 90s; --d: -12s"></span>
+        <span class="morros"></span>
+      </div>
+      <div class="caixa">
+        <div class="secao__topo">
+          <p class="pill" style="--c: var(--mint)">Fase 2</p>
+          <h2 class="loud">Fonte</h2>
+          <p>A Fredoka, redonda e fácil de ler, em todos os textos. O arquivo fica aqui mesmo, então ela aparece até sem internet.</p>
+        </div>
+        <div class="card fonte">
+          <p class="fonte__aa" aria-hidden="true">Aa</p>
+          <div class="fonte__pesos">
+            <p style="font-weight: 400"><small>400 · normal</small>O robô pegou a estrela na fase 3.</p>
+            <p style="font-weight: 500"><small>500 · texto corrido</small>O robô pegou a estrela na fase 3.</p>
+            <p style="font-weight: 600"><small>600 · botões e destaques</small>O robô pegou a estrela na fase 3.</p>
+            <p style="font-weight: 700"><small>700 · títulos</small>O robô pegou a estrela na fase 3.</p>
+            <p class="fonte__letras">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 áàâãéêíóôõúç</p>
+          </div>
+        </div>
+        <div class="fonte-uso">
+          <div class="codigo"><span class="codigo__nome">fontes.css</span><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;link rel="stylesheet" href="/identidade-visual/css/fontes.css"&gt;</code></pre></div>
+          <ul>
+            <li>O <code>fontes.css</code> já faz o <code>@font-face</code>. Não copie ele para dentro da página.</li>
+            <li>Escreva <code>font-family: var(--font)</code>, que já traz a reserva <code>Trebuchet MS</code>.</li>
+            <li>Licença SIL Open Font, no arquivo <a href="fontes/fredoka/OFL.txt">OFL.txt</a>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="componentes">
+      <div class="caixa">
+        <div class="secao__topo">
+          <p class="pill" style="--c: var(--pink)">Fase 3</p>
+          <h2 class="loud">Componentes</h2>
+          <p>As peças de <code>componentes.css</code>. Todas têm contorno escuro grosso e sombra dura.</p>
+        </div>
+        <div class="demos">
+          <article class="card demo">
+            <h3>Título com contorno</h3>
+            <div class="palco"><p class="loud" style="font-size: clamp(40px, 7vw, 60px); line-height: 1.05; font-weight: 700">Fase <span class="yellow">1</span> <span class="pink">!</span></p></div>
+            <p>Letra branca com contorno e sombra. <code>.yellow</code> e <code>.pink</code> pintam uma palavra.</p>
+            <div class="codigo"><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;h2 class="loud"&gt;Fase &lt;span class="yellow"&gt;1&lt;/span&gt;&lt;/h2&gt;</code></pre></div>
+          </article>
+
+          <article class="card demo">
+            <h3>Botão</h3>
+            <div class="palco">
+              <a class="btn btn--yellow" href="#componentes">Jogar</a>
+              <a class="btn btn--mint" href="#componentes">Continuar</a>
+              <a class="btn" href="#componentes">Voltar</a>
+            </div>
+            <p>Afunda quando passa o mouse e quando clica. Cores: <code>btn--yellow</code>, <code>btn--mint</code>, <code>btn--pink</code> ou qualquer uma com <code>--c</code>.</p>
+            <div class="codigo"><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;a class="btn btn--yellow" href="jogo.html"&gt;Jogar&lt;/a&gt;
+&lt;a class="btn" style="--c: var(--purple)" href="#"&gt;Outra cor&lt;/a&gt;</code></pre></div>
+          </article>
+
+          <article class="card demo">
+            <h3>Etiqueta</h3>
+            <div class="palco">
+              <span class="pill">8 a 10 anos</span>
+              <span class="pill" style="--c: var(--purple)">Nível 2</span>
+              <span class="pill" style="--c: var(--mint)">Sem internet</span>
+            </div>
+            <p>Para idade, nível ou tema. Uma ou duas palavras.</p>
+            <div class="codigo"><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;span class="pill" style="--c: var(--purple)"&gt;Nível 2&lt;/span&gt;</code></pre></div>
+          </article>
+
+          <article class="card demo">
+            <h3>Cartão</h3>
+            <div class="palco">
+              <div class="card"><h4>Robô pega a estrela</h4><p>Monte a sequência de passos para o robô chegar na estrela.</p></div>
+            </div>
+            <p>Caixa branca com canto redondo. Serve para jogos, passos e avisos.</p>
+            <div class="codigo"><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;div class="card"&gt;
+  &lt;h3&gt;Robô pega a estrela&lt;/h3&gt;
+  &lt;p&gt;Monte a sequência de passos.&lt;/p&gt;
+&lt;/div&gt;</code></pre></div>
+          </article>
+
+          <article class="card demo" style="grid-column: 1 / -1">
+            <h3>Balão de fala do Bit</h3>
+            <div class="palco">
+              <div class="fala"><img src="mascote/bit.svg" width="100" height="100" alt=""><p class="bubble">Muito bem! Agora tente sem olhar a dica.</p></div>
+            </div>
+            <p>O Bit sempre fala dentro do balão, com frases curtas. A ponta do balão fica à esquerda, virada para ele.</p>
+            <div class="codigo"><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;div style="display: flex; align-items: center; gap: 20px"&gt;
+  &lt;img src="/identidade-visual/mascote/bit.svg" width="80" height="80" alt=""&gt;
+  &lt;p class="bubble"&gt;Muito bem! Agora tente sem olhar a dica.&lt;/p&gt;
+&lt;/div&gt;</code></pre></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="cenario" style="padding-top: 0">
+      <div class="caixa">
+        <div class="secao__topo">
+          <p class="pill" style="--c: var(--blue)">Fase 4</p>
+          <h2 class="loud">Cenário</h2>
+          <p>O céu com nuvens, símbolos de código e morros, ou a noite com estrelas. Fica em <code>cenario.css</code> e não precisa de imagem nem de script.</p>
+        </div>
+        <div class="quadros">
+          <div class="quadro cena ceu">
+            <div class="cenario" aria-hidden="true">
+              <span class="nuvem" style="top: 6%; --w: 120px; --t: 30s; --d: -6s"></span>
+              <span class="nuvem" style="top: 34%; --w: 90px; --t: 24s; --d: -17s"></span>
+              <span class="simbolo" style="left: 8%; top: 46%">&lt;/&gt;</span>
+              <span class="simbolo" style="right: 8%; top: 12%; --d: -3s">{ }</span>
+              <span class="morros" style="--altura: 70px"></span>
+            </div>
+            <h3 class="loud">Dia</h3>
+          </div>
+          <div class="quadro cena noite">
+            <div class="cenario" aria-hidden="true">
+              <span class="estrela" style="left: 10%; top: 14%"></span>
+              <span class="estrela" style="left: 78%; top: 20%; --w: 24px; --d: -1s"></span>
+              <span class="estrela" style="left: 22%; top: 72%; --w: 14px; --d: -2s"></span>
+              <span class="estrela" style="left: 84%; top: 70%; --w: 20px; --d: -1.5s"></span>
+              <span class="estrela" style="left: 50%; top: 10%; --w: 12px; --d: -.5s"></span>
+              <span class="simbolo" style="left: 6%; top: 44%">01</span>
+              <span class="simbolo" style="right: 8%; top: 46%; --d: -3s">if</span>
+            </div>
+            <h3 class="yellow" style="font-size: clamp(40px, 6vw, 60px)">Noite</h3>
+          </div>
+        </div>
+        <div class="cenario-uso">
+          <div class="codigo"><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;section class="cena ceu"&gt;
+  &lt;div class="cenario" aria-hidden="true"&gt;
+    &lt;span class="nuvem" style="top: 8%; --w: 190px; --t: 70s; --d: -10s"&gt;&lt;/span&gt;
+    &lt;span class="nuvem" style="top: 40%; --w: 140px; --t: 60s; --d: -35s"&gt;&lt;/span&gt;
+    &lt;span class="simbolo" style="left: 6%; top: 30%"&gt;&amp;lt;/&amp;gt;&lt;/span&gt;
+    &lt;span class="morros"&gt;&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;h1 class="loud"&gt;Título&lt;/h1&gt;
+&lt;/section&gt;</code></pre></div>
+          <dl class="pecas">
+            <div><dt>.cena .ceu / .cena .noite</dt><dd>O bloco que recebe o desenho. O conteúdo fica sempre na frente.</dd></div>
+            <div style="--c: var(--white)"><dt>.nuvem</dt><dd><code>--w</code> largura, <code>--t</code> tempo para atravessar, <code>--d</code> negativo para espalhar.</dd></div>
+            <div style="--c: var(--purple)"><dt>.simbolo</dt><dd>Código flutuando. Posição com <code>left</code>, <code>right</code> e <code>top</code>.</dd></div>
+            <div style="--c: var(--yellow)"><dt>.estrela</dt><dd>Para a noite. <code>--w</code> muda o tamanho.</dd></div>
+            <div style="--c: var(--hill)"><dt>.morros</dt><dd>No pé do bloco. <code>--altura</code> muda o tamanho.</dd></div>
+            <div style="--c: var(--pink)"><dt>.cenario--fixo</dt><dd>Para o céu ficar parado atrás da página inteira, como nos jogos.</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao cena ceu" id="animacoes">
+      <div class="cenario" aria-hidden="true">
+        <span class="nuvem" style="top: 3%; --w: 210px; --t: 90s; --d: -40s"></span>
+        <span class="nuvem" style="top: 46%; --w: 160px; --t: 75s; --d: -8s"></span>
+        <span class="morros"></span>
+      </div>
+      <div class="caixa">
+        <div class="secao__topo">
+          <p class="pill" style="--c: var(--orange)">Fase 5</p>
+          <h2 class="loud">Animações</h2>
+          <p>Ficam em <code>animacoes.css</code>. Basta pôr a classe no elemento. <code>--t</code> muda o tempo e <code>--d</code> o atraso. Quem pede menos movimento no aparelho não vê nenhuma.</p>
+        </div>
+
+        <h3 class="grupo">Sem parar</h3>
+        <div class="anims">
+          <div class="anim"><span class="anim__palco"><img class="anima-flutuar" src="mascote/bit.svg" width="100" height="100" alt=""></span><code>.anima-flutuar</code><small>O Bit parado</small></div>
+          <div class="anim"><span class="anim__palco"><img class="anima-pular" src="mascote/bit.svg" width="100" height="100" alt=""></span><code>.anima-pular</code><small>Chamar atenção de vez em quando</small></div>
+          <div class="anim"><span class="anim__palco"><span class="btn btn--yellow anima-respirar">Jogar</span></span><code>.anima-respirar</code><small>Botão principal</small></div>
+          <div class="anim"><span class="anim__palco"><span class="codigo-solto anima-balancar">&lt;/&gt;</span></span><code>.anima-balancar</code><small>Coisas soltas no cenário</small></div>
+          <div class="anim"><span class="anim__palco"><svg class="anima-brilhar" width="48" height="48" aria-hidden="true"><use href="#estrela"/></svg></span><code>.anima-brilhar</code><small>Estrelas</small></div>
+          <div class="anim"><span class="anim__palco"><svg class="anima-girar" width="56" height="56" aria-hidden="true"><use href="#moeda"/></svg></span><code>.anima-girar</code><small>Moedas e prêmios</small></div>
+          <div class="anim"><span class="anim__palco"><span class="ponto anima-piscar"></span></span><code>.anima-piscar</code><small>Ao vivo, esperando</small></div>
+          <div class="anim"><span class="anim__palco"><svg class="anima-pulsar" width="52" height="48" aria-hidden="true"><use href="#coracao"/></svg></span><code>.anima-pulsar</code><small>Vidas</small></div>
+          <div class="anim"><span class="anim__palco"><span class="loud anima-letras" style="font-weight: 700"><span>O</span><span>b</span><span>a</span><span>!</span></span></span><code>.anima-letras</code><small>Título que pula letra por letra</small></div>
+        </div>
+
+        <h3 class="grupo">Uma vez</h3>
+        <div class="anims">
+          <button class="anim" type="button" data-anima="surgir"><span class="anim__palco"><svg class="alvo" width="56" height="56" aria-hidden="true"><use href="#estrela"/></svg></span><code>.anima-surgir</code><small>Prêmio ou janela que aparece</small><span class="anim__denovo"><svg width="14" height="14" aria-hidden="true"><use href="#i-denovo"/></svg>Ver de novo</span></button>
+          <button class="anim" type="button" data-anima="subir"><span class="anim__palco"><span class="mini alvo"></span></span><code>.anima-subir</code><small>Cartões entrando na tela</small><span class="anim__denovo"><svg width="14" height="14" aria-hidden="true"><use href="#i-denovo"/></svg>Ver de novo</span></button>
+          <button class="anim" type="button" data-anima="saltar"><span class="anim__palco"><img class="alvo" src="mascote/bit.svg" width="100" height="100" alt=""></span><code>.anima-saltar</code><small>Acertou</small><span class="anim__denovo"><svg width="14" height="14" aria-hidden="true"><use href="#i-denovo"/></svg>Ver de novo</span></button>
+          <button class="anim" type="button" data-anima="tremer"><span class="anim__palco"><span class="pill alvo" style="--c: var(--pink)">Ops!</span></span><code>.anima-tremer</code><small>Errou, tente de novo</small><span class="anim__denovo"><svg width="14" height="14" aria-hidden="true"><use href="#i-denovo"/></svg>Ver de novo</span></button>
+          <button class="anim" type="button" data-anima="pontos"><span class="anim__palco"><b class="mais alvo">+10</b></span><code>.anima-pontos</code><small>Pontos ganhos, sobe e some</small><span class="anim__denovo"><svg width="14" height="14" aria-hidden="true"><use href="#i-denovo"/></svg>Ver de novo</span></button>
+          <button class="anim" type="button" data-anima="balao"><span class="anim__palco"><span class="bubble alvo">Oi!</span></span><code>.anima-balao</code><small>Balão de fala aparecendo</small><span class="anim__denovo"><svg width="14" height="14" aria-hidden="true"><use href="#i-denovo"/></svg>Ver de novo</span></button>
+        </div>
+
+        <div class="codigo anim-dica"><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;img class="anima-flutuar" src="/identidade-visual/mascote/bit.svg" alt=""&gt;
+&lt;p class="bubble anima-balao" style="--d: .5s"&gt;Oi, turma!&lt;/p&gt;
+
+// Para tocar de novo uma animação de uma vez só:
+el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anima-saltar");</code></pre></div>
+      </div>
+    </section>
+
+    <section class="secao" id="bit">
+      <div class="caixa">
+        <div class="secao__topo">
+          <p class="pill" style="--c: var(--purple)">Fase 6</p>
+          <h2 class="loud">Bit e logos</h2>
+        </div>
+        <div class="card bit">
+          <div class="bit__figura"><img class="anima-flutuar" src="mascote/bit.svg" width="100" height="100" alt="Bit, o robô azul do GamificaPampa"></div>
+          <div class="bit__texto">
+            <h3 style="font-size: 32px">Bit, o robô</h3>
+            <ul class="regras">
+              <li>Conversa com a turma e com os professores nos jogos, nos slides e no site.</li>
+              <li style="--c: var(--yellow)">Fala sempre num balão, com frases curtas.</li>
+              <li style="--c: var(--pink)">Corpo azul, antena vermelha e bochechas rosa.</li>
+              <li style="--c: var(--mint)">Desenho em SVG, então fica nítido em qualquer tamanho.</li>
+            </ul>
+            <a class="btn btn--yellow" href="mascote/bit.svg" download><svg width="20" height="20" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar o Bit</a>
+          </div>
+        </div>
+
+        <h3 class="grupo" style="margin-top: 48px">Logos</h3>
+        <div class="logos">
+          <article class="card logo-item">
+            <div class="logo-item__fundo logo-item__fundo--largo"><img src="logos/gamificapampa-horizontal.svg" width="650" height="144" alt="Logo horizontal do GamificaPampa"></div>
+            <h3>Horizontal</h3>
+            <p>Cabeçalho, rodapé e capa de slide.</p>
+            <code>logos/gamificapampa-horizontal.svg</code>
+            <a class="btn" href="logos/gamificapampa-horizontal.svg" download><svg width="18" height="18" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar</a>
+          </article>
+          <article class="card logo-item">
+            <div class="logo-item__fundo"><img src="logos/gamificapampa-icone.svg" width="110" height="110" alt="Ícone do GamificaPampa"></div>
+            <h3>Ícone</h3>
+            <p>Ícone da aba do navegador e espaços pequenos.</p>
+            <code>logos/gamificapampa-icone.svg</code>
+            <a class="btn" href="logos/gamificapampa-icone.svg" download><svg width="18" height="18" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar</a>
+          </article>
+          <article class="card logo-item">
+            <div class="logo-item__fundo logo-item__fundo--escuro"><img src="logos/gamificapampa-icone-invertido.svg" width="110" height="110" alt="Ícone invertido do GamificaPampa"></div>
+            <h3>Ícone invertido</h3>
+            <p>Para fundo escuro.</p>
+            <code>logos/gamificapampa-icone-invertido.svg</code>
+            <a class="btn" href="logos/gamificapampa-icone-invertido.svg" download><svg width="18" height="18" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar</a>
+          </article>
+          <article class="card logo-item">
+            <div class="logo-item__fundo"><img src="logos/gamificapampa-github-avatar.png" width="110" height="110" alt="Avatar do GamificaPampa"></div>
+            <h3>Avatar</h3>
+            <p>Foto da org no GitHub e imagem da prévia de link.</p>
+            <code>logos/gamificapampa-github-avatar.png</code>
+            <a class="btn" href="logos/gamificapampa-github-avatar.png" download><svg width="18" height="18" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao cena noite" id="como-usar">
+      <div class="cenario" aria-hidden="true">
+        <span class="estrela" style="left: 4%; top: 8%; --w: 22px"></span>
+        <span class="estrela" style="left: 92%; top: 12%; --d: -1s"></span>
+        <span class="estrela" style="left: 60%; top: 5%; --w: 14px; --d: -2s"></span>
+        <span class="estrela" style="left: 3%; top: 70%; --w: 16px; --d: -1.6s"></span>
+        <span class="estrela" style="left: 94%; top: 82%; --w: 20px; --d: -.6s"></span>
+        <span class="simbolo" style="right: 5%; top: 40%">{ }</span>
+      </div>
+      <div class="caixa">
+        <div class="secao__topo">
+          <p class="pill" style="--c: var(--yellow)">Fase 7</p>
+          <h2 class="yellow">Como usar</h2>
+          <p>Ponha estas linhas no <code>&lt;head&gt;</code> da página, nesta ordem, e carregue só o que a página usa.</p>
+        </div>
+        <div class="uso">
+          <div class="codigo"><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;link rel="stylesheet" href="/identidade-visual/css/fontes.css"&gt;
+&lt;link rel="stylesheet" href="/identidade-visual/css/cores.css"&gt;
+&lt;link rel="stylesheet" href="/identidade-visual/css/componentes.css"&gt;
+&lt;link rel="stylesheet" href="/identidade-visual/css/cenario.css"&gt;
+&lt;link rel="stylesheet" href="/identidade-visual/css/animacoes.css"&gt;
+&lt;link rel="icon" href="/identidade-visual/logos/gamificapampa-icone.svg"&gt;</code></pre></div>
+          <ul class="regras">
+            <li style="--c: var(--yellow)">Nos repositórios públicos, o endereço começa em <code>/identidade-visual/</code>.</li>
+            <li style="--c: var(--mint)">No <code>equipe</code>, que abre direto do disco, use o endereço completo: <code class="quebra">https://gamificapampa.github.io/identidade-visual/</code>.</li>
+            <li style="--c: var(--pink)">O kit sem internet hoje só leva a fonte. Página do kit que usar estes arquivos precisa entrar no <code>kit_sem_internet.py</code>.</li>
+            <li style="--c: var(--blue)">Mudou uma cor? Mude no <code>cores.css</code> e no <code>styles.css</code> do hub.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="caixa rodape__dentro">
+      <img src="logos/gamificapampa-horizontal.svg" width="650" height="144" alt="GamificaPampa">
+      <p>Projeto de extensão da UNIPAMPA, Campus Alegrete. <a href="https://github.com/GamificaPampa/identidade-visual">Arquivos no GitHub</a></p>
+    </div>
+  </footer>
+
+  <p class="aviso" role="status" aria-live="polite"></p>
+
+  <script>
+    // Os códigos das cores vêm do cores.css, então a página nunca fica desatualizada
+    const raiz = getComputedStyle(document.documentElement);
+    document.querySelectorAll('.cor[data-var]').forEach(cor => {
+      const valor = raiz.getPropertyValue(cor.dataset.var).trim();
+      if (valor) cor.querySelector('.cor__hex').textContent = valor;
+      cor.setAttribute('aria-label', `Copiar ${cor.dataset.var}, ${valor || ''}`);
+    });
+
+    const aviso = document.querySelector('.aviso');
+    let some;
+    function avisar(texto) {
+      aviso.textContent = texto;
+      aviso.classList.remove('anima-surgir');
+      void aviso.offsetWidth;
+      aviso.classList.add('anima-surgir', 'is-on');
+      clearTimeout(some);
+      some = setTimeout(() => aviso.classList.remove('is-on'), 1800);
+    }
+
+    async function copiar(texto) {
+      try {
+        await navigator.clipboard.writeText(texto);
+      } catch {
+        const campo = document.createElement('textarea');
+        campo.value = texto;
+        campo.style.cssText = 'position: fixed; opacity: 0';
+        document.body.append(campo);
+        campo.select();
+        document.execCommand('copy');
+        campo.remove();
+      }
+    }
+
+    function tocar(quadro) {
+      const alvo = quadro.querySelector('.alvo');
+      const classe = 'anima-' + quadro.dataset.anima;
+      alvo.classList.remove(classe);
+      void alvo.offsetWidth;
+      alvo.classList.add(classe);
+    }
+
+    document.addEventListener('click', async evento => {
+      const cor = evento.target.closest('.cor');
+      if (cor) {
+        const codigo = cor.querySelector('.cor__hex').textContent;
+        await copiar(codigo);
+        avisar('Copiado: ' + codigo);
+        return;
+      }
+      const botao = evento.target.closest('.copiar');
+      if (botao) {
+        await copiar(botao.closest('.codigo').querySelector('code').textContent);
+        avisar('Código copiado');
+        return;
+      }
+      const quadro = evento.target.closest('[data-anima]');
+      if (quadro) tocar(quadro);
+    });
+
+    // As animações de uma vez tocam quando aparecem na tela
+    const olho = new IntersectionObserver(itens => itens.forEach(item => {
+      if (!item.isIntersecting) return;
+      tocar(item.target);
+      olho.unobserve(item.target);
+    }), { threshold: .6 });
+    document.querySelectorAll('[data-anima]').forEach(quadro => olho.observe(quadro));
+  </script>
+</body>
+</html>

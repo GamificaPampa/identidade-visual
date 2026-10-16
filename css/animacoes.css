@@ -1,0 +1,58 @@
+/* Animações do estilo de jogo, as mesmas que os jogos e o hub repetem cada um no seu arquivo.
+   Use a classe .anima-<nome>. --t muda o tempo e --d o atraso (negativo para começar no meio).
+   Elas usam transform: um elemento animado perde o transform que tiver; anime um elemento por dentro dele.
+
+   Para repetir uma animação de uma vez só (surgir, saltar, tremer...):
+     el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anima-saltar"); */
+
+/* Sem parar: o Bit parado, títulos, botões, estrelas e moedas */
+.anima-flutuar { animation: flutuar var(--t, 2.6s) ease-in-out var(--d, 0s) infinite; }
+.anima-pular { animation: pular var(--t, 3.6s) ease-in-out var(--d, 0s) infinite; }
+.anima-respirar { animation: respirar var(--t, 2.4s) ease-in-out var(--d, 0s) infinite; }
+.anima-balancar { animation: balancar var(--t, 5s) ease-in-out var(--d, 0s) infinite; }
+.anima-brilhar { animation: brilhar var(--t, 2.6s) ease-in-out var(--d, 0s) infinite; }
+.anima-girar { animation: girar var(--t, 2.4s) linear var(--d, 0s) infinite; }
+.anima-piscar { animation: piscar var(--t, 1.6s) steps(2, jump-none) var(--d, 0s) infinite; }
+.anima-pulsar { animation: pulsar var(--t, 2s) ease-in-out var(--d, 0s) infinite; }
+
+/* Letras de um título pulando uma depois da outra: <h1 class="anima-letras"><span>Oi</span><span>turma</span></h1> */
+.anima-letras > * { display: inline-block; animation: pular var(--t, 3.6s) ease-in-out infinite; }
+.anima-letras > :nth-child(2) { animation-delay: .1s; }
+.anima-letras > :nth-child(3) { animation-delay: .2s; }
+.anima-letras > :nth-child(4) { animation-delay: .3s; }
+.anima-letras > :nth-child(5) { animation-delay: .4s; }
+.anima-letras > :nth-child(6) { animation-delay: .5s; }
+.anima-letras > :nth-child(7) { animation-delay: .6s; }
+.anima-letras > :nth-child(8) { animation-delay: .7s; }
+.anima-letras > :nth-child(9) { animation-delay: .8s; }
+.anima-letras > :nth-child(10) { animation-delay: .9s; }
+
+/* Uma vez: entrada de cartões, acerto, erro, pontos ganhos e balão de fala */
+.anima-surgir { animation: surgir var(--t, .5s) var(--bounce, cubic-bezier(.34, 1.56, .64, 1)) var(--d, 0s) backwards; }
+.anima-subir { animation: subir var(--t, .7s) var(--bounce, cubic-bezier(.34, 1.56, .64, 1)) var(--d, 0s) backwards; }
+.anima-saltar { animation: saltar var(--t, .7s) var(--bounce, cubic-bezier(.34, 1.56, .64, 1)) var(--d, 0s); }
+.anima-balao { transform-origin: 0 50%; animation: balao var(--t, .55s) var(--bounce, cubic-bezier(.34, 1.56, .64, 1)) var(--d, 0s) backwards; }
+.anima-tremer { animation: tremer var(--t, .45s) ease-in-out var(--d, 0s); }
+.anima-pontos { animation: pontos var(--t, .9s) ease-out var(--d, 0s) forwards; }
+
+@keyframes flutuar { 50% { transform: translateY(-6px); } }
+@keyframes pular { 0%, 78%, 100% { transform: translateY(0); } 86% { transform: translateY(-10px) rotate(-3deg); } 93% { transform: translateY(0) rotate(1deg); } }
+@keyframes respirar { 50% { transform: scale(1.05); } }
+@keyframes balancar { 50% { transform: translateY(-14px) rotate(8deg); } }
+@keyframes brilhar { 50% { transform: scale(.45) rotate(45deg); opacity: .5; } }
+@keyframes girar { to { rotate: y 360deg; } }
+@keyframes piscar { 50% { opacity: .3; } }
+@keyframes pulsar { 0%, 16%, 100% { transform: scale(1); } 8% { transform: scale(1.2); } }
+@keyframes surgir { from { opacity: 0; transform: scale(.6); } }
+@keyframes subir { from { opacity: 0; transform: translateY(48px) scale(.94); } }
+@keyframes saltar { 40% { transform: translateY(-28px) rotate(-10deg); } 70% { transform: translateY(2px) rotate(4deg); } }
+@keyframes balao { from { opacity: 0; transform: scale(.4); } }
+@keyframes tremer { 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } }
+@keyframes pontos { from { opacity: 1; transform: translateY(0) scale(.8); } 20% { transform: translateY(-10px) scale(1.15); } to { opacity: 0; transform: translateY(-56px) scale(1); } }
+@keyframes sumir { to { opacity: 0; } }
+
+/* Sem movimento: tudo para, menos os pontos, que só somem (assim o animationend continua acontecendo) */
+@media (prefers-reduced-motion: reduce) {
+  [class*="anima-"], .anima-letras > * { animation: none !important; }
+  .anima-pontos { animation: sumir var(--t, .9s) ease-out var(--d, 0s) forwards !important; }
+}
