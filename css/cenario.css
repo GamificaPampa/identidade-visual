@@ -1,0 +1,62 @@
+/* Cenário do estilo de jogo: céu com nuvens, símbolos de código e morros, ou noite com estrelas.
+   Carregue depois de cores.css. Os nomes são em português para não bater com o .sky, o .cloud e o .hills
+   que as páginas antigas definem por conta própria.
+
+   <section class="cena ceu">
+     <div class="cenario" aria-hidden="true">
+       <span class="nuvem" style="top: 8%; --w: 190px; --t: 70s; --d: -10s"></span>
+       <span class="simbolo" style="left: 6%; top: 40%">&lt;/&gt;</span>
+       <span class="morros"></span>
+     </div>
+     ...conteúdo...
+   </section>
+
+   Para a página inteira, use <body class="ceu"> e <div class="cenario cenario--fixo">. */
+
+.ceu { background: linear-gradient(180deg, var(--sky1), var(--sky2)); }
+.noite { background: var(--ink); color: var(--white); }
+
+/* Bloco que recebe o desenho. O isolation deixa o cenário atrás do conteúdo sem mexer no z-index dele */
+.cena { position: relative; overflow: hidden; isolation: isolate; }
+.cenario { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.cenario--fixo { position: fixed; }
+
+/* Nuvem que atravessa o bloco. --w é a largura, --t o tempo da travessia e --d (negativo) espalha as nuvens.
+   O elemento ocupa a largura toda para o 100% do movimento valer a largura do bloco */
+.nuvem {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: calc(var(--w, 160px) / 2);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100'%3E%3Cg fill='%23fff'%3E%3Ccircle cx='62' cy='62' r='32'/%3E%3Ccircle cx='104' cy='44' r='40'/%3E%3Ccircle cx='148' cy='62' r='28'/%3E%3Crect x='24' y='58' width='156' height='38' rx='19'/%3E%3C/g%3E%3C/svg%3E") 0 0 / var(--w, 160px) auto no-repeat;
+  animation: nuvem-passa var(--t, 70s) linear var(--d, 0s) infinite;
+}
+
+/* Símbolo de código flutuando: </>, { }, [ ], 01, if */
+.simbolo { position: absolute; color: rgb(255 255 255 / .75); font-weight: 700; font-size: clamp(26px, 3vw, 40px); line-height: 1; white-space: nowrap; animation: simbolo-boia 7s ease-in-out var(--d, 0s) infinite; }
+.noite .simbolo { color: rgb(255 255 255 / .14); }
+
+/* Estrela amarela que brilha, para a noite. --w é o tamanho */
+.estrela {
+  position: absolute;
+  width: var(--w, 18px);
+  aspect-ratio: 1;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c1 7.5 4.5 11 12 12-7.5 1-11 4.5-12 12-1-7.5-4.5-11-12-12 7.5-1 11-4.5 12-12z' fill='%23ffd23f'/%3E%3C/svg%3E") center / contain no-repeat;
+  animation: estrela-brilha 2.6s ease-in-out var(--d, 0s) infinite;
+}
+
+/* Dois morros verdes no pé do bloco. --altura muda o tamanho */
+.morros { position: absolute; left: 0; right: 0; bottom: 0; height: var(--altura, clamp(90px, 13vw, 180px)); }
+.morros::before, .morros::after { content: ""; position: absolute; border-radius: 50%; }
+.morros::before { left: -20%; bottom: -60%; width: 78%; height: 160%; background: var(--hill); }
+.morros::after { right: -24%; bottom: -78%; width: 86%; height: 160%; background: var(--hill2); }
+
+@keyframes nuvem-passa { from { transform: translateX(calc(-1 * var(--w, 160px))); } to { transform: translateX(100%); } }
+@keyframes simbolo-boia { 50% { transform: translateY(-14px) rotate(8deg); } }
+@keyframes estrela-brilha { 50% { transform: scale(.45) rotate(45deg); opacity: .5; } }
+
+/* Sem movimento, a nuvem fica parada onde o --d a pôs. O !important vence o "animation: none" de componentes.css */
+@media (prefers-reduced-motion: reduce) {
+  .nuvem { animation: nuvem-passa var(--t, 70s) linear var(--d, 0s) infinite paused !important; }
+  .simbolo, .estrela { animation: none; }
+}
