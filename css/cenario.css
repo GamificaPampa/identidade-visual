@@ -14,6 +14,8 @@
    Para a página inteira, use <body class="ceu"> e <div class="cenario cenario--fixo">. */
 
 .ceu { background: linear-gradient(180deg, var(--sky1), var(--sky2)); }
+/* Na página inteira o degradê fica parado enquanto o conteúdo rola, como nos jogos e no componentes.css */
+body.ceu { background-attachment: fixed; }
 .noite { background: var(--ink); color: var(--white); }
 
 /* Bloco que recebe o desenho. O isolation deixa o cenário atrás do conteúdo sem mexer no z-index dele */
