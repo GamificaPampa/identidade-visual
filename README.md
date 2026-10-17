@@ -15,11 +15,28 @@ A página [gamificapampa.github.io/identidade-visual](https://gamificapampa.gith
 | --- | --- |
 | `css/fontes.css` | O `@font-face` da Fredoka |
 | `css/cores.css` | As cores e as medidas do estilo de jogo |
-| `css/componentes.css` | Fundo de céu, título com contorno (`.loud`), cartão (`.card`), botão (`.btn`), etiqueta (`.pill`) e balão de fala (`.bubble`) |
+| `css/componentes.css` | Fundo de céu, título com contorno (`.loud`), cartão (`.card`), botão em 3D com uma cor por ação (`.btn`), etiqueta (`.pill`) e balão de fala (`.bubble`) |
 | `css/cenario.css` | Céu (`.ceu`) ou noite (`.noite`) com nuvens (`.nuvem`), símbolos de código (`.simbolo`), estrelas (`.estrela`) e morros (`.morros`), sem imagem nem script |
 | `css/animacoes.css` | Classes `.anima-<nome>`: `flutuar`, `pular`, `respirar`, `balancar`, `brilhar`, `girar`, `piscar`, `pulsar` e `letras`, que não param, e `surgir`, `subir`, `saltar`, `tremer`, `pontos` e `balao`, que tocam uma vez |
 
 `cenario.css` e `animacoes.css` usam nomes em português para não bater com o `.sky`, o `.cloud` e as animações que as páginas antigas definem por conta própria.
+
+## Cores dos botões
+
+Cada ação tem uma cor e um ícone, iguais em todas as páginas da org. Assim, quem usa sabe o que o botão faz antes de ler.
+
+| Classe | Cor | Ícone | Quando usar |
+| --- | --- | --- | --- |
+| `.btn--jogar` | Verde | Triângulo | Abrir um jogo ou uma atividade para a turma |
+| `.btn--conhecer` | Amarelo | Lupa | Abrir algo para ler ou ver: projeto, aula, oficina, ficha |
+| `.btn--falar` | Rosa | Balão | Falar com a equipe: contato, formulário, enviar mensagem |
+| `.btn--compartilhar` | Roxo | Pontos ligados | Mandar o link por WhatsApp, Classroom ou outro app |
+| `.btn--baixar` | Laranja | Seta para baixo | Baixar um arquivo: kit, PDF, imagem |
+| `.btn` | Branco | Nenhum | Ação secundária: voltar, copiar o link, tentar de novo |
+
+O código dos ícones está na [vitrine](https://gamificapampa.github.io/identidade-visual/#componentes), no quadro do botão. Não use a cor de uma ação em outra. As cores soltas `.btn--yellow`, `.btn--mint` e `.btn--pink` continuam funcionando nas páginas antigas, mas numa página nova use o nome da ação.
+
+O botão é em 3D: brilho no alto, sombra embaixo e um reflexo que atravessa quando o mouse passa. `.btn--small` e `.btn--big` mudam o tamanho, e `--drop-y` guarda a altura da sombra. Quem mudar a sombra na página deve mudar `--drop-y`, e não o `box-shadow`, para não perder o brilho.
 
 ## Como usar
 
