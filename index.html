@@ -154,6 +154,15 @@
     .bit__figura img { width: 66%; height: auto; }
     .bit__texto { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
     .regras { display: grid; gap: 10px; padding: 0; list-style: none; font-weight: 600; }
+    .poses-intro { max-width: 660px; margin-bottom: 18px; font-weight: 600; }
+    .poses { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr)); gap: 20px; }
+    .pose { display: flex; flex-direction: column; gap: 6px; padding: 14px; }
+    .pose__figura { display: grid; place-items: center; height: 120px; margin-bottom: 4px; background: var(--sky2); border: 4px solid var(--ink); border-radius: 18px; }
+    .pose__figura img { width: auto; height: 92px; }
+    .pose h4 { margin: 0; font-size: 20px; }
+    .pose p { flex: 1; color: var(--soft); font-size: 15px; line-height: 1.35; }
+    .pose code { font-size: 12px; overflow-wrap: anywhere; white-space: normal; }
+    .pose .btn { align-self: flex-start; margin-top: 4px; }
     .regras li { position: relative; padding-left: 30px; }
     .regras li::before { content: ""; position: absolute; left: 0; top: .22em; width: 18px; height: 18px; background: var(--c, var(--blue)); border: 4px solid var(--ink); border-radius: 50%; }
     .logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; }
@@ -506,9 +515,64 @@ el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anim
               <li style="--c: var(--yellow)">Fala sempre num balão, com frases curtas.</li>
               <li style="--c: var(--pink)">Corpo azul, antena vermelha e bochechas rosa.</li>
               <li style="--c: var(--mint)">Desenho em SVG, então fica nítido em qualquer tamanho.</li>
+              <li style="--c: var(--purple)">Tem uma pose para cada momento: dar oi, dar dica, comemorar e errar.</li>
             </ul>
             <a class="btn btn--baixar" href="mascote/bit.svg" download><svg width="20" height="20" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar o Bit</a>
           </div>
+        </div>
+
+        <h3 class="grupo" style="margin-top: 48px">Poses do Bit</h3>
+        <p class="poses-intro">Use a pose que combina com o momento. Nos jogos, a pose muda junto com a fala: feliz no acerto, ops no erro e comemorando no fim.</p>
+        <div class="poses">
+          <article class="card pose">
+            <div class="pose__figura"><img src="mascote/bit.svg" alt="Bit, pose normal"></div>
+            <h4>Normal</h4>
+            <p>Apresentação e começo das páginas.</p>
+            <code>mascote/bit.svg</code>
+            <a class="btn btn--baixar btn--small" href="mascote/bit.svg" download><svg width="18" height="18" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar</a>
+          </article>
+          <article class="card pose">
+            <div class="pose__figura"><img src="mascote/bit-acenando.svg" alt="Bit, pose acenando"></div>
+            <h4>Acenando</h4>
+            <p>Boas-vindas, quando o Bit dá oi.</p>
+            <code>mascote/bit-acenando.svg</code>
+            <a class="btn btn--baixar btn--small" href="mascote/bit-acenando.svg" download><svg width="18" height="18" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar</a>
+          </article>
+          <article class="card pose">
+            <div class="pose__figura"><img src="mascote/bit-pensando.svg" alt="Bit, pose pensando"></div>
+            <h4>Pensando</h4>
+            <p>Dicas e perguntas, quando a pessoa precisa decidir.</p>
+            <code>mascote/bit-pensando.svg</code>
+            <a class="btn btn--baixar btn--small" href="mascote/bit-pensando.svg" download><svg width="18" height="18" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar</a>
+          </article>
+          <article class="card pose">
+            <div class="pose__figura"><img src="mascote/bit-feliz.svg" alt="Bit, pose feliz"></div>
+            <h4>Feliz</h4>
+            <p>Acerto de uma jogada ou de um passo.</p>
+            <code>mascote/bit-feliz.svg</code>
+            <a class="btn btn--baixar btn--small" href="mascote/bit-feliz.svg" download><svg width="18" height="18" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar</a>
+          </article>
+          <article class="card pose">
+            <div class="pose__figura"><img src="mascote/bit-comemorando.svg" alt="Bit, pose comemorando"></div>
+            <h4>Comemorando</h4>
+            <p>Fim de fase, fim de jogo e prompt pronto.</p>
+            <code>mascote/bit-comemorando.svg</code>
+            <a class="btn btn--baixar btn--small" href="mascote/bit-comemorando.svg" download><svg width="18" height="18" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar</a>
+          </article>
+          <article class="card pose">
+            <div class="pose__figura"><img src="mascote/bit-ops.svg" alt="Bit, pose ops"></div>
+            <h4>Ops</h4>
+            <p>Erro. O Bit explica o que deu errado, sem bronca.</p>
+            <code>mascote/bit-ops.svg</code>
+            <a class="btn btn--baixar btn--small" href="mascote/bit-ops.svg" download><svg width="18" height="18" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar</a>
+          </article>
+          <article class="card pose">
+            <div class="pose__figura"><img src="mascote/bit-formatura.svg" alt="Bit, pose formatura"></div>
+            <h4>Formatura</h4>
+            <p>Professores, certificado e fim da oficina.</p>
+            <code>mascote/bit-formatura.svg</code>
+            <a class="btn btn--baixar btn--small" href="mascote/bit-formatura.svg" download><svg width="18" height="18" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar</a>
+          </article>
         </div>
 
         <h3 class="grupo" style="margin-top: 48px">Logos</h3>

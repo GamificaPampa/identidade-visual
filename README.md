@@ -7,7 +7,7 @@ A página [gamificapampa.github.io/identidade-visual](https://gamificapampa.gith
 | Pasta                            | Conteúdo                                                                                           |
 | -------------------------------- | -------------------------------------------------------------------------------------------------- |
 | [logos](logos)                   | Logo horizontal, ícone, ícone invertido e avatar da org no GitHub                                  |
-| [mascote](mascote)               | Bit, o robô que aparece no site, nos jogos e nos slides                                            |
+| [mascote](mascote)               | Bit, o robô que aparece no site, nos jogos e nos slides, com uma pose para cada momento (veja abaixo) |
 | [fontes/fredoka](fontes/fredoka) | Fonte Fredoka em `woff2`, sob a SIL Open Font License ([OFL.txt](fontes/fredoka/OFL.txt))          |
 | [css](css)                       | Os arquivos de estilo, explicados abaixo                                                           |
 
@@ -37,6 +37,20 @@ Cada ação tem uma cor e um ícone, iguais em todas as páginas da org. Assim, 
 O código dos ícones está na [vitrine](https://gamificapampa.github.io/identidade-visual/#componentes), no quadro do botão. Não use a cor de uma ação em outra. As cores soltas `.btn--yellow`, `.btn--mint` e `.btn--pink` continuam funcionando nas páginas antigas, mas numa página nova use o nome da ação.
 
 O botão é em 3D: brilho no alto, sombra embaixo e um reflexo que atravessa quando o mouse passa. `.btn--small` e `.btn--big` mudam o tamanho, e `--drop-y` guarda a altura da sombra. Quem mudar a sombra na página deve mudar `--drop-y`, e não o `box-shadow`, para não perder o brilho.
+
+## Poses do Bit
+
+| Arquivo | Quando usar |
+| --- | --- |
+| `mascote/bit.svg` | Apresentação e começo das páginas |
+| `mascote/bit-acenando.svg` | Boas-vindas, quando o Bit dá oi |
+| `mascote/bit-pensando.svg` | Dicas e perguntas, quando a pessoa precisa decidir |
+| `mascote/bit-feliz.svg` | Acerto de uma jogada ou de um passo |
+| `mascote/bit-comemorando.svg` | Fim de fase, fim de jogo e prompt pronto |
+| `mascote/bit-ops.svg` | Erro: o Bit explica o que deu errado, sem bronca |
+| `mascote/bit-formatura.svg` | Professores, certificado e fim da oficina |
+
+Todas têm o mesmo tamanho (100 × 100), menos a de formatura, que tem 100 × 110 por causa do capelo. O Bit sempre fala num balão (`.bubble`), com frases curtas.
 
 ## Como usar
 
