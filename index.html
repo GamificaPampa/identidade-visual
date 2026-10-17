@@ -98,6 +98,15 @@
     .demo { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
     .demo h3 { font-size: 26px; }
     .demo > p { color: var(--soft); font-size: 16px; }
+    .demo--largo { grid-column: 1 / -1; }
+    .demo h4 { margin: 8px 0 0; font-size: 21px; }
+    .acoes { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 16px; margin: 0; padding: clamp(12px, 2vw, 20px); background: var(--cream); border: 4px solid var(--ink); border-radius: 20px; }
+    .acao { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; background: var(--white); border: 4px solid var(--ink); border-radius: 18px; box-shadow: inset 0 10px 0 var(--c), 0 5px 0 var(--ink); padding: 24px 14px 16px; }
+    .acao dt { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+    .acao dt code { font-weight: 700; font-size: 15px; }
+    @media (min-width: 900px) { .acoes { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    .acao dd { margin: 0; color: var(--soft); font-size: 16px; line-height: 1.35; }
+    .botao-uso { display: grid; gap: 20px; }
     .palco { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 18px 16px; padding: 26px 16px 30px; background: var(--cream); border: 4px solid var(--ink); border-radius: 20px; }
     .palco .card { max-width: 300px; }
     .palco .card h4 { margin: 0 0 6px; font-size: 22px; }
@@ -156,7 +165,7 @@
     .logo-item h3 { font-size: 21px; }
     .logo-item p { color: var(--soft); font-size: 15px; }
     .logo-item code { font-size: 13px; white-space: normal; overflow-wrap: anywhere; }
-    .logo-item .btn { align-self: flex-start; min-height: 44px; margin-top: 4px; padding: 4px 18px; font-size: 16px; box-shadow: 0 5px 0 var(--ink); }
+    .logo-item .btn { align-self: flex-start; margin-top: 4px; }
 
     /* Como usar */
     .uso { display: grid; gap: 28px; }
@@ -179,6 +188,10 @@
 <body>
   <svg class="sprite" aria-hidden="true">
     <symbol id="i-copiar" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="3" fill="#fff" stroke="#2f2a4a" stroke-width="2.6"/><path d="M16 5.5V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h.5" fill="none" stroke="#2f2a4a" stroke-width="2.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-jogar" viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z" fill="#fff" stroke="#2f2a4a" stroke-width="3" stroke-linejoin="round"/></symbol>
+    <symbol id="i-conhecer" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6.5" fill="#fff" stroke="#2f2a4a" stroke-width="3"/><path d="M15 15l5.5 5.5" stroke="#2f2a4a" stroke-width="3.4" stroke-linecap="round"/></symbol>
+    <symbol id="i-falar" viewBox="0 0 24 24"><path d="M4 4.5h16a1.5 1.5 0 0 1 1.5 1.5v9a1.5 1.5 0 0 1-1.5 1.5h-9l-5 4v-4H4A1.5 1.5 0 0 1 2.5 15V6A1.5 1.5 0 0 1 4 4.5z" fill="#fff" stroke="#2f2a4a" stroke-width="2.5" stroke-linejoin="round"/><circle cx="8" cy="10.5" r="1.4" fill="#2f2a4a"/><circle cx="12" cy="10.5" r="1.4" fill="#2f2a4a"/><circle cx="16" cy="10.5" r="1.4" fill="#2f2a4a"/></symbol>
+    <symbol id="i-compartilhar" viewBox="0 0 24 24"><path d="M7 12l10-6M7 12l10 6" stroke="#2f2a4a" stroke-width="2.6"/><circle cx="6" cy="12" r="3.4" fill="#fff" stroke="#2f2a4a" stroke-width="2.5"/><circle cx="18" cy="5.5" r="3.4" fill="#fff" stroke="#2f2a4a" stroke-width="2.5"/><circle cx="18" cy="18.5" r="3.4" fill="#fff" stroke="#2f2a4a" stroke-width="2.5"/></symbol>
     <symbol id="i-baixar" viewBox="0 0 24 24"><path d="M12 3v11m-5-5 5 5 5-5" fill="none" stroke="#2f2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="#2f2a4a" stroke-width="3" stroke-linecap="round"/></symbol>
     <symbol id="i-denovo" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9" fill="none" stroke="#2f2a4a" stroke-width="3" stroke-linecap="round"/><path d="M19 2.5v5h-5" fill="none" stroke="#2f2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="estrela" viewBox="0 0 24 24"><path d="M12 0c1 7.5 4.5 11 12 12-7.5 1-11 4.5-12 12-1-7.5-4.5-11-12-12 7.5-1 11-4.5 12-12z" fill="#ffd23f" stroke="#2f2a4a" stroke-width="1.6" stroke-linejoin="round"/></symbol>
@@ -244,12 +257,12 @@
 
         <h3 class="grupo">Destaques</h3>
         <div class="cores">
-          <button class="cor" type="button" data-var="--yellow" style="--c: var(--yellow)"><span class="cor__amostra"></span><span class="cor__nome">--yellow</span><span class="cor__hex">#ffd23f</span><span class="cor__uso">Botão principal, estrelas e pontos</span></button>
-          <button class="cor" type="button" data-var="--pink" style="--c: var(--pink)"><span class="cor__amostra"></span><span class="cor__nome">--pink</span><span class="cor__hex">#ff5f8f</span><span class="cor__uso">Foco do teclado e palavra em destaque</span></button>
+          <button class="cor" type="button" data-var="--yellow" style="--c: var(--yellow)"><span class="cor__amostra"></span><span class="cor__nome">--yellow</span><span class="cor__hex">#ffd23f</span><span class="cor__uso">Botão de conhecer, estrelas e pontos</span></button>
+          <button class="cor" type="button" data-var="--pink" style="--c: var(--pink)"><span class="cor__amostra"></span><span class="cor__nome">--pink</span><span class="cor__hex">#ff5f8f</span><span class="cor__uso">Botão de falar, foco do teclado e destaque</span></button>
           <button class="cor" type="button" data-var="--mint" style="--c: var(--mint)"><span class="cor__amostra"></span><span class="cor__nome">--mint</span><span class="cor__hex">#4fd6a6</span><span class="cor__uso">Botão de jogar e níveis</span></button>
           <button class="cor" type="button" data-var="--blue" style="--c: var(--blue)"><span class="cor__amostra"></span><span class="cor__nome">--blue</span><span class="cor__hex">#4da3ff</span><span class="cor__uso">Corpo do Bit e faixas</span></button>
-          <button class="cor" type="button" data-var="--orange" style="--c: var(--orange)"><span class="cor__amostra"></span><span class="cor__nome">--orange</span><span class="cor__hex">#ff8a3d</span><span class="cor__uso">Listras da barra de pontos</span></button>
-          <button class="cor" type="button" data-var="--purple" style="--c: var(--purple)"><span class="cor__amostra"></span><span class="cor__nome">--purple</span><span class="cor__hex">#a08bff</span><span class="cor__uso">Etiquetas</span></button>
+          <button class="cor" type="button" data-var="--orange" style="--c: var(--orange)"><span class="cor__amostra"></span><span class="cor__nome">--orange</span><span class="cor__hex">#ff8a3d</span><span class="cor__uso">Botão de baixar e barra de pontos</span></button>
+          <button class="cor" type="button" data-var="--purple" style="--c: var(--purple)"><span class="cor__amostra"></span><span class="cor__nome">--purple</span><span class="cor__hex">#a08bff</span><span class="cor__uso">Botão de compartilhar e etiquetas</span></button>
         </div>
 
         <h3 class="grupo">Só no logo</h3>
@@ -310,23 +323,37 @@
           <p>As peças de <code>componentes.css</code>. Todas têm contorno escuro grosso e sombra dura.</p>
         </div>
         <div class="demos">
+          <article class="card demo demo--largo">
+            <h3>Botão</h3>
+            <dl class="acoes">
+              <div class="acao" style="--c: var(--mint)"><dt><a class="btn btn--jogar" href="#componentes"><svg width="22" height="22" aria-hidden="true"><use href="#i-jogar"/></svg>Jogar</a><code>.btn--jogar</code></dt><dd>Verde, com o triângulo. Abre um jogo ou uma atividade para a turma.</dd></div>
+              <div class="acao" style="--c: var(--yellow)"><dt><a class="btn btn--conhecer" href="#componentes"><svg width="22" height="22" aria-hidden="true"><use href="#i-conhecer"/></svg>Conhecer</a><code>.btn--conhecer</code></dt><dd>Amarelo, com a lupa. Abre algo para ler ou ver: projeto, aula, oficina, ficha.</dd></div>
+              <div class="acao" style="--c: var(--pink)"><dt><a class="btn btn--falar" href="#componentes"><svg width="22" height="22" aria-hidden="true"><use href="#i-falar"/></svg>Fale conosco</a><code>.btn--falar</code></dt><dd>Rosa, com o balão. Fala com a equipe: contato, formulário, enviar mensagem.</dd></div>
+              <div class="acao" style="--c: var(--purple)"><dt><a class="btn btn--compartilhar" href="#componentes"><svg width="22" height="22" aria-hidden="true"><use href="#i-compartilhar"/></svg>Compartilhar</a><code>.btn--compartilhar</code></dt><dd>Roxo, com os pontos ligados. Manda o link por WhatsApp, Classroom ou outro app.</dd></div>
+              <div class="acao" style="--c: var(--orange)"><dt><a class="btn btn--baixar" href="#componentes"><svg width="22" height="22" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar</a><code>.btn--baixar</code></dt><dd>Laranja, com a seta para baixo. Baixa um arquivo: kit, PDF, imagem.</dd></div>
+              <div class="acao" style="--c: var(--white)"><dt><a class="btn" href="#componentes">Voltar</a><code>.btn</code></dt><dd>Branco, sem ícone. Ação secundária: voltar, copiar o link, tentar de novo.</dd></div>
+            </dl>
+            <p>Cada ação tem a mesma cor e o mesmo ícone em todas as páginas da org, para quem usa saber o que o botão faz antes de ler. Não use a cor de uma ação em outra. As cores soltas <code>btn--yellow</code>, <code>btn--mint</code> e <code>btn--pink</code> continuam funcionando, mas numa página nova use o nome da ação.</p>
+            <p>O botão é em 3D: brilho no alto, sombra embaixo e um reflexo que atravessa quando o mouse passa. Afunda ao passar o mouse e ao clicar. Tamanhos: <code>btn--small</code> e <code>btn--big</code>. A altura da sombra fica em <code>--drop-y</code>.</p>
+            <div class="botao-uso">
+              <div class="codigo"><span class="codigo__nome">Botões</span><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;a class="btn btn--jogar" href="jogo.html"&gt;&lt;svg width="22" height="22" aria-hidden="true"&gt;&lt;use href="#i-jogar"/&gt;&lt;/svg&gt;Jogar&lt;/a&gt;
+&lt;a class="btn btn--baixar btn--small" href="kit.zip" download&gt;&lt;svg width="20" height="20" aria-hidden="true"&gt;&lt;use href="#i-baixar"/&gt;&lt;/svg&gt;Baixar o kit&lt;/a&gt;
+&lt;button class="btn" type="button"&gt;Voltar&lt;/button&gt;</code></pre></div>
+              <div class="codigo"><span class="codigo__nome">Ícones, no começo do body</span><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;svg width="0" height="0" style="position: absolute" aria-hidden="true"&gt;
+  &lt;symbol id="i-jogar" viewBox="0 0 24 24"&gt;&lt;path d="M6 4l14 8-14 8z" fill="#fff" stroke="#2f2a4a" stroke-width="3" stroke-linejoin="round"/&gt;&lt;/symbol&gt;
+  &lt;symbol id="i-conhecer" viewBox="0 0 24 24"&gt;&lt;circle cx="10" cy="10" r="6.5" fill="#fff" stroke="#2f2a4a" stroke-width="3"/&gt;&lt;path d="M15 15l5.5 5.5" stroke="#2f2a4a" stroke-width="3.4" stroke-linecap="round"/&gt;&lt;/symbol&gt;
+  &lt;symbol id="i-falar" viewBox="0 0 24 24"&gt;&lt;path d="M4 4.5h16a1.5 1.5 0 0 1 1.5 1.5v9a1.5 1.5 0 0 1-1.5 1.5h-9l-5 4v-4H4A1.5 1.5 0 0 1 2.5 15V6A1.5 1.5 0 0 1 4 4.5z" fill="#fff" stroke="#2f2a4a" stroke-width="2.5" stroke-linejoin="round"/&gt;&lt;circle cx="8" cy="10.5" r="1.4" fill="#2f2a4a"/&gt;&lt;circle cx="12" cy="10.5" r="1.4" fill="#2f2a4a"/&gt;&lt;circle cx="16" cy="10.5" r="1.4" fill="#2f2a4a"/&gt;&lt;/symbol&gt;
+  &lt;symbol id="i-compartilhar" viewBox="0 0 24 24"&gt;&lt;path d="M7 12l10-6M7 12l10 6" stroke="#2f2a4a" stroke-width="2.6"/&gt;&lt;circle cx="6" cy="12" r="3.4" fill="#fff" stroke="#2f2a4a" stroke-width="2.5"/&gt;&lt;circle cx="18" cy="5.5" r="3.4" fill="#fff" stroke="#2f2a4a" stroke-width="2.5"/&gt;&lt;circle cx="18" cy="18.5" r="3.4" fill="#fff" stroke="#2f2a4a" stroke-width="2.5"/&gt;&lt;/symbol&gt;
+  &lt;symbol id="i-baixar" viewBox="0 0 24 24"&gt;&lt;path d="M12 3v11m-5-5 5 5 5-5" fill="none" stroke="#2f2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/&gt;&lt;path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="#2f2a4a" stroke-width="3" stroke-linecap="round"/&gt;&lt;/symbol&gt;
+&lt;/svg&gt;</code></pre></div>
+            </div>
+          </article>
+
           <article class="card demo">
             <h3>Título com contorno</h3>
             <div class="palco"><p class="loud" style="font-size: clamp(40px, 7vw, 60px); line-height: 1.05; font-weight: 700">Fase <span class="yellow">1</span> <span class="pink">!</span></p></div>
             <p>Letra branca com contorno e sombra. <code>.yellow</code> e <code>.pink</code> pintam uma palavra.</p>
             <div class="codigo"><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;h2 class="loud"&gt;Fase &lt;span class="yellow"&gt;1&lt;/span&gt;&lt;/h2&gt;</code></pre></div>
-          </article>
-
-          <article class="card demo">
-            <h3>Botão</h3>
-            <div class="palco">
-              <a class="btn btn--yellow" href="#componentes">Jogar</a>
-              <a class="btn btn--mint" href="#componentes">Continuar</a>
-              <a class="btn" href="#componentes">Voltar</a>
-            </div>
-            <p>Afunda quando passa o mouse e quando clica. Cores: <code>btn--yellow</code>, <code>btn--mint</code>, <code>btn--pink</code> ou qualquer uma com <code>--c</code>.</p>
-            <div class="codigo"><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;a class="btn btn--yellow" href="jogo.html"&gt;Jogar&lt;/a&gt;
-&lt;a class="btn" style="--c: var(--purple)" href="#"&gt;Outra cor&lt;/a&gt;</code></pre></div>
           </article>
 
           <article class="card demo">
@@ -352,7 +379,7 @@
 &lt;/div&gt;</code></pre></div>
           </article>
 
-          <article class="card demo" style="grid-column: 1 / -1">
+          <article class="card demo">
             <h3>Balão de fala do Bit</h3>
             <div class="palco">
               <div class="fala"><img src="mascote/bit.svg" width="100" height="100" alt=""><p class="bubble">Muito bem! Agora tente sem olhar a dica.</p></div>
@@ -437,7 +464,7 @@
         <div class="anims">
           <div class="anim"><span class="anim__palco"><img class="anima-flutuar" src="mascote/bit.svg" width="100" height="100" alt=""></span><code>.anima-flutuar</code><small>O Bit parado</small></div>
           <div class="anim"><span class="anim__palco"><img class="anima-pular" src="mascote/bit.svg" width="100" height="100" alt=""></span><code>.anima-pular</code><small>Chamar atenção de vez em quando</small></div>
-          <div class="anim"><span class="anim__palco"><span class="btn btn--yellow anima-respirar">Jogar</span></span><code>.anima-respirar</code><small>Botão principal</small></div>
+          <div class="anim"><span class="anim__palco"><span class="btn btn--jogar anima-respirar">Jogar</span></span><code>.anima-respirar</code><small>Botão principal</small></div>
           <div class="anim"><span class="anim__palco"><span class="codigo-solto anima-balancar">&lt;/&gt;</span></span><code>.anima-balancar</code><small>Coisas soltas no cenário</small></div>
           <div class="anim"><span class="anim__palco"><svg class="anima-brilhar" width="48" height="48" aria-hidden="true"><use href="#estrela"/></svg></span><code>.anima-brilhar</code><small>Estrelas</small></div>
           <div class="anim"><span class="anim__palco"><svg class="anima-girar" width="56" height="56" aria-hidden="true"><use href="#moeda"/></svg></span><code>.anima-girar</code><small>Moedas e prêmios</small></div>
@@ -480,7 +507,7 @@ el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anim
               <li style="--c: var(--pink)">Corpo azul, antena vermelha e bochechas rosa.</li>
               <li style="--c: var(--mint)">Desenho em SVG, então fica nítido em qualquer tamanho.</li>
             </ul>
-            <a class="btn btn--yellow" href="mascote/bit.svg" download><svg width="20" height="20" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar o Bit</a>
+            <a class="btn btn--baixar" href="mascote/bit.svg" download><svg width="20" height="20" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar o Bit</a>
           </div>
         </div>
 
@@ -491,28 +518,28 @@ el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anim
             <h3>Horizontal</h3>
             <p>Cabeçalho, rodapé e capa de slide.</p>
             <code>logos/gamificapampa-horizontal.svg</code>
-            <a class="btn" href="logos/gamificapampa-horizontal.svg" download><svg width="18" height="18" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar</a>
+            <a class="btn btn--baixar btn--small" href="logos/gamificapampa-horizontal.svg" download><svg width="18" height="18" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar</a>
           </article>
           <article class="card logo-item">
             <div class="logo-item__fundo"><img src="logos/gamificapampa-icone.svg" width="110" height="110" alt="Ícone do GamificaPampa"></div>
             <h3>Ícone</h3>
             <p>Ícone da aba do navegador e espaços pequenos.</p>
             <code>logos/gamificapampa-icone.svg</code>
-            <a class="btn" href="logos/gamificapampa-icone.svg" download><svg width="18" height="18" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar</a>
+            <a class="btn btn--baixar btn--small" href="logos/gamificapampa-icone.svg" download><svg width="18" height="18" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar</a>
           </article>
           <article class="card logo-item">
             <div class="logo-item__fundo logo-item__fundo--escuro"><img src="logos/gamificapampa-icone-invertido.svg" width="110" height="110" alt="Ícone invertido do GamificaPampa"></div>
             <h3>Ícone invertido</h3>
             <p>Para fundo escuro.</p>
             <code>logos/gamificapampa-icone-invertido.svg</code>
-            <a class="btn" href="logos/gamificapampa-icone-invertido.svg" download><svg width="18" height="18" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar</a>
+            <a class="btn btn--baixar btn--small" href="logos/gamificapampa-icone-invertido.svg" download><svg width="18" height="18" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar</a>
           </article>
           <article class="card logo-item">
             <div class="logo-item__fundo"><img src="logos/gamificapampa-github-avatar.png" width="110" height="110" alt="Avatar do GamificaPampa"></div>
             <h3>Avatar</h3>
             <p>Foto da org no GitHub e imagem da prévia de link.</p>
             <code>logos/gamificapampa-github-avatar.png</code>
-            <a class="btn" href="logos/gamificapampa-github-avatar.png" download><svg width="18" height="18" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar</a>
+            <a class="btn btn--baixar btn--small" href="logos/gamificapampa-github-avatar.png" download><svg width="18" height="18" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar</a>
           </article>
         </div>
       </div>
