@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Identidade visual · GamificaPampa</title>
-  <meta name="description" content="Cores, fonte, componentes, cenário, animações, o mascote Bit e os logos do GamificaPampa, com o código para usar nas páginas.">
+  <meta name="description" content="Cores, fonte, componentes, cenário, animações, ícones, o mascote Bit e os logos do GamificaPampa, com o código para usar nas páginas.">
   <meta property="og:title" content="Identidade visual do GamificaPampa">
   <meta property="og:description" content="Cores, fonte, componentes, cenário, animações, o Bit e os logos, com o código para copiar.">
   <meta property="og:image" content="https://gamificapampa.github.io/identidade-visual/logos/gamificapampa-github-avatar.png">
@@ -147,6 +147,15 @@
     .anim .pill { box-shadow: 0 5px 0 var(--ink); }
     .anim-dica { margin-top: 28px; }
 
+    /* Ícones */
+    .icones-grupo { margin: 0 0 14px; font-size: 22px; }
+    .icones { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 12px; margin-bottom: 30px; }
+    .icone-item { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 4px 8px; background: var(--white); color: var(--ink); border: 4px solid var(--ink); border-radius: 18px; box-shadow: 0 5px 0 var(--ink); font: 600 14px var(--font); cursor: pointer; transition: transform .12s ease, box-shadow .12s ease; }
+    .icone-item:hover { transform: translateY(2px); box-shadow: 0 3px 0 var(--ink); }
+    .icone-item:active { transform: translateY(5px); box-shadow: none; }
+    .icone-item svg { width: 48px; height: 48px; transition: transform .3s var(--bounce); }
+    .icone-item:hover svg { transform: scale(1.15) rotate(-6deg); }
+
     /* Bit e logos */
     .bit { display: grid; gap: 28px; align-items: center; }
     @media (min-width: 760px) { .bit { grid-template-columns: auto minmax(0, 1fr); gap: 44px; } }
@@ -233,6 +242,7 @@
         <a href="#componentes">Componentes</a>
         <a href="#cenario">Cenário</a>
         <a href="#animacoes">Animações</a>
+        <a href="#icones">Ícones</a>
         <a href="#bit">Bit e logos</a>
         <a href="#como-usar">Como usar</a>
       </nav>
@@ -500,10 +510,28 @@ el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anim
       </div>
     </section>
 
+    <section class="secao" id="icones">
+      <div class="caixa">
+        <div class="secao__topo">
+          <p class="pill" style="--c: var(--mint)">Fase 6</p>
+          <h2 class="loud">Ícones</h2>
+          <p>Desenhos no lugar dos emojis, com o mesmo contorno escuro e as cores da paleta. Ficam em <code>js/icones.js</code> e servem no HTML e no canvas dos jogos. Clique num ícone para copiar o nome dele.</p>
+        </div>
+        <div id="lista-icones"></div>
+        <div class="codigo"><span class="codigo__nome">icones.js</span><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;script src="/identidade-visual/js/icones.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  // No HTML: o &lt;svg&gt; em texto, com a classe "icone" para o tamanho vir do CSS
+  botao.innerHTML = Icones.svg('play') + ' Jogar';
+  // No canvas: desenha com o centro em x e y
+  Icones.desenhar(ctx, 'bug', x, y, 48);
+&lt;/script&gt;</code></pre></div>
+      </div>
+    </section>
+
     <section class="secao" id="bit">
       <div class="caixa">
         <div class="secao__topo">
-          <p class="pill" style="--c: var(--purple)">Fase 6</p>
+          <p class="pill" style="--c: var(--purple)">Fase 7</p>
           <h2 class="loud">Bit e logos</h2>
         </div>
         <div class="card bit">
@@ -620,7 +648,7 @@ el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anim
       </div>
       <div class="caixa">
         <div class="secao__topo">
-          <p class="pill" style="--c: var(--yellow)">Fase 7</p>
+          <p class="pill" style="--c: var(--yellow)">Fase 8</p>
           <h2 class="yellow">Como usar</h2>
           <p>Ponha estas linhas no <code>&lt;head&gt;</code> da página, nesta ordem, e carregue só o que a página usa.</p>
         </div>
@@ -651,7 +679,20 @@ el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anim
 
   <p class="aviso" role="status" aria-live="polite"></p>
 
+  <script src="js/icones.js"></script>
   <script>
+    // Os ícones vêm do icones.js, então a vitrine mostra sempre todos, separados por grupo
+    const listaIcones = document.getElementById('lista-icones');
+    if (window.Icones) Object.entries(Icones.grupos).forEach(([grupo, nomes]) => {
+      const titulo = document.createElement('h3');
+      titulo.className = 'icones-grupo';
+      titulo.textContent = grupo;
+      const grade = document.createElement('div');
+      grade.className = 'icones';
+      nomes.forEach(nome => grade.insertAdjacentHTML('beforeend', `<button class="icone-item" type="button" data-nome="${nome}" aria-label="Copiar ${nome}">${Icones.svg(nome, 48)}<span>${nome}</span></button>`));
+      listaIcones.append(titulo, grade);
+    });
+
     // Os códigos das cores vêm do cores.css, então a página nunca fica desatualizada
     const raiz = getComputedStyle(document.documentElement);
     document.querySelectorAll('.cor[data-var]').forEach(cor => {
@@ -699,6 +740,12 @@ el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anim
         const codigo = cor.querySelector('.cor__hex').textContent;
         await copiar(codigo);
         avisar('Copiado: ' + codigo);
+        return;
+      }
+      const icone = evento.target.closest('.icone-item');
+      if (icone) {
+        await copiar(icone.dataset.nome);
+        avisar('Copiado: ' + icone.dataset.nome);
         return;
       }
       const botao = evento.target.closest('.copiar');
