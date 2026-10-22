@@ -2,8 +2,10 @@
 
    Icones.svg('trofeu') devolve o <svg> em texto, para pôr dentro do HTML (o tamanho vem do CSS ou do 2º argumento).
    Icones.desenhar(ctx, 'bug', x, y, tamanho) desenha no canvas, com o centro em x e y.
+   <script src="/identidade-visual/js/icones.js" data-simbolos></script> no começo do <body> cria um <symbol id="icone-nome"> para cada um.
    Icones.nomes lista todos e Icones.grupos os separa por grupo. A vitrine do identidade-visual mostra cada um com o nome. */
 (() => {
+  const script = document.currentScript;
   const I = '#2f2a4a';
   const contorno = (largura = 2.2) => `stroke="${I}" stroke-width="${largura}" stroke-linejoin="round" stroke-linecap="round"`;
   const rosto = (cx, cy) => `<circle cx="${cx - 3.2}" cy="${cy}" r="1.4" fill="${I}"/><circle cx="${cx + 3.2}" cy="${cy}" r="1.4" fill="${I}"/><path d="M${cx - 2.6} ${cy + 3.4}q2.6 2.2 5.2 0" fill="none" ${contorno(1.5)}/>`;
@@ -32,6 +34,7 @@
       'seta-esquerda': `<path d="M27 16H8M15 9l-7 7 7 7" fill="none" ${contorno(3)}/>`,
       certo: `<circle cx="16" cy="16" r="12" fill="#4fd6a6" ${contorno()}/><path d="M10 16.5l4 4 8-9" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`,
       errado: `<circle cx="16" cy="16" r="12" fill="#ff5f8f" ${contorno()}/><path d="M11 11l10 10M21 11 11 21" stroke="#fff" stroke-width="3" stroke-linecap="round"/>`,
+      cadeado: `<rect x="7" y="14" width="18" height="14" rx="3.5" fill="#ff5f8f" ${contorno(2.6)}/><path d="M10.5 14V10a5.5 5.5 0 0 1 11 0v4" fill="none" ${contorno(2.6)}/><circle cx="16" cy="21" r="2.3" fill="${I}"/>`,
       chave: `<path d="M20.5 4.5a7 7 0 0 0-8 9L4.5 21.5a3 3 0 0 0 4.2 4.2l8-8a7 7 0 0 0 9-8l-4 4-4-1-1-4z" fill="#d6dbe6" ${contorno()}/>`,
       lupa: `<circle cx="13" cy="13" r="8" fill="#fff" ${contorno(2.6)}/><path d="M19 19l8 8" ${contorno(3.4)}/>`,
       engrenagem: `<path d="M14 3h4l.7 3.4 2.6 1.1 2.9-1.9 2.8 2.8-1.9 2.9 1.1 2.6L29 14v4l-3.4.7-1.1 2.6 1.9 2.9-2.8 2.8-2.9-1.9-2.6 1.1L18 29h-4l-.7-3.4-2.6-1.1-2.9 1.9-2.8-2.8 1.9-2.9-1.1-2.6L3 18v-4l3.4-.7 1.1-2.6-1.9-2.9 2.8-2.8 2.9 1.9 2.6-1.1z" fill="#d6dbe6" ${contorno(2)}/><circle cx="16" cy="16" r="4" fill="#fff" ${contorno(2)}/>`,
@@ -90,6 +93,24 @@
       chef: `<path d="M9 12a4 4 0 0 1 2-7 5 5 0 0 1 10 0 4 4 0 0 1 2 7v2H9z" fill="#fff" ${contorno(2)}/><circle cx="16" cy="21" r="8.5" fill="#c98d6a" ${contorno()}/>${rosto(16, 21)}`,
       mago: `<circle cx="16" cy="21" r="8.5" fill="#ffd9b8" ${contorno()}/><path d="M10 23.5q6 9 12 0z" fill="#fff" ${contorno(1.6)}/><circle cx="12.8" cy="19.5" r="1.4" fill="${I}"/><circle cx="19.2" cy="19.5" r="1.4" fill="${I}"/><path d="M16 2 8.5 14h15z" fill="#a08bff" ${contorno(2)}/><path d="M6 14h20" ${contorno(2.4)}/><path d="M16 6.5l.9 1.8 2 .3-1.5 1.4.4 2-1.8-1-1.8 1 .4-2-1.5-1.4 2-.3z" fill="#ffd23f"/>`,
     },
+    // Os sistemas que aparecem nos desenhos da aula: o celular com o app, o servidor e o banco de dados
+    Sistemas: {
+      app: `<rect x="8.3" y="1.9" width="15.4" height="28.2" rx="3.2" fill="#fff" ${contorno()}/><rect x="10.6" y="5.1" width="10.9" height="18.6" rx="1.3" fill="#8cc4ff"/><circle cx="18.2" cy="9.6" r="2.2" fill="#ffd23f"/><path d="M10.6 23.7v-5.1q2.8-3.9 5.4-.7 2.6-2.5 5.4.7v5.1z" fill="#4fd6a6"/><circle cx="16" cy="26.9" r="1.3" fill="${I}"/>`,
+      servidor: `<rect x="5.8" y="2.6" width="20.4" height="26.8" rx="3.2" fill="#ff8a3d" ${contorno()}/><rect x="9" y="6.4" width="14" height="4.8" rx="1.3" fill="#fff" ${contorno(1.8)}/><rect x="9" y="13.8" width="14" height="4.8" rx="1.3" fill="#fff" ${contorno(1.8)}/><rect x="9" y="21.1" width="14" height="4.8" rx="1.3" fill="#fff" ${contorno(1.8)}/><circle cx="19.8" cy="8.8" r="1.3" fill="#4fd6a6"/><circle cx="19.8" cy="16.2" r="1.3" fill="#4fd6a6"/><circle cx="19.8" cy="23.5" r="1.3" fill="#4fd6a6"/>`,
+      'banco-de-dados': `<path d="M6.4 7v18a9.6 3.8 0 0 0 19.2 0V7" fill="#ffd23f" ${contorno()}/><path d="M6.4 13.1a9.6 3.8 0 0 0 19.2 0M6.4 19.2a9.6 3.8 0 0 0 19.2 0" fill="none" ${contorno(1.8)}/><ellipse cx="16" cy="7" rx="9.6" ry="3.8" fill="#fff1a6" ${contorno()}/>`,
+    },
+    // Os tipos de material do Construtor e da Biblioteca de prompts
+    Materiais: {
+      atividade: `<g transform="scale(.5)"><rect x="8" y="6" width="38" height="52" rx="5" fill="#fff" stroke="${I}" stroke-width="4"/><path d="M16 19 H38 M16 28 H38 M16 37 H30" stroke="#8cc4ff" stroke-width="4" stroke-linecap="round"/><g transform="rotate(32 48 36)"><rect x="43" y="14" width="11" height="34" rx="2" fill="#ffd23f" stroke="${I}" stroke-width="3"/><path d="M43 48 L48.5 59 L54 48 Z" fill="#ffe1b0" stroke="${I}" stroke-width="3" stroke-linejoin="round"/><rect x="43" y="9" width="11" height="7" rx="2" fill="#ff5f8f" stroke="${I}" stroke-width="3"/></g></g>`,
+      jogo: `<g transform="scale(.5)"><rect x="4" y="18" width="56" height="30" rx="15" fill="#8c73ff" stroke="${I}" stroke-width="4"/><path d="M18 26 V40 M11 33 H25" stroke="#fff" stroke-width="5" stroke-linecap="round"/><circle cx="42" cy="28" r="4.5" fill="#ffd23f" stroke="${I}" stroke-width="2.5"/><circle cx="50" cy="37" r="4.5" fill="#ff5f8f" stroke="${I}" stroke-width="2.5"/></g>`,
+      historia: `<g transform="scale(.5)"><path d="M32 16 Q20 8 6 12 V52 Q20 48 32 56 Q44 48 58 52 V12 Q44 8 32 16 Z" fill="#fff" stroke="${I}" stroke-width="4" stroke-linejoin="round"/><path d="M32 16 V56" stroke="${I}" stroke-width="3"/><path d="M12 24 Q19 22 26 25 M12 33 Q19 31 26 34 M38 25 Q45 22 52 24 M38 34 Q45 31 52 33" stroke="#ff5f8f" stroke-width="3" fill="none" stroke-linecap="round"/></g>`,
+      plano: `<g transform="scale(.5)"><rect x="12" y="10" width="40" height="50" rx="5" fill="#fff" stroke="${I}" stroke-width="4"/><rect x="22" y="4" width="20" height="11" rx="3" fill="#ffd23f" stroke="${I}" stroke-width="3"/><path d="M19 27 l4 4 l7 -8 M19 43 l4 4 l7 -8" stroke="#4fd6a6" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M35 28 H45 M35 44 H45" stroke="#8cc4ff" stroke-width="4" stroke-linecap="round"/></g>`,
+      quiz: `<g transform="scale(.5)"><path d="M6 10 H58 V42 H30 L17 55 V42 H6 Z" fill="#ff8a3d" stroke="${I}" stroke-width="4" stroke-linejoin="round"/><text x="32" y="36" text-anchor="middle" font-size="28" font-weight="700" fill="#fff" stroke="${I}" stroke-width="5" paint-order="stroke">?</text></g>`,
+      adaptar: `<g transform="scale(.5)"><path d="M8 20 H24 A7 7 0 1 1 38 20 H54 V34 A7 7 0 1 0 54 48 V58 H8 V46 A7 7 0 1 0 8 32 Z" fill="#4fd6a6" stroke="${I}" stroke-width="4" stroke-linejoin="round"/></g>`,
+      brincadeira: `<g transform="scale(.5)"><path d="M34 58 H62" stroke="${I}" stroke-width="4" stroke-linecap="round"/><path d="M38 57 L48 14 L58 57 Z" fill="#ff8a3d" stroke="${I}" stroke-width="4" stroke-linejoin="round"/><path d="M43 39 H53" stroke="#fff" stroke-width="5"/><circle cx="20" cy="42" r="14" fill="#4da3ff" stroke="${I}" stroke-width="4"/><path d="M9 38 Q20 46 31 38 M17 29 Q24 42 18 55" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/></g>`,
+      revisar: `<g transform="scale(.5)"><rect x="6" y="6" width="36" height="48" rx="5" fill="#fff" stroke="${I}" stroke-width="4"/><path d="M13 18 H35 M13 27 H28 M13 36 H22" stroke="#8cc4ff" stroke-width="4" stroke-linecap="round"/><path d="M48 48 L58 58" stroke="${I}" stroke-width="7" stroke-linecap="round"/><circle cx="40" cy="40" r="12" fill="#fff1a8" stroke="${I}" stroke-width="4"/><path d="M33 41 q3.5 -4 7 0 t7 0" stroke="#ff5f8f" stroke-width="3" fill="none" stroke-linecap="round"/></g>`,
+      familias: `<g transform="scale(.5)"><rect x="5" y="14" width="54" height="38" rx="5" fill="#fff" stroke="${I}" stroke-width="4" stroke-linejoin="round"/><path d="M7 17 L32 36 L57 17" fill="none" stroke="${I}" stroke-width="4" stroke-linejoin="round"/><path transform="translate(39 33) scale(.75)" d="M12 21 C12 21 3 14.5 3 8.5 A4.5 4.5 0 0 1 12 6.5 A4.5 4.5 0 0 1 21 8.5 C21 14.5 12 21 12 21 Z" fill="#ff5f8f" stroke="${I}" stroke-width="3.5" stroke-linejoin="round"/></g>`,
+    },
   };
   const desenhos = Object.assign({}, ...Object.values(grupos));
 
@@ -117,4 +138,12 @@
     },
   };
   Object.keys(desenhos).forEach((nome) => window.Icones.imagem(nome));
+
+  // Com data-simbolos no <script>, cada ícone vira também um <symbol id="icone-nome">, para usar direto no HTML,
+  // até dentro de um desenho maior: <svg><use href="#icone-estrela"/></svg>. Ponha o <script> logo no começo do <body>
+  if (script && 'simbolos' in script.dataset) {
+    const simbolos = Object.entries(desenhos).map(([nome, desenho]) => `<symbol id="icone-${nome}" viewBox="0 0 32 32">${desenho}</symbol>`).join('');
+    const por = () => document.body.insertAdjacentHTML('afterbegin', `<svg width="0" height="0" style="position: absolute" aria-hidden="true">${simbolos}</svg>`);
+    if (document.body) por(); else document.addEventListener('DOMContentLoaded', por);
+  }
 })();

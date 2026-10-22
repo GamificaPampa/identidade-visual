@@ -1,5 +1,6 @@
 /* Barra do topo das páginas do professor: o ícone leva ao início, "Voltar" leva à página de cima, a trilha diz
-   onde a pessoa está e o botão verde abre os jogos para a turma. Some na impressão e na tela cheia.
+   onde a pessoa está, o botão redondo para as animações (animacoes.js) e o botão verde abre os jogos para a turma.
+   Some na impressão e na tela cheia.
 
    <script src="/identidade-visual/js/barra.js" defer></script>
 
@@ -66,7 +67,8 @@
     .gp-barra__botao:hover { transform: translateY(2px); box-shadow: 0 2px 0 ${I}; }
     .gp-barra__botao span { overflow: hidden; text-overflow: ellipsis; }
     .gp-barra__voltar { min-width: 0; flex: 0 1 auto; }
-    .gp-barra__turma { margin-left: auto; background: #4fd6a6; }
+    .gp-barra__turma { background: #4fd6a6; }
+    .gp-barra .gp-animacoes { margin-left: auto; }
     .gp-barra__turma .gp-barra__curto { display: none; }
     .gp-barra__trilha { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; min-width: 0; margin: 0 0 0 6px; padding: 0; list-style: none; font-size: 16px; font-weight: 600; color: #5d5880; }
     .gp-barra__trilha li + li::before { content: "›"; margin-right: 6px; font-weight: 700; }
@@ -143,6 +145,10 @@
     const turma = link('gp-barra__botao gp-barra__turma', endereco('/turma/'), play + '<span class="gp-barra__longo">Jogos para a turma</span><span class="gp-barra__curto">Jogos</span>');
     turma.setAttribute('aria-label', 'Jogos para a turma');
     dentro.append(logo, voltar, trilha, turma);
+    // "Parar animações", que vale para o site todo e fica lembrado no aparelho, ao lado dos jogos
+    const animacoes = () => turma.before(window.Animacoes.botao());
+    if (window.Animacoes) animacoes();
+    else document.head.append(Object.assign(document.createElement('script'), { src: new URL('js/animacoes.js', pasta).href, onload: animacoes }));
   } else {
     dentro.append(voltar);
   }
