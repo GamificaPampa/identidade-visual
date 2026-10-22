@@ -35,6 +35,12 @@ Cada ação tem uma cor e um ícone, iguais em todas as páginas da org. Assim, 
 | `.btn--baixar` | Laranja | Seta para baixo | Baixar um arquivo: kit, PDF, imagem |
 | `.btn` | Branco | Nenhum | Ação secundária: voltar, copiar o link, tentar de novo |
 
+Três ações do professor seguem as mesmas cores:
+
+- **Copiar** um prompt ou instruções é verde quando é a ação principal da página, e branco quando vem ao lado de outra ação principal.
+- **Abrir o Gemini** é verde quando está sozinho. Ao lado do Copiar, fica branco.
+- **Imprimir** é laranja, como baixar.
+
 O código dos ícones está na [vitrine](https://gamificapampa.github.io/identidade-visual/#componentes), no quadro do botão. Não use a cor de uma ação em outra. As cores soltas `.btn--yellow`, `.btn--mint` e `.btn--pink` continuam funcionando nas páginas antigas, mas numa página nova use o nome da ação.
 
 O botão é em 3D: brilho no alto, sombra embaixo e um reflexo que atravessa quando o mouse passa. `.btn--small` e `.btn--big` mudam o tamanho, e `--drop-y` guarda a altura da sombra. Quem mudar a sombra na página deve mudar `--drop-y`, e não o `box-shadow`, para não perder o brilho.

@@ -31,7 +31,9 @@
     button.bit-fala__bit:focus-visible { outline: 4px solid #ff5f8f; outline-offset: 2px; }
     .bit-fala__bit img { display: block; width: 100%; height: 100%; filter: drop-shadow(0 4px 0 rgb(47 42 74 / .35)); }
     .bit-fala__bit.is-pulando img { animation: bit-fala-pula .5s cubic-bezier(.34, 1.56, .64, 1); }
-    .bit-fala__balao { position: relative; margin: 0 0 16px; padding: 10px 14px; background: #fff; color: #2f2a4a; border: 4px solid #2f2a4a; border-radius: 20px; box-shadow: 0 5px 0 rgb(47 42 74 / .3); font-weight: 600; font-size: 16px; line-height: 1.3; text-align: left; pointer-events: auto; }
+    .bit-fala__balao { position: relative; margin: 0 0 16px; padding: 10px 14px; background: #fff; color: #2f2a4a; border: 4px solid #2f2a4a; border-radius: 20px; box-shadow: 0 5px 0 rgb(47 42 74 / .3); font-weight: 600; font-size: 16px; line-height: 1.3; text-align: left; }
+    /* Só nas páginas do professor o balão recebe toque, por causa do botão de fechar. Nos jogos, o toque passa direto */
+    .bit-fala--ajudante .bit-fala__balao { pointer-events: auto; }
     [class*="--topo"] .bit-fala__balao { margin: 16px 0 0; }
     .bit-fala__balao::before, .bit-fala__balao::after { content: ""; position: absolute; bottom: 14px; border-style: solid; border-color: transparent; }
     [class*="--topo"] .bit-fala__balao::before, [class*="--topo"] .bit-fala__balao::after { top: 14px; bottom: auto; }
@@ -42,8 +44,11 @@
     [class*="--topo"] .bit-fala__balao::after { margin: 3px 0 0; }
     .bit-fala__balao.is-fechado { display: none; }
     .bit-fala__balao.is-nova { animation: bit-fala-surge .35s cubic-bezier(.34, 1.56, .64, 1); }
-    .bit-fala__fechar { float: right; display: grid; place-items: center; width: 28px; height: 28px; margin: -4px -6px 4px 8px; padding: 0; background: #fff; color: #2f2a4a; border: 3px solid #2f2a4a; border-radius: 50%; font: 700 16px/1 "Fredoka", sans-serif; cursor: pointer; }
-    .bit-fala__fechar:focus-visible { outline: 4px solid #ff5f8f; outline-offset: 2px; }
+    /* O X é desenhado com 30 px, mas o botão inteiro tem 44 px, para acertar o toque */
+    .bit-fala__fechar { position: relative; isolation: isolate; float: right; display: grid; place-items: center; width: 44px; height: 44px; margin: -12px -16px 0 2px; padding: 0; background: none; color: #2f2a4a; border: 0; font: 700 16px/1 "Fredoka", sans-serif; cursor: pointer; }
+    .bit-fala__fechar::before { content: ""; position: absolute; inset: 7px; z-index: -1; background: #fff; border: 3px solid #2f2a4a; border-radius: 50%; }
+    .bit-fala__fechar:focus-visible { outline: none; }
+    .bit-fala__fechar:focus-visible::before { outline: 4px solid #ff5f8f; outline-offset: 2px; }
     @media (max-width: 480px) {
       .bit-fala__bit { width: 54px; height: 54px; }
       .bit-fala__balao { font-size: 15px; }
@@ -57,7 +62,7 @@
 
   const dicas = [...document.querySelectorAll('[data-bit-dica]')];
   const ajudante = dicas.length > 0;
-  const raiz = Object.assign(document.createElement('div'), { className: `bit-fala bit-fala--${canto}` });
+  const raiz = Object.assign(document.createElement('div'), { className: `bit-fala bit-fala--${canto}${ajudante ? ' bit-fala--ajudante' : ''}` });
   const bit = document.createElement(ajudante ? 'button' : 'span');
   bit.className = 'bit-fala__bit';
   const foto = Object.assign(document.createElement('img'), { alt: '', src: imagem(ajudante ? 'acenando' : 'normal') });
@@ -108,10 +113,11 @@
     raiz.setAttribute('aria-live', 'polite');
   } else {
     // Nas páginas do professor: o Bit fica no canto, a dica acompanha a parte da página que está no meio da tela
-    // e fecha sozinha depois de um tempo. O X guarda, só nesta visita, que a pessoa não quer dicas abrindo sozinhas.
+    // e fecha sozinha depois de um tempo. O X guarda no aparelho que a pessoa não quer dicas abrindo sozinhas;
+    // tocar no Bit continua abrindo a dica.
     const chave = 'bit-dicas-fechadas';
     let quieto = false;
-    try { quieto = sessionStorage.getItem(chave) === '1'; } catch {}
+    try { quieto = localStorage.getItem(chave) === '1'; } catch {}
     const fechar = Object.assign(document.createElement('button'), { type: 'button', className: 'bit-fala__fechar', textContent: '×' });
     fechar.setAttribute('aria-label', 'Fechar as dicas do Bit');
     balao.prepend(fechar);
@@ -137,7 +143,7 @@
     });
     fechar.addEventListener('click', () => {
       quieto = true;
-      try { sessionStorage.setItem(chave, '1'); } catch {}
+      try { localStorage.setItem(chave, '1'); } catch {}
       abrir(false);
       bit.focus();
     });
