@@ -6,7 +6,10 @@
    A trilha sai do endereço da página, pelos lugares da lista abaixo, e termina no título da página (o texto antes
    de " · "). data-pagina="..." troca esse último nome. data-modo="compacta" deixa só o Voltar, num canto, para
    páginas de tela inteira como os slides. No kit sem internet, as páginas abrem do disco e a trilha leva aos
-   arquivos do próprio kit. */
+   arquivos do próprio kit.
+
+   data-impressao="propria" diz que a página tem o seu jeito de imprimir. Sem ele, a barra põe a impressão comum:
+   papel branco, sem o cenário e sem botões, e as partes fechadas (details) abertas na hora de imprimir. */
 (() => {
   const script = document.currentScript;
   const compacta = script.dataset.modo === 'compacta';
@@ -85,6 +88,26 @@
     @media (prefers-reduced-motion: reduce) { .gp-barra__botao { transition: none; } }
   `;
   document.head.append(estilo);
+
+  // Impressão comum das páginas do professor: papel branco, sem o cenário e sem botões, cartões inteiros na folha
+  if (script.dataset.impressao !== 'propria') {
+    const impressao = document.createElement('style');
+    impressao.textContent = `
+      @media print {
+        html, body { background: #fff !important; }
+        .cenario, .sky, .clouds, .cloud, .hills, .morros, .nuvem, .simbolo, .glyph, .deco { display: none !important; }
+        button, .btn, .chips, .jump-to, .nav, .gp-barra-fixa, .gp-esquecer, .bit-fala, video { display: none !important; }
+        .card, .pcard, .game, .item { break-inside: avoid; box-shadow: none !important; }
+        a { color: inherit; }
+      }
+    `;
+    document.head.append(impressao);
+    const fechados = [];
+    addEventListener('beforeprint', () => {
+      document.querySelectorAll('details:not([open])').forEach((parte) => { parte.open = true; fechados.push(parte); });
+    });
+    addEventListener('afterprint', () => { fechados.splice(0).forEach((parte) => { parte.open = false; }); });
+  }
 
   const barra = document.createElement('nav');
   barra.className = 'gp-barra' + (compacta ? ' gp-barra--compacta' : '');
