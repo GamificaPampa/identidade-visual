@@ -226,7 +226,8 @@
 
   // Os blocos abaixo da primeira tela sobem um pouco quando aparecem. Bloco muito alto não entra: entram os de dentro
   const surgir = () => {
-    if (parado() || !('IntersectionObserver' in window)) return;
+    // Página que já tem a sua entrada na rolagem (.reveal, como o hub) fica com a dela
+    if (parado() || !('IntersectionObserver' in window) || document.querySelector('.reveal')) return;
     const olho = new IntersectionObserver((itens) => itens.forEach((item) => {
       if (!item.isIntersecting) return;
       item.target.classList.add('is-visivel');
