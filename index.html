@@ -37,11 +37,10 @@
     .topo h1 { margin-top: 8px; }
     .fala { display: flex; align-items: center; gap: 22px; max-width: 660px; }
     .fala img { flex: none; width: clamp(72px, 10vw, 104px); height: auto; }
-    .fala .bubble { min-width: 0; font-size: clamp(16px, 1.8vw, 20px); line-height: 1.35; box-shadow: 0 6px 0 rgb(47 42 74 / .3); }
+    .fala .bubble { min-width: 0; font-size: clamp(16px, 1.8vw, 20px); line-height: 1.35; }
     .atalhos { display: flex; flex-wrap: wrap; gap: 10px; }
-    .atalhos a { display: inline-flex; align-items: center; min-height: 44px; padding: 4px 16px; background: var(--white); border: 3px solid var(--ink); border-radius: 999px; box-shadow: 0 4px 0 var(--ink); font-weight: 600; font-size: 16px; text-decoration: none; transition: transform .12s ease, box-shadow .12s ease; }
-    .atalhos a:hover { transform: translateY(2px); box-shadow: 0 2px 0 var(--ink); }
-    .atalhos a:active { transform: translateY(4px); box-shadow: none; }
+    .atalhos a { display: inline-flex; align-items: center; min-height: 44px; padding: 4px 16px; background: rgb(255 255 255 / .72); border: 3px solid var(--ink); border-radius: 999px; font-weight: 600; font-size: 16px; text-decoration: none; transition: transform .12s ease, box-shadow .12s ease; }
+    .atalhos a:hover { background: var(--white); }
 
     /* Seções */
     .secao { padding-block: clamp(56px, 8vw, 100px); }
@@ -425,7 +424,7 @@
         <div class="secao__topo">
           <p class="pill" style="--c: var(--blue)">Fase 4</p>
           <h2 class="loud">Cenário</h2>
-          <p>O céu com nuvens, símbolos de código e morros, ou a noite com estrelas. Fica em <code>cenario.css</code> e não precisa de imagem nem de script.</p>
+          <p>O céu do Pampa com sol e nuvens, as coxilhas com um umbu, ou a noite com estrelas. Fica em <code>css/cenario.css</code>. Com o <code>js/paisagem.js</code>, as coxilhas viram um campo com bichos e árvores que se mexem, as camadas andam na rolagem e o dia passa até o fim da tarde, como no alto desta página.</p>
         </div>
         <div class="quadros">
           <div class="quadro cena ceu">

@@ -153,7 +153,12 @@
     dentro.append(voltar);
   }
 
-  const pronto = () => document.body.prepend(barra);
+  // A paisagem do Pampa (paisagem.js) entra nas páginas que têm as coxilhas do cenário
+  const paisagem = () => {
+    if (window.Paisagem || !document.querySelector('.cenario .morros')) return;
+    document.head.append(Object.assign(document.createElement('script'), { src: new URL('js/paisagem.js', pasta).href }));
+  };
+  const pronto = () => { document.body.prepend(barra); paisagem(); };
   if (document.body) pronto();
   else addEventListener('DOMContentLoaded', pronto);
 })();
