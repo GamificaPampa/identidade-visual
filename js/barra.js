@@ -64,6 +64,7 @@
     .gp-barra__botao span { overflow: hidden; text-overflow: ellipsis; }
     .gp-barra__voltar { min-width: 0; flex: 0 1 auto; }
     .gp-barra__turma { margin-left: auto; background: #4fd6a6; }
+    .gp-barra__turma .gp-barra__curto { display: none; }
     .gp-barra__trilha { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; min-width: 0; margin: 0 0 0 6px; padding: 0; list-style: none; font-size: 16px; font-weight: 600; color: #5d5880; }
     .gp-barra__trilha li + li::before { content: "›"; margin-right: 6px; font-weight: 700; }
     .gp-barra__trilha a { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; color: #5d5880; }
@@ -73,8 +74,11 @@
     @media (max-width: 760px) {
       .gp-barra__trilha { display: none; }
       .gp-barra__botao { padding: 4px 12px; font-size: 16px; }
-      .gp-barra__turma span { display: none; }
-      .gp-barra__turma { padding: 4px 11px; }
+      .gp-barra__turma { flex: none; }
+    }
+    @media (max-width: 520px) {
+      .gp-barra__turma .gp-barra__longo { display: none; }
+      .gp-barra__turma .gp-barra__curto { display: inline; }
     }
     :root:fullscreen .gp-barra { display: none; }
     @media print { .gp-barra { display: none !important; } }
@@ -112,8 +116,8 @@
       }
       trilha.append(item);
     });
-    const turma = link('gp-barra__botao gp-barra__turma', endereco('/turma/'), play, 'Jogos para a turma');
-    // No celular o texto some e fica só o triângulo: o nome continua para o leitor de tela
+    // Na tela estreita o nome encurta para "Jogos"; o leitor de tela ouve sempre o nome inteiro
+    const turma = link('gp-barra__botao gp-barra__turma', endereco('/turma/'), play + '<span class="gp-barra__longo">Jogos para a turma</span><span class="gp-barra__curto">Jogos</span>');
     turma.setAttribute('aria-label', 'Jogos para a turma');
     dentro.append(logo, voltar, trilha, turma);
   } else {
