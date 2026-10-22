@@ -1,4 +1,5 @@
-/* Cenário do estilo de jogo: céu com nuvens, símbolos de código e morros, ou noite com estrelas.
+/* Cenário do estilo de jogo: o céu do Pampa ao meio-dia, com sol, nuvens, símbolos de código e as coxilhas
+   em três camadas com um umbu, ou a noite com estrelas.
    Carregue depois de cores.css. Os nomes são em português para não bater com o .sky, o .cloud e o .hills
    que as páginas antigas definem por conta própria.
 
@@ -13,7 +14,19 @@
 
    Para a página inteira, use <body class="ceu"> e <div class="cenario cenario--fixo">. */
 
-.ceu { background: linear-gradient(180deg, var(--sky1), var(--sky2)); }
+/* O sol aquece o canto de cima, e o azul clareia até o horizonte. Com o paisagem.js, --dia (0 no topo da
+   página, 1 no fim) passa o dia: o alto do céu fica mais fundo e o horizonte esquenta, como no fim da tarde */
+.ceu { background: radial-gradient(90% 60% at 86% -14%, rgb(255 255 255 / .62) 0%, rgb(255 250 230 / .28) 26%, rgb(255 255 255 / 0) 52%), linear-gradient(180deg, var(--sky1) 0%, #8bcbf6 54%, var(--sky2) 100%); }
+.ceu {
+  --tarde: calc(var(--dia, 0) * 78%);
+  background:
+    radial-gradient(70% 50% at calc(84% - var(--dia, 0) * 30%) calc(-6% + var(--dia, 0) * 34%), color-mix(in oklab, rgb(255 255 255 / .7), rgb(255 214 150 / .75) var(--tarde)) 0%, rgb(255 255 255 / 0) 55%),
+    linear-gradient(180deg,
+      color-mix(in oklab, #2a8ae6, #3d63b4 var(--tarde)) 0%,
+      color-mix(in oklab, #5cb1f0, #7b8fd0 var(--tarde)) 30%,
+      color-mix(in oklab, #9bd3f6, #f1b98a var(--tarde)) 64%,
+      color-mix(in oklab, #e6f6fd, #ffe1ad var(--tarde)) 100%);
+}
 /* Na página inteira o degradê fica parado enquanto o conteúdo rola, como nos jogos e no componentes.css */
 body.ceu { background-attachment: fixed; }
 .noite { background: var(--ink); color: var(--white); }
@@ -21,6 +34,8 @@ body.ceu { background-attachment: fixed; }
 /* Bloco que recebe o desenho. O isolation deixa o cenário atrás do conteúdo sem mexer no z-index dele */
 .cena { position: relative; overflow: hidden; isolation: isolate; }
 .cenario { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+/* Um grão leve, de papel, para o céu não parecer chapado */
+.cenario::after { content: ""; position: absolute; inset: 0; z-index: 1; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23g)'/%3E%3C/svg%3E") 0 0 / 160px; opacity: .07; mix-blend-mode: multiply; }
 .cenario--fixo { position: fixed; }
 
 /* Nuvem que atravessa o bloco. --w é a largura, --t o tempo da travessia e --d (negativo) espalha as nuvens.
@@ -30,12 +45,13 @@ body.ceu { background-attachment: fixed; }
   left: 0;
   width: 100%;
   height: calc(var(--w, 160px) / 2);
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100'%3E%3Cg fill='%23fff'%3E%3Ccircle cx='62' cy='62' r='32'/%3E%3Ccircle cx='104' cy='44' r='40'/%3E%3Ccircle cx='148' cy='62' r='28'/%3E%3Crect x='24' y='58' width='156' height='38' rx='19'/%3E%3C/g%3E%3C/svg%3E") 0 0 / var(--w, 160px) auto no-repeat;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100'%3E%3Cg fill='%23fff'%3E%3Ccircle cx='62' cy='60' r='30'/%3E%3Ccircle cx='104' cy='44' r='40'/%3E%3Ccircle cx='148' cy='62' r='27'/%3E%3Crect x='26' y='58' width='152' height='36' rx='18'/%3E%3C/g%3E%3Cpath d='M26 80a18 18 0 0 0 18 14h116a18 18 0 0 0 18-14z' fill='%23e2f1fc'/%3E%3C/svg%3E") 0 0 / var(--w, 160px) auto no-repeat;
+  filter: drop-shadow(0 6px 10px rgb(47 42 74 / .06));
   animation: nuvem-passa var(--t, 70s) linear var(--d, 0s) infinite;
 }
 
-/* Símbolo de código flutuando: </>, { }, [ ], 01, if */
-.simbolo { position: absolute; color: rgb(255 255 255 / .75); font-weight: 700; font-size: clamp(26px, 3vw, 40px); line-height: 1; white-space: nowrap; animation: simbolo-boia 7s ease-in-out var(--d, 0s) infinite; }
+/* Símbolo de código flutuando: </>, { }, [ ], 01, if. Discreto, para não brigar com o texto */
+.simbolo { position: absolute; color: rgb(255 255 255 / .42); font-weight: 700; font-size: clamp(22px, 2.4vw, 32px); line-height: 1; white-space: nowrap; animation: simbolo-boia 7s ease-in-out var(--d, 0s) infinite; }
 .noite .simbolo { color: rgb(255 255 255 / .14); }
 
 /* Estrela amarela que brilha, para a noite. --w é o tamanho */
@@ -47,11 +63,74 @@ body.ceu { background-attachment: fixed; }
   animation: estrela-brilha 2.6s ease-in-out var(--d, 0s) infinite;
 }
 
-/* Dois morros verdes no pé do bloco. --altura muda o tamanho */
-.morros { position: absolute; left: 0; right: 0; bottom: 0; height: var(--altura, clamp(90px, 13vw, 180px)); }
-.morros::before, .morros::after { content: ""; position: absolute; border-radius: 50%; }
-.morros::before { left: -20%; bottom: -60%; width: 78%; height: 160%; background: var(--hill); }
-.morros::after { right: -24%; bottom: -78%; width: 86%; height: 160%; background: var(--hill2); }
+/* As coxilhas no pé do bloco: três camadas, a de longe mais clara, e um umbu sozinho no horizonte.
+   --altura muda o tamanho. As cores são as --coxilha-* do cores.css, repetidas aqui dentro do desenho */
+.morros { position: absolute; left: 0; right: 0; bottom: 0; height: var(--altura, clamp(110px, 15vw, 210px));
+  background: url("data:image/svg+xml,%3Csvg preserveAspectRatio=%22none%22 viewBox=%220 0 1440 220%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath d='M0 190C250 146 520 152 780 182S1200 148 1440 170V220H0Z' fill='%2362c255'/%3E%3Cpath d='M0 190C250 146 520 152 780 182S1200 148 1440 170' fill='none' stroke='%2386d86e' stroke-width='4' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") 0 100% / 100% 62% no-repeat,
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 160 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M70 118c2-14 1-30-6-44l10-2c5 10 8 22 9 30 2-10 6-20 14-28l8 5c-9 9-13 22-13 39z' fill='%234a7d3f'/%3E%3Cpath d='M20 70c-14-2-20-16-10-26 0-14 16-22 28-16 6-14 26-18 38-8 12-12 34-10 42 4 16-4 30 8 28 22 12 6 12 24-2 28-4 10-18 14-28 8-10 8-26 8-34 0-12 8-30 6-36-4-12 4-26-2-26-8z' fill='%234f9b45'/%3E%3Cpath d='M30 50c6-8 18-10 26-4 8-10 24-10 32-2 10-8 26-6 32 4' fill='none' stroke='%236cb85a' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E") 15% 60% / auto 42% no-repeat,
+    url("data:image/svg+xml,%3Csvg preserveAspectRatio=%22none%22 viewBox=%220 0 1440 220%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath d='M0 150C200 104 400 104 620 138S1010 96 1230 124 1400 118 1440 128V220H0Z' fill='%2395d67b'/%3E%3Cpath d='M0 150C200 104 400 104 620 138S1010 96 1230 124 1400 118 1440 128' fill='none' stroke='%23b4e59a' stroke-width='3' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") 0 100% / 100% 82% no-repeat,
+    url("data:image/svg+xml,%3Csvg preserveAspectRatio=%22none%22 viewBox=%220 0 1440 220%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath d='M0 118C170 70 330 58 520 92S880 52 1080 78 1340 66 1440 86V220H0Z' fill='%23bfe4bd'/%3E%3C/svg%3E") 0 100% / 100% 100% no-repeat; }
+
+/* ---------- Paisagem do Pampa (paisagem.js) ----------
+   Camadas do campo, do longe ao perto. Na rolagem, --k cresce e cada camada sobe numa velocidade (--f),
+   o que dá profundidade. --dia esquenta a luz no fim da página */
+.tem-paisagem .nuvem, .tem-paisagem .simbolo, .tem-paisagem .glyph, .tem-paisagem .cloud { display: none; }
+.paisagem { position: absolute; left: 0; right: 0; bottom: 0; height: var(--altura-paisagem, clamp(200px, 30vw, 400px)); overflow: hidden; pointer-events: none; }
+.paisagem--fixa { height: clamp(220px, 42vh, 460px); }
+.paisagem__camada { position: absolute; left: 0; right: 0; bottom: -90px; height: calc(100% + 90px); transform: translate3d(0, calc(max(-90px, var(--k, 0) * -1px * var(--f))), 0); will-change: transform; }
+.paisagem__camada svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.paisagem__camada--longe { --f: .025; }
+.paisagem__camada--meio { --f: .05; }
+.paisagem__camada--perto { --f: .085; }
+.paisagem__camada--frente { --f: .13; }
+.paisagem__luz { position: absolute; inset: 0; background: linear-gradient(180deg, rgb(255 190 110 / 0), rgb(255 160 80 / .55)); mix-blend-mode: soft-light; opacity: calc(var(--dia, 0) * .9); }
+
+/* O céu da paisagem: o sol, as nuvens com volume e um bando de pássaros */
+.paisagem-ceu { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.paisagem-ceu__sol { position: absolute; left: calc(82% - var(--dia, 0) * 26%); top: calc(min(7%, 56px) + var(--dia, 0) * min(26%, 220px)); width: clamp(56px, 7vw, 96px); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle, #fffdf2 0 38%, color-mix(in oklab, #fff3b8, #ffc070 calc(var(--dia, 0) * 100%)) 52%, rgb(255 236 170 / 0) 72%);
+  box-shadow: 0 0 60px 30px rgb(255 245 205 / .35); }
+.paisagem-ceu__nuvens { position: absolute; inset: 0; transform: translate3d(0, calc(var(--k, 0) * .035px), 0); }
+.pp-nuvem { position: absolute; width: calc(clamp(150px, 18vw, 280px) * var(--escala, 1)); filter: drop-shadow(0 10px 16px rgb(40 80 140 / .1)); animation: pp-vento 140s linear infinite; will-change: transform; }
+.pp-nuvem:nth-child(1) { top: min(9%, 80px); left: 6%; animation-duration: 160s; animation-delay: -40s; }
+.pp-nuvem:nth-child(2) { top: min(24%, 200px); left: 46%; animation-duration: 210s; animation-delay: -120s; opacity: .9; }
+.pp-nuvem:nth-child(3) { top: min(4%, 30px); left: 70%; animation-duration: 180s; animation-delay: -80s; }
+.pp-bando { position: absolute; top: min(16%, 130px); left: 0; width: clamp(70px, 8vw, 120px); animation: pp-voo 46s linear infinite; animation-delay: -12s; }
+.pp-asa { transform-box: fill-box; transform-origin: 50% 100%; animation: pp-bate .5s ease-in-out infinite alternate; }
+
+/* Os bichos: cada um com o seu jeito e o seu tempo, para o campo não mexer tudo junto */
+.pp-vaca .pp-cabeca { transform-box: fill-box; transform-origin: 95% 45%; animation: pp-pasta 7s ease-in-out infinite; }
+.pp-vaca .pp-rabo, .pp-cavalo .pp-rabo { transform-box: fill-box; transform-origin: 10% 0; animation: pp-rabo 2.6s ease-in-out infinite; }
+g:nth-child(odd) > .pp-vaca .pp-cabeca { animation-duration: 9s; animation-delay: -3s; }
+g:nth-child(3n) > .pp-vaca .pp-rabo { animation-delay: -1.2s; }
+.pp-cavalo .pp-rabo { transform-origin: 90% 0; animation-duration: 3.4s; }
+.pp-cavalo .pp-cabeca { transform-box: fill-box; transform-origin: 0 100%; animation: pp-cavalo 6s ease-in-out infinite; }
+.pp-ovelha .pp-cabeca { transform-box: fill-box; transform-origin: 100% 50%; animation: pp-ovelha 5s ease-in-out infinite; }
+g:nth-child(even) > .pp-ovelha .pp-cabeca { animation-delay: -2.4s; }
+.pp-queroquero { animation: pp-pulo 6s ease-in-out infinite; }
+.pp-queroquero .pp-cabeca { transform-box: fill-box; transform-origin: 70% 100%; animation: pp-espia 3s ease-in-out infinite; }
+.pp-copa { transform-box: fill-box; transform-origin: 50% 100%; animation: pp-copa 8s ease-in-out infinite; }
+.pp-roda { transform-box: fill-box; transform-origin: 50% 50%; animation: pp-gira 5s linear infinite; }
+.pp-capim { transform-box: fill-box; transform-origin: 50% 100%; animation: pp-capim 3.2s ease-in-out infinite alternate; }
+.pp-capim:nth-of-type(2n) { animation-delay: -1.1s; animation-duration: 3.8s; }
+
+@keyframes pp-vento { from { transform: translateX(-40vw); } to { transform: translateX(110vw); } }
+@keyframes pp-voo { from { transform: translateX(-15vw) translateY(0); } 50% { transform: translateX(50vw) translateY(-20px); } to { transform: translateX(115vw) translateY(10px); } }
+@keyframes pp-bate { to { transform: scaleY(-.5); } }
+@keyframes pp-pasta { 0%, 30%, 100% { transform: rotate(0); } 40%, 85% { transform: rotate(-26deg); } 60% { transform: rotate(-22deg); } }
+@keyframes pp-rabo { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(14deg); } }
+@keyframes pp-cavalo { 0%, 60%, 100% { transform: rotate(0); } 70%, 80% { transform: rotate(5deg); } }
+@keyframes pp-ovelha { 0%, 50%, 100% { transform: rotate(0); } 65%, 85% { transform: rotate(-16deg); } }
+@keyframes pp-pulo { 0%, 70%, 82%, 100% { transform: translateY(0); } 76% { transform: translateY(-8px); } }
+@keyframes pp-espia { 0%, 40%, 100% { transform: rotate(0); } 50%, 70% { transform: rotate(-10deg); } }
+@keyframes pp-copa { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(.8deg); } }
+@keyframes pp-gira { to { transform: rotate(360deg); } }
+@keyframes pp-capim { from { transform: skewX(-5deg); } to { transform: skewX(6deg); } }
+
+/* Entrada do conteúdo: cada bloco sobe um pouco quando aparece na rolagem (o paisagem.js marca quem) */
+.gp-surge { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .7s cubic-bezier(.2, .8, .2, 1); }
+.gp-surge.is-visivel { opacity: 1; transform: none; }
+@media print { .paisagem, .paisagem-ceu { display: none !important; } .gp-surge { opacity: 1 !important; transform: none !important; } }
 
 @keyframes nuvem-passa { from { transform: translateX(calc(-1 * var(--w, 160px))); } to { transform: translateX(100%); } }
 @keyframes simbolo-boia { 50% { transform: translateY(-14px) rotate(8deg); } }
@@ -61,4 +140,6 @@ body.ceu { background-attachment: fixed; }
 @media (prefers-reduced-motion: reduce) {
   .nuvem { animation: nuvem-passa var(--t, 70s) linear var(--d, 0s) infinite paused !important; }
   .simbolo, .estrela { animation: none; }
+  .pp-nuvem, .pp-bando, .pp-asa, .paisagem [class^="pp-"], .paisagem [class*=" pp-"] { animation: none !important; }
+  .gp-surge { opacity: 1; transform: none; transition: none; }
 }

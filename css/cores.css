@@ -1,22 +1,44 @@
-/* Cores e medidas do estilo de jogo, iguais às do site do hub */
+/* Cores e medidas do estilo de jogo. O hub, o menu da turma, a máquina e as páginas do professor carregam este arquivo */
 :root {
+  /* Tinta: texto, contornos e sombras duras. Os desenhos em SVG usam o mesmo #2f2a4a */
   --ink: #2f2a4a;
   --soft: #5d5880;
-  --sky1: #5fbcff;
-  --sky2: #cdeeff;
-  --hill: #8ddf6a;
-  --hill2: #6cc653;
+
+  /* Céu do meio-dia no Pampa: azul fundo em cima, claro no horizonte, e o sol aquecendo o canto */
+  --sky1: #4fadf2;
+  --sky2: #d4effc;
+  --sol: #fff2c2;
+
+  /* Coxilhas: verde forte perto, mais claro e azulado longe */
+  --hill: #8fd86d;
+  --hill2: #62c255;
+  --coxilha-longe: #bfe4bd;
+  --coxilha-meio: #95d67b;
+  --coxilha-perto: #62c255;
+
+  /* Uma cor por ação, e o tom claro de cada uma para fundos e marcações */
   --blue: #4da3ff;
   --pink: #ff5f8f;
   --mint: #4fd6a6;
   --orange: #ff8a3d;
   --purple: #a08bff;
   --yellow: #ffd23f;
+  --blue-claro: #dcecff;
+  --pink-claro: #ffe0ea;
+  --mint-claro: #d5f6ea;
+  --orange-claro: #ffe4d1;
+  --purple-claro: #e9e3ff;
+  --yellow-claro: #fff3c4;
+
   --white: #fff;
-  --cream: #fff8e1;
-  --radius: clamp(22px, 3vw, 36px);
-  --line: 6px solid var(--ink);
-  --drop: 0 12px 0 var(--ink);
+  --cream: #fffaee;
+
+  /* Peso por papel: o contorno grosso e a sombra alta ficam para os objetos principais */
+  --radius: clamp(22px, 3vw, 32px);
+  --line: 4px solid var(--ink);
+  --line-fina: 3px solid var(--ink);
+  --drop: 0 8px 0 var(--ink);
+  --drop-baixa: 0 4px 0 var(--ink);
   --bounce: cubic-bezier(.34, 1.56, .64, 1);
   --font: "Fredoka", "Trebuchet MS", system-ui, sans-serif;
 }

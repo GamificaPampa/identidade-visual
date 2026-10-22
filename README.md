@@ -18,7 +18,7 @@ A página [gamificapampa.github.io/identidade-visual](https://gamificapampa.gith
 | `css/cores.css` | As cores e as medidas do estilo de jogo |
 | `css/componentes.css` | Fundo de céu, título com contorno (`.loud`), cartão (`.card`), botão (traz o `botoes.css`), etiqueta (`.pill`), balão de fala (`.bubble`), opção de filtro (`.filtro-opcao`), partes do prompt (`.prompt-parte`), aviso de privacidade (`.privacidade`) e rodapé (`.rodape-gp`) |
 | `css/botoes.css` | Só o botão em 3D com uma cor por ação (`.btn`), para a página que tem o próprio layout |
-| `css/cenario.css` | Céu (`.ceu`) ou noite (`.noite`) com nuvens (`.nuvem`), símbolos de código (`.simbolo`), estrelas (`.estrela`) e morros (`.morros`), sem imagem nem script |
+| `css/cenario.css` | Céu do Pampa (`.ceu`, com sol e grão de papel) ou noite (`.noite`), nuvens (`.nuvem`), símbolos de código (`.simbolo`), estrelas (`.estrela`) e as coxilhas (`.morros`) em três camadas com um umbu. Sem script, é isso que aparece. Também tem o estilo da paisagem do `paisagem.js` |
 | `css/animacoes.css` | Classes `.anima-<nome>`: `flutuar`, `pular`, `respirar`, `balancar`, `brilhar`, `girar`, `piscar`, `pulsar` e `letras`, que não param, e `surgir`, `subir`, `saltar`, `tremer`, `pontos` e `balao`, que tocam uma vez |
 
 | Script | O que faz |
@@ -27,6 +27,7 @@ A página [gamificapampa.github.io/identidade-visual](https://gamificapampa.gith
 | `js/jogo.js` | O kit de jogo: voltar ao menu da turma, tela cheia, som guardado para todos os jogos, pausa ao trocar de aba, contagem, confete e a fileira da tela final |
 | `js/copiar.js` | Copiar com aviso, que só diz "copiado" quando copiou, e a barra de Copiar e Abrir o Gemini no pé da tela do celular |
 | `js/lembrar.js` | Guarda no aparelho as escolhas do professor e devolve na próxima visita. Nunca guarde nome ou dado de criança |
+| `js/paisagem.js` | Troca as coxilhas (`.morros`) por uma paisagem do Pampa em camadas: umbu, ipê-amarelo, capão de mato, cata-vento, galpão, cerca, vacas pastando, cavalo crioulo, ovelhas, quero-quero, flores, nuvens com volume e pássaros. Na rolagem, as camadas andam em velocidades diferentes (paralaxe), o dia passa até o fim da tarde e os blocos abaixo da primeira tela sobem ao aparecer. A barra do topo já carrega o arquivo; o hub e a vitrine têm a tag. Com "Parar animações" ou movimento reduzido, tudo fica parado |
 | `js/animacoes.js` | O botão "Parar animações": para tudo o que se mexe na página e o site lembra a escolha no aparelho. A barra do topo e o hub já põem o botão |
 | `js/bit.js` | O Bit que fala num canto da tela (veja abaixo) |
 | `js/icones.js` | Os ícones desenhados no lugar dos emojis (veja abaixo) |

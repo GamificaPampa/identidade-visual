@@ -2,26 +2,28 @@
 @import url("botoes.css");
 *, *::before, *::after { box-sizing: border-box; }
 body { margin: 0; font: 500 18px/1.45 var(--font); color: var(--ink); background: linear-gradient(var(--sky1), var(--sky2)) fixed; -webkit-font-smoothing: antialiased; }
-h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.05; }
+h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.05; letter-spacing: -.012em; text-wrap: balance; }
+p { text-wrap: pretty; }
 h1 { font-size: clamp(40px, 7vw, 80px); }
 h2 { font-size: clamp(30px, 5vw, 52px); }
 img, svg { display: block; }
 a { color: inherit; }
 
 /* Título com contorno escuro, como os do site */
-.loud { color: var(--white); -webkit-text-stroke: .16em var(--ink); paint-order: stroke fill; text-shadow: 0 .09em 0 var(--ink); }
+/* Letra de brinquedo: branca, contorno de tinta, um degrau embaixo e a sombra macia no chão */
+.loud { color: var(--white); -webkit-text-stroke: .14em var(--ink); paint-order: stroke fill; text-shadow: 0 .07em 0 var(--ink), 0 .15em .06em rgb(47 42 74 / .18); }
 .yellow { color: var(--yellow); }
 .pink { color: var(--pink); }
 
 /* Cartão branco com borda grossa e sombra dura */
 .card { padding: clamp(18px, 3vw, 30px); background: var(--white); color: var(--ink); border: var(--line); border-radius: var(--radius); box-shadow: var(--drop); }
 
-/* Etiqueta curta, para idade, nível ou tema */
-.pill { display: inline-flex; align-items: center; gap: 8px; padding: 5px 18px; border: 4px solid var(--ink); border-radius: 999px; background: var(--c, var(--white)); color: var(--ink); font-weight: 700; font-size: 15px; box-shadow: 0 6px 0 var(--ink); }
+/* Etiqueta curta, para idade, nível ou tema. Não é botão, então não tem sombra */
+.pill { display: inline-flex; align-items: center; gap: 8px; padding: 4px 16px; border: var(--line-fina); border-radius: 999px; background: var(--c, var(--white)); color: var(--ink); font-weight: 600; font-size: 15px; letter-spacing: .01em; }
 
 /* Balão de fala do Bit */
-.bubble { position: relative; padding: 12px 20px; background: var(--white); color: var(--ink); border: 4px solid var(--ink); border-radius: 24px; font-weight: 600; }
-.bubble::before { content: ""; position: absolute; left: -15px; top: 50%; margin-top: -11px; border: 11px solid transparent; border-left: 0; border-right-color: var(--ink); }
+.bubble { position: relative; padding: 12px 20px; background: var(--white); color: var(--ink); border: var(--line-fina); border-radius: 22px; box-shadow: 0 6px 14px rgb(47 42 74 / .12); font-weight: 500; }
+.bubble::before { content: ""; position: absolute; left: -14px; top: 50%; margin-top: -11px; border: 11px solid transparent; border-left: 0; border-right-color: var(--ink); }
 .bubble::after { content: ""; position: absolute; left: -8px; top: 50%; margin-top: -8px; border: 8px solid transparent; border-left: 0; border-right-color: var(--white); }
 
 /* Opção de filtro: liga e desliga com aria-pressed; a ligada fica amarela. Fica numa fileira com flex-wrap */
