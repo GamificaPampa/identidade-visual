@@ -1,4 +1,5 @@
 /* Peças visuais do estilo de jogo, iguais às do site do hub. Carregue depois de fontes.css e cores.css. */
+@import url("botoes.css");
 *, *::before, *::after { box-sizing: border-box; }
 body { margin: 0; font: 500 18px/1.45 var(--font); color: var(--ink); background: linear-gradient(var(--sky1), var(--sky2)) fixed; -webkit-font-smoothing: antialiased; }
 h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.05; }
@@ -15,35 +16,6 @@ a { color: inherit; }
 /* Cartão branco com borda grossa e sombra dura */
 .card { padding: clamp(18px, 3vw, 30px); background: var(--white); color: var(--ink); border: var(--line); border-radius: var(--radius); box-shadow: var(--drop); }
 
-/* Botão redondo em 3D: brilho no alto, sombra embaixo e um reflexo que atravessa no hover.
-   Afunda ao passar o mouse e ao clicar. --drop-y é a altura da sombra; --c, a cor */
-.btn { --drop-y: 7px; position: relative; isolation: isolate; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; padding: 8px 26px; border: 4px solid var(--ink); border-radius: 999px; background: var(--c, var(--white)); color: var(--ink); font: 600 18px/1.2 var(--font); text-align: center; text-decoration: none; box-shadow: inset 0 -6px 0 rgb(47 42 74 / .16), inset 0 4px 0 rgb(255 255 255 / .55), 0 var(--drop-y) 0 var(--ink); cursor: pointer; transition: transform .12s ease, box-shadow .12s ease; }
-.btn::after { content: ""; position: absolute; inset: -4px; z-index: -1; background: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / .65) 50%, transparent 65%); translate: -110% 0; transition: translate .6s ease; }
-.btn:hover::after { translate: 110% 0; }
-.btn:hover { --drop-y: 4px; transform: translateY(3px); }
-.btn:active { --drop-y: 0px; transform: translateY(7px); }
-.btn:focus-visible { outline: 4px solid var(--pink); outline-offset: 3px; }
-.btn svg { flex: none; transition: transform .3s var(--bounce); }
-.btn:hover svg { transform: scale(1.2) rotate(-8deg); }
-.btn--big { min-height: 62px; padding: 10px 30px; font-size: 20px; }
-.btn--small { --drop-y: 5px; min-height: 48px; padding: 4px 20px; font-size: 16px; }
-.btn--small:hover { --drop-y: 2px; }
-.btn--small:active { --drop-y: 0px; transform: translateY(5px); }
-
-/* Uma cor e um ícone para cada ação, em todas as páginas: verde joga, amarelo leva a conhecer,
-   rosa fala com a equipe, roxo compartilha e laranja baixa. Branco, sem ícone, é a ação secundária */
-.btn--jogar { --c: var(--mint); }
-.btn--conhecer { --c: var(--yellow); }
-.btn--falar { --c: var(--pink); }
-.btn--compartilhar { --c: var(--purple); }
-.btn--baixar { --c: var(--orange); }
-.btn--white { --c: var(--white); }
-
-/* Cores soltas, de antes das cores por ação. Continuam valendo nas páginas que já usam */
-.btn--yellow { --c: var(--yellow); }
-.btn--mint { --c: var(--mint); }
-.btn--pink { --c: var(--pink); }
-
 /* Etiqueta curta, para idade, nível ou tema */
 .pill { display: inline-flex; align-items: center; gap: 8px; padding: 5px 18px; border: 4px solid var(--ink); border-radius: 999px; background: var(--c, var(--white)); color: var(--ink); font-weight: 700; font-size: 15px; box-shadow: 0 6px 0 var(--ink); }
 
@@ -52,4 +24,27 @@ a { color: inherit; }
 .bubble::before { content: ""; position: absolute; left: -15px; top: 50%; margin-top: -11px; border: 11px solid transparent; border-left: 0; border-right-color: var(--ink); }
 .bubble::after { content: ""; position: absolute; left: -8px; top: 50%; margin-top: -8px; border: 8px solid transparent; border-left: 0; border-right-color: var(--white); }
 
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } .btn::after { display: none; } }
+/* Opção de filtro: liga e desliga com aria-pressed; a ligada fica amarela. Fica numa fileira com flex-wrap */
+.filtro-opcao { min-height: 44px; padding: 4px 16px; background: var(--white); color: var(--ink); border: 3px solid var(--ink); border-radius: 999px; font: 600 17px/1 var(--font); cursor: pointer; box-shadow: 0 4px 0 var(--ink); transition: transform .1s ease, box-shadow .1s ease; }
+.filtro-opcao:hover { transform: translateY(2px); box-shadow: 0 2px 0 var(--ink); }
+.filtro-opcao[aria-pressed="true"] { background: var(--yellow); }
+.filtro-opcao:focus-visible { outline: 4px solid var(--pink); outline-offset: 2px; }
+
+/* As quatro partes do prompt, com a mesma letra e a mesma cor em toda parte: Papel, Tarefa, Contexto e Formato.
+   --c é a cor forte e --c-claro a clara, para o fundo do texto de cada parte */
+.prompt-parte { display: inline-flex; align-items: center; gap: 6px; padding: 3px 14px 3px 4px; background: var(--c); color: var(--ink); border: 3px solid var(--ink); border-radius: 999px; font-weight: 600; line-height: 1.2; }
+.prompt-parte b { display: grid; place-items: center; width: 26px; height: 26px; flex: none; background: var(--white); border: 2px solid var(--ink); border-radius: 50%; font-weight: 700; }
+.prompt-parte--papel { --c: var(--blue); --c-claro: #cfe6ff; }
+.prompt-parte--tarefa { --c: var(--mint); --c-claro: #c9f5e3; }
+.prompt-parte--contexto { --c: var(--yellow); --c-claro: #fff1a8; }
+.prompt-parte--formato { --c: var(--orange); --c-claro: #ffdcc4; }
+
+/* Aviso de privacidade, rosa claro e com o cadeado: vai perto de todo campo que vira prompt */
+.privacidade { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: #ffd6e3; color: var(--ink); border: 3px solid var(--ink); border-radius: 16px; font-weight: 600; line-height: 1.35; }
+.privacidade svg { width: 36px; height: 36px; flex: none; }
+
+/* Rodapé das páginas da org: quem faz e o caminho de volta ao site */
+.rodape-gp { position: relative; padding: 28px 16px calc(28px + env(safe-area-inset-bottom)); color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.5; text-align: center; }
+.rodape-gp a { font-weight: 700; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }

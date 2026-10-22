@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="css/componentes.css">
   <link rel="stylesheet" href="css/cenario.css">
   <link rel="stylesheet" href="css/animacoes.css">
+  <script src="js/barra.js" defer></script>
   <style>
     body { background: var(--cream); }
     :focus-visible { outline: 4px solid var(--pink); outline-offset: 3px; }
@@ -113,6 +114,13 @@
     .palco .card p { color: var(--soft); font-size: 16px; }
     .palco .fala img { width: 72px; }
     .palco .bubble { font-size: 17px; }
+    .demo-texto { max-width: 460px; padding: 12px 16px; background: var(--white); border: 3px solid var(--ink); border-radius: 16px; font-weight: 500; line-height: 1.5; }
+    .demo-texto mark { padding: 1px 3px; background: var(--c-claro); border-radius: 6px; color: inherit; }
+    .demo-filtro, .demo-partes, .demo-jogo { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .demo-campo { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+    .demo-campo select { min-height: 44px; padding: 4px 12px; border: 3px solid var(--ink); border-radius: 12px; background: var(--white); font: 600 17px var(--font); color: var(--ink); }
+    .palco .rodape-gp { padding: 0; }
+    .palco .privacidade { max-width: 460px; }
 
     /* Cenário */
     .quadros { display: grid; gap: 28px; }
@@ -199,8 +207,6 @@
     .rodape p { color: var(--soft); font-size: 15px; }
 
     /* Aviso de copiado */
-    .aviso { position: fixed; left: 50%; bottom: 20px; z-index: 50; translate: -50% 0; padding: 8px 22px; background: var(--ink); color: var(--white); border: 4px solid var(--white); border-radius: 999px; box-shadow: 0 6px 0 rgb(47 42 74 / .4); font-weight: 600; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .2s ease; }
-    .aviso.is-on { opacity: 1; }
   </style>
 </head>
 <body>
@@ -243,6 +249,7 @@
         <a href="#cenario">Cenário</a>
         <a href="#animacoes">Animações</a>
         <a href="#icones">Ícones</a>
+        <a href="#pecas">Peças das páginas</a>
         <a href="#bit">Bit e logos</a>
         <a href="#como-usar">Como usar</a>
       </nav>
@@ -353,7 +360,7 @@
               <div class="acao" style="--c: var(--white)"><dt><a class="btn" href="#componentes">Voltar</a><code>.btn</code></dt><dd>Branco, sem ícone. Ação secundária: voltar, copiar o link, tentar de novo.</dd></div>
             </dl>
             <p>Cada ação tem a mesma cor e o mesmo ícone em todas as páginas da org, para quem usa saber o que o botão faz antes de ler. Não use a cor de uma ação em outra. As cores soltas <code>btn--yellow</code>, <code>btn--mint</code> e <code>btn--pink</code> continuam funcionando, mas numa página nova use o nome da ação.</p>
-            <p>O botão é em 3D: brilho no alto, sombra embaixo e um reflexo que atravessa quando o mouse passa. Afunda ao passar o mouse e ao clicar. Tamanhos: <code>btn--small</code> e <code>btn--big</code>. A altura da sombra fica em <code>--drop-y</code>.</p>
+            <p>O botão é em 3D: brilho no alto, sombra embaixo e um reflexo que atravessa quando o mouse passa. Afunda ao passar o mouse e ao clicar. Tamanhos: <code>btn--small</code> e <code>btn--big</code>. A altura da sombra fica em <code>--drop-y</code>. O botão mora em <code>botoes.css</code>, que o <code>componentes.css</code> já traz.</p>
             <div class="botao-uso">
               <div class="codigo"><span class="codigo__nome">Botões</span><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;a class="btn btn--jogar" href="jogo.html"&gt;&lt;svg width="22" height="22" aria-hidden="true"&gt;&lt;use href="#i-jogar"/&gt;&lt;/svg&gt;Jogar&lt;/a&gt;
 &lt;a class="btn btn--baixar btn--small" href="kit.zip" download&gt;&lt;svg width="20" height="20" aria-hidden="true"&gt;&lt;use href="#i-baixar"/&gt;&lt;/svg&gt;Baixar o kit&lt;/a&gt;
@@ -524,14 +531,108 @@ el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anim
   botao.innerHTML = Icones.svg('play') + ' Jogar';
   // No canvas: desenha com o centro em x e y
   Icones.desenhar(ctx, 'bug', x, y, 48);
+&lt;/script&gt;
+
+&lt;!-- No HTML, sem script da página: data-simbolos cria um &lt;symbol id="icone-nome"&gt; para cada ícone --&gt;
+&lt;script src="/identidade-visual/js/icones.js" data-simbolos&gt;&lt;/script&gt;
+&lt;svg width="32" height="32" aria-hidden="true"&gt;&lt;use href="#icone-estrela"/&gt;&lt;/svg&gt;</code></pre></div>
+      </div>
+    </section>
+
+    <section class="secao" id="pecas">
+      <div class="caixa">
+        <div class="secao__topo">
+          <p class="pill" style="--c: var(--purple)">Fase 7</p>
+          <h2 class="loud">Peças das páginas</h2>
+          <p>O que as páginas do professor e os jogos repetem já vem pronto daqui. Carregue o arquivo e use, em vez de copiar o código de outra página.</p>
+        </div>
+        <div class="demos">
+          <article class="card demo demo--largo">
+            <h3>Barra do topo</h3>
+            <div class="palco"><a class="btn btn--small" href="#">Ver a barra no alto desta página</a></div>
+            <p>O logo leva ao início, <b>Voltar</b> leva à página de cima, a trilha diz onde a pessoa está, o botão redondo para as animações (<code>animacoes.js</code>, lembrado no aparelho) e o botão verde abre os jogos para a turma. A barra sai do endereço e do título da página (o texto antes de " · "), some na impressão e na tela cheia e funciona no kit sem internet. Nos slides, <code>data-modo="compacta"</code> deixa só o Voltar, num canto. Página com impressão própria leva <code>data-impressao="propria"</code>.</p>
+            <div class="codigo"><span class="codigo__nome">barra.js</span><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;script src="/identidade-visual/js/barra.js" defer&gt;&lt;/script&gt;
+
+&lt;!-- Slides e páginas de tela inteira: só o Voltar, num canto --&gt;
+&lt;script src="/identidade-visual/js/barra.js" data-modo="compacta" defer&gt;&lt;/script&gt;</code></pre></div>
+          </article>
+          <article class="card demo">
+            <h3>Rodapé</h3>
+            <div class="palco"><footer class="rodape-gp">GamificaPampa · UNIPAMPA, Campus Alegrete · <a href="https://gamificapampa.github.io/">gamificapampa.github.io</a></footer></div>
+            <p>Diz quem faz e leva de volta ao site. Uma linha só, no fim da página, com <code>.rodape-gp</code>.</p>
+            <div class="codigo"><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;footer class="rodape-gp"&gt;GamificaPampa · UNIPAMPA, Campus Alegrete · &lt;a href="https://gamificapampa.github.io/"&gt;gamificapampa.github.io&lt;/a&gt;&lt;/footer&gt;</code></pre></div>
+          </article>
+          <article class="card demo">
+            <h3>Copiar</h3>
+            <div class="palco"><p class="demo-texto" id="demo-prompt">Você é professora do 2º ano. Crie uma atividade de leitura sobre animais do Pampa.</p><button class="btn btn--jogar btn--small" type="button" id="demo-copiar"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar o prompt</button></div>
+            <p>Copia, avisa numa faixa embaixo da tela e só diz que copiou quando copiou. Se o navegador não deixar, mostra o texto já selecionado para copiar à mão. No celular, <code>Copiar.barraFixa</code> põe Copiar e Abrir o Gemini no pé da tela quando o botão sai de vista. Os botões Copiar desta página usam ele.</p>
+            <div class="codigo"><span class="codigo__nome">copiar.js</span><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;script src="/identidade-visual/js/copiar.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  botao.addEventListener('click', () =&gt; Copiar.texto(prompt, { aviso: 'Copiado! Agora cole no Gemini.' }));
+  // No celular: barra no pé da tela com Copiar e Abrir o Gemini
+  Copiar.barraFixa({ observar: resultado, copiar: botao });
 &lt;/script&gt;</code></pre></div>
+          </article>
+          <article class="card demo">
+            <h3>O site lembra</h3>
+            <div class="palco"><label class="demo-campo">Turma <select id="demo-turma"><option>1º ano</option><option>2º ano</option><option>3º ano</option><option>4º ano</option><option>5º ano</option></select></label></div>
+            <p>Guarda no aparelho as escolhas do professor (turma, matéria, filtros, quantidades) e devolve na próxima visita. Troque a turma e recarregue a página. Nada sai do aparelho. Nunca guarde nome ou dado de criança. <code>Lembrar.botaoEsquecer</code> põe o botão que apaga tudo o que o site lembra.</p>
+            <div class="codigo"><span class="codigo__nome">lembrar.js</span><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;script src="/identidade-visual/js/lembrar.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  Lembrar.campos('maquina', form.elements);   // devolve e guarda os campos
+  Lembrar.botaoEsquecer(form);                  // "Esquecer as escolhas neste aparelho"
+&lt;/script&gt;</code></pre></div>
+          </article>
+          <article class="card demo">
+            <h3>Opções de filtro</h3>
+            <div class="palco"><div class="demo-filtro" role="group" aria-label="Matéria"><button class="filtro-opcao" type="button" aria-pressed="true">Todas</button><button class="filtro-opcao" type="button" aria-pressed="false">Matemática</button><button class="filtro-opcao" type="button" aria-pressed="false">Ciências</button><button class="filtro-opcao" type="button" aria-pressed="false">Português</button></div></div>
+            <p>Para filtrar listas, como no menu da turma e na biblioteca. A opção ligada fica amarela e tem <code>aria-pressed="true"</code>. Cada toque troca a escolha.</p>
+            <div class="codigo"><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;div role="group" aria-label="Matéria"&gt;
+  &lt;button class="filtro-opcao" type="button" aria-pressed="true"&gt;Todas&lt;/button&gt;
+  &lt;button class="filtro-opcao" type="button" aria-pressed="false"&gt;Matemática&lt;/button&gt;
+&lt;/div&gt;</code></pre></div>
+          </article>
+          <article class="card demo">
+            <h3>Partes do prompt</h3>
+            <div class="palco"><div class="demo-partes"><span class="prompt-parte prompt-parte--papel"><b>P</b>Papel</span><span class="prompt-parte prompt-parte--tarefa"><b>T</b>Tarefa</span><span class="prompt-parte prompt-parte--contexto"><b>C</b>Contexto</span><span class="prompt-parte prompt-parte--formato"><b>F</b>Formato</span></div><p class="demo-texto"><mark class="prompt-parte--papel">Você é professora do 2º ano.</mark> <mark class="prompt-parte--tarefa">Crie uma atividade de leitura</mark> <mark class="prompt-parte--contexto">para crianças de 7 anos, sobre animais do Pampa.</mark> <mark class="prompt-parte--formato">Uma folha A4 com 5 perguntas.</mark></p></div>
+            <p>As quatro partes de um bom prompt têm sempre a mesma letra e a mesma cor, no curso, no jogo, no construtor e na máquina. <code>--c</code> é a cor forte da parte e <code>--c-claro</code> a clara, para marcar o pedaço do texto.</p>
+            <div class="codigo"><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;span class="prompt-parte prompt-parte--papel"&gt;&lt;b&gt;P&lt;/b&gt;Papel&lt;/span&gt;
+&lt;span class="prompt-parte prompt-parte--tarefa"&gt;&lt;b&gt;T&lt;/b&gt;Tarefa&lt;/span&gt;
+&lt;span class="prompt-parte prompt-parte--contexto"&gt;&lt;b&gt;C&lt;/b&gt;Contexto&lt;/span&gt;
+&lt;span class="prompt-parte prompt-parte--formato"&gt;&lt;b&gt;F&lt;/b&gt;Formato&lt;/span&gt;
+
+&lt;mark class="prompt-parte--papel" style="background: var(--c-claro)"&gt;Você é professora do 2º ano.&lt;/mark&gt;</code></pre></div>
+          </article>
+          <article class="card demo">
+            <h3>Aviso de privacidade</h3>
+            <div class="palco"><p class="privacidade"><svg aria-hidden="true"><use href="#icone-cadeado"/></svg>Nunca escreva o nome ou dados das crianças na conversa com a IA. Fale da turma de um jeito geral.</p></div>
+            <p>Fica perto de todo campo que vira prompt e de todo lugar que fala da turma. Rosa claro, com o cadeado do <code>icones.js</code>.</p>
+            <div class="codigo"><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;script src="/identidade-visual/js/icones.js" data-simbolos&gt;&lt;/script&gt;
+
+&lt;p class="privacidade"&gt;&lt;svg aria-hidden="true"&gt;&lt;use href="#icone-cadeado"/&gt;&lt;/svg&gt;Nunca escreva o nome ou dados das crianças na conversa com a IA. Fale da turma de um jeito geral.&lt;/p&gt;</code></pre></div>
+          </article>
+          <article class="card demo demo--largo">
+            <h3>Kit de jogo</h3>
+            <div class="palco"><div class="demo-jogo" id="demo-jogo"></div><button class="btn btn--small" type="button" id="demo-contagem">Contagem</button><button class="btn btn--small" type="button" id="demo-confete">Confete</button></div>
+            <p>As peças que todo jogo repete: o botão que volta ao menu da turma, a tela cheia (também na tecla F), o som guardado para todos os jogos, a pausa quando a criança troca de aba, a contagem 3, 2, 1, o confete e a fileira da tela final com Jogar de novo e Outros jogos.</p>
+            <div class="codigo"><span class="codigo__nome">jogo.js</span><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;script src="/identidade-visual/js/jogo.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  topo.append(Jogo.botao('casa'), Jogo.botao('tela-cheia'), Jogo.botao('som'));
+  Jogo.som.aoMudar(ligado =&gt; { musica.muted = !ligado; });
+  Jogo.aoSairDaAba(pausar, continuar);
+  await Jogo.contagem();                        // 3, 2, 1, Já!
+  Jogo.confete();
+  fim.append(Jogo.acoesDoFim(jogarDeNovo));     // Jogar de novo e Outros jogos
+&lt;/script&gt;</code></pre></div>
+          </article>
+        </div>
       </div>
     </section>
 
     <section class="secao" id="bit">
       <div class="caixa">
         <div class="secao__topo">
-          <p class="pill" style="--c: var(--purple)">Fase 7</p>
+          <p class="pill" style="--c: var(--blue)">Fase 8</p>
           <h2 class="loud">Bit e logos</h2>
         </div>
         <div class="card bit">
@@ -648,7 +749,7 @@ el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anim
       </div>
       <div class="caixa">
         <div class="secao__topo">
-          <p class="pill" style="--c: var(--yellow)">Fase 8</p>
+          <p class="pill" style="--c: var(--yellow)">Fase 9</p>
           <h2 class="yellow">Como usar</h2>
           <p>Ponha estas linhas no <code>&lt;head&gt;</code> da página, nesta ordem, e carregue só o que a página usa.</p>
         </div>
@@ -662,8 +763,9 @@ el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anim
           <ul class="regras">
             <li style="--c: var(--yellow)">Nos repositórios públicos, o endereço começa em <code>/identidade-visual/</code>.</li>
             <li style="--c: var(--mint)">No <code>equipe</code>, que abre direto do disco, use o endereço completo: <code class="quebra">https://gamificapampa.github.io/identidade-visual/</code>.</li>
-            <li style="--c: var(--pink)">O kit sem internet hoje só leva a fonte. Página do kit que usar estes arquivos precisa entrar no <code>kit_sem_internet.py</code>.</li>
-            <li style="--c: var(--blue)">Mudou uma cor? Mude no <code>cores.css</code> e no <code>styles.css</code> do hub.</li>
+            <li style="--c: var(--pink)">O kit sem internet copia daqui a fonte e as pastas <code>css</code>, <code>js</code>, <code>mascote</code> e <code>logos</code>. Pasta nova precisa entrar no <code>kit_sem_internet.py</code>.</li>
+            <li style="--c: var(--blue)">Mudou uma cor? Mude no <code>cores.css</code>: o hub e as páginas do professor carregam ele. O Robô, o Ninja, a Dupla, o Conecta, o Caça aos Bugs e as telas de estande ainda têm as cores deles.</li>
+            <li style="--c: var(--purple)">Página com o próprio layout que só quer o botão carrega <code>botoes.css</code> no lugar do <code>componentes.css</code>.</li>
           </ul>
         </div>
       </div>
@@ -677,9 +779,10 @@ el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anim
     </div>
   </footer>
 
-  <p class="aviso" role="status" aria-live="polite"></p>
-
-  <script src="js/icones.js"></script>
+  <script src="js/icones.js" data-simbolos></script>
+  <script src="js/copiar.js"></script>
+  <script src="js/lembrar.js"></script>
+  <script src="js/jogo.js"></script>
   <script>
     // Os ícones vêm do icones.js, então a vitrine mostra sempre todos, separados por grupo
     const listaIcones = document.getElementById('lista-icones');
@@ -701,30 +804,8 @@ el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anim
       cor.setAttribute('aria-label', `Copiar ${cor.dataset.var}, ${valor || ''}`);
     });
 
-    const aviso = document.querySelector('.aviso');
-    let some;
-    function avisar(texto) {
-      aviso.textContent = texto;
-      aviso.classList.remove('anima-surgir');
-      void aviso.offsetWidth;
-      aviso.classList.add('anima-surgir', 'is-on');
-      clearTimeout(some);
-      some = setTimeout(() => aviso.classList.remove('is-on'), 1800);
-    }
-
-    async function copiar(texto) {
-      try {
-        await navigator.clipboard.writeText(texto);
-      } catch {
-        const campo = document.createElement('textarea');
-        campo.value = texto;
-        campo.style.cssText = 'position: fixed; opacity: 0';
-        document.body.append(campo);
-        campo.select();
-        document.execCommand('copy');
-        campo.remove();
-      }
-    }
+    // Copiar com o copiar.js: só avisa quando copiou e, se não der, mostra o texto para copiar à mão
+    const copiar = (texto, aviso) => Copiar.texto(texto, { aviso });
 
     function tocar(quadro) {
       const alvo = quadro.querySelector('.alvo');
@@ -738,25 +819,31 @@ el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anim
       const cor = evento.target.closest('.cor');
       if (cor) {
         const codigo = cor.querySelector('.cor__hex').textContent;
-        await copiar(codigo);
-        avisar('Copiado: ' + codigo);
+        copiar(codigo, 'Copiado: ' + codigo);
         return;
       }
       const icone = evento.target.closest('.icone-item');
       if (icone) {
-        await copiar(icone.dataset.nome);
-        avisar('Copiado: ' + icone.dataset.nome);
+        copiar(icone.dataset.nome, 'Copiado: ' + icone.dataset.nome);
         return;
       }
       const botao = evento.target.closest('.copiar');
       if (botao) {
-        await copiar(botao.closest('.codigo').querySelector('code').textContent);
-        avisar('Código copiado');
+        copiar(botao.closest('.codigo').querySelector('code').textContent, 'Código copiado');
         return;
       }
       const quadro = evento.target.closest('[data-anima]');
       if (quadro) tocar(quadro);
+      const filtro = evento.target.closest('.demo-filtro .filtro-opcao');
+      if (filtro) filtro.parentElement.querySelectorAll('.filtro-opcao').forEach(opcao => opcao.setAttribute('aria-pressed', String(opcao === filtro)));
     });
+
+    // Os exemplos das peças das páginas funcionam de verdade
+    document.getElementById('demo-copiar').addEventListener('click', () => copiar(document.getElementById('demo-prompt').textContent, 'Copiado! Agora cole no Gemini.'));
+    Lembrar.campos('vitrine', [document.getElementById('demo-turma')]);
+    document.getElementById('demo-jogo').append(Jogo.botao('casa'), Jogo.botao('tela-cheia'), Jogo.botao('som'));
+    document.getElementById('demo-contagem').addEventListener('click', () => Jogo.contagem());
+    document.getElementById('demo-confete').addEventListener('click', () => Jogo.confete());
 
     // As animações de uma vez tocam quando aparecem na tela
     const olho = new IntersectionObserver(itens => itens.forEach(item => {
