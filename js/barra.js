@@ -158,7 +158,12 @@
     if (window.Paisagem || !document.querySelector('.cenario .morros')) return;
     document.head.append(Object.assign(document.createElement('script'), { src: new URL('js/paisagem.js', pasta).href }));
   };
-  const pronto = () => { document.body.prepend(barra); paisagem(); };
+  // Os objetos de aula no céu (objetos.js) entram nas páginas que têm céu
+  const objetos = () => {
+    if (window.Objetos || !document.querySelector('.cenario, .scenery')) return;
+    document.head.append(Object.assign(document.createElement('script'), { src: new URL('js/objetos.js', pasta).href }));
+  };
+  const pronto = () => { document.body.prepend(barra); paisagem(); objetos(); };
   if (document.body) pronto();
   else addEventListener('DOMContentLoaded', pronto);
 })();

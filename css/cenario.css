@@ -50,7 +50,8 @@ body.ceu { background-attachment: fixed; }
   animation: nuvem-passa var(--t, 70s) linear var(--d, 0s) infinite;
 }
 
-/* Símbolo de código flutuando: </>, { }, [ ], 01, if. Discreto, para não brigar com o texto */
+/* Lugar de um objeto de aula no céu: o js/objetos.js troca cada .simbolo por um desenho (lápis, livro, globo...).
+   Sem o script, fica o texto branco e discreto, para não brigar com o conteúdo */
 .simbolo { position: absolute; color: rgb(255 255 255 / .42); font-weight: 700; font-size: clamp(22px, 2.4vw, 32px); line-height: 1; white-space: nowrap; animation: simbolo-boia 7s ease-in-out var(--d, 0s) infinite; }
 .noite .simbolo { color: rgb(255 255 255 / .14); }
 
