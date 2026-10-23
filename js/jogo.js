@@ -14,6 +14,7 @@
    A tecla F liga e desliga a tela cheia quando a página tem o botão de tela cheia. */
 (() => {
   const I = '#2f2a4a';
+  const script = document.currentScript;
   const reduzido = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // No kit sem internet, o menu da turma é o index.html da raiz do kit
@@ -194,4 +195,12 @@
   };
 
   window.Jogo = { menu, som, telaCheia, botao, contagem, confete, aoSairDaAba, acoesDoFim };
+
+  // Os objetos de aula no céu do jogo (objetos.js), carregados ao lado deste arquivo
+  const objetos = () => {
+    if (window.Objetos || !script || !document.querySelector('.cenario, .scenery')) return;
+    document.head.append(Object.assign(document.createElement('script'), { src: new URL('objetos.js', script.src).href }));
+  };
+  if (document.readyState === 'loading') addEventListener('DOMContentLoaded', objetos);
+  else objetos();
 })();
