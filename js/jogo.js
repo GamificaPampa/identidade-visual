@@ -16,7 +16,19 @@
    Jogo.contagem()              mostra 3, 2, 1, Já! por cima da tela e devolve uma promessa
    Jogo.confete()               solta confete pela tela
    Jogo.acoesDoFim(jogarDeNovo) fileira da tela final: Jogar de novo (verde) e Outros jogos (branco)
-   A tecla F liga e desliga a tela cheia quando a página tem o botão de tela cheia. */
+   A tecla F liga e desliga a tela cheia quando a página tem o botão de tela cheia.
+
+   Modo professor, para quem conduz a aula no projetor. O jogo registra o que cada botão faz:
+   Jogo.modoProfessor({ irParaFase(n), resposta(), pausar(), continuar() })
+     irParaFase(n)   abre a fase n (de 1 em diante, como em Jogo.progresso). A barra lê as fases e a atual dos botões de #fases .fase
+     resposta()      destaca a resposta certa do desafio atual e o Bit explica; não conta acerto nem dá estrelas
+     pausar()        para o que o jogo tem de cronômetro ou animação; continuar() volta. As duas são opcionais
+   O modo liga com ?professor no fim do endereço ou com a tecla P, e desliga com a tecla P. Aparece uma barra no canto
+   com Fase anterior (A), Próxima fase (S), Mostrar resposta (R) e Pausar (E); as teclas só valem com o modo ligado,
+   e não valem em campo de texto. Pausar põe uma cortina por cima do jogo, com o botão Continuar (também E ou Esc).
+   Sem o modo ligado, nada muda na página.
+   Jogo.modoProfessor.destacar(elemento, ...)   marca elementos HTML ou SVG como a resposta; a marca sai no próximo toque
+   Jogo.modoProfessor.ligado / .pausado / .alternar(valor)   o estado e o interruptor */
 (() => {
   const I = '#2f2a4a';
   const script = document.currentScript;
@@ -36,6 +48,11 @@
     'tela-cheia': `<rect x="9" y="9" width="14" height="14" rx="2" fill="#cdeeff" ${contorno(2)}/><path d="M4 11V4h7M21 4h7v7M28 21v7h-7M11 28H4v-7" fill="none" ${contorno(3)}/>`,
     'sair-tela-cheia': `<rect x="11" y="11" width="10" height="10" rx="2" fill="#cdeeff" ${contorno(2)}/><path d="M11 4v7H4M21 4v7h7M28 21h-7v7M4 21h7v7" fill="none" ${contorno(3)}/>`,
     som: `<path d="M5 12h5l7-6v20l-7-6H5z" fill="#ffd23f" ${contorno()}/><path d="M21 11.5q3.5 4.5 0 9M24.5 8q7 8 0 16" fill="none" ${contorno()}/>`,
+    'prof-anterior': `<path d="M20 6 10 16l10 10" fill="none" ${contorno(4)}/>`,
+    'prof-proxima': `<path d="M12 6l10 10-10 10" fill="none" ${contorno(4)}/>`,
+    'prof-resposta': `<path d="M16 3.5a8.5 8.5 0 0 0-4.6 15.7V22h9.2v-2.8A8.5 8.5 0 0 0 16 3.5z" fill="#fff" ${contorno()}/><path d="M12.5 25.5h7M14 28.5h4" fill="none" ${contorno(2.6)}/>`,
+    'prof-pausar': `<rect x="8" y="6" width="5.5" height="20" rx="1.5" fill="#fff" ${contorno(2.2)}/><rect x="18.5" y="6" width="5.5" height="20" rx="1.5" fill="#fff" ${contorno(2.2)}/>`,
+    'prof-continuar': `<path d="M10 6l15 10-15 10z" fill="#fff" ${contorno(2.6)}/>`,
     mudo: `<path d="M5 12h5l7-6v20l-7-6H5z" fill="#cfcbe6" ${contorno()}/><path d="M21 12l7 8M28 12l-7 8" stroke="#ff5f8f" stroke-width="3" stroke-linecap="round"/>`,
   };
   const svg = (nome) => `<svg class="gp-jogo-icone" viewBox="0 0 32 32" aria-hidden="true" focusable="false">${desenhos[nome]}</svg>`;
@@ -57,6 +74,30 @@
     @keyframes gp-contagem { 0% { transform: scale(.2); opacity: 0; } 30% { transform: scale(1.15); opacity: 1; } 100% { transform: scale(1); } }
     .gp-confete { position: fixed; top: -20px; z-index: 950; width: 12px; height: 16px; border-radius: 3px; pointer-events: none; animation: gp-confete linear forwards; }
     @keyframes gp-confete { to { transform: translateY(110vh) rotate(720deg); } }
+    /* Modo professor: a barra no canto, a cortina da pausa e a marca da resposta */
+    .gp-prof { position: fixed; left: 10px; bottom: max(10px, env(safe-area-inset-bottom)); z-index: 880; display: flex; align-items: center; gap: 8px; max-width: calc(100vw - 20px); padding: 6px; background: rgb(255 255 255 / .95); border: 3px solid ${I}; border-radius: 999px; font-family: "Fredoka", "Trebuchet MS", sans-serif; color: ${I}; }
+    .gp-prof[hidden] { display: none; }
+    .gp-prof-rotulo { padding: 0 8px 0 12px; font-size: 15px; font-weight: 700; white-space: nowrap; }
+    .gp-prof-botao { display: inline-flex; align-items: center; justify-content: center; gap: 8px; flex: none; min-width: 48px; min-height: 48px; padding: 4px 18px 4px 12px; background: #fff; color: ${I}; border: 3px solid ${I}; border-radius: 999px; box-shadow: 0 4px 0 ${I}; font: 700 17px/1.1 "Fredoka", "Trebuchet MS", sans-serif; cursor: pointer; }
+    .gp-prof-botao:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 ${I}; }
+    .gp-prof-botao:focus-visible { outline: 4px solid #ff5f8f; outline-offset: 2px; }
+    .gp-prof-botao:disabled { opacity: .45; cursor: default; box-shadow: none; transform: translateY(4px); }
+    .gp-prof-botao[data-acao="resposta"] { background: #ffd23f; }
+    .gp-prof-botao .gp-jogo-icone { width: 26px; height: 26px; }
+    .gp-prof-cortina { position: fixed; inset: 0; z-index: 1100; display: grid; place-items: center; padding: 16px; background: rgb(47 42 74 / .88); font-family: "Fredoka", "Trebuchet MS", sans-serif; }
+    .gp-prof-cortina[hidden] { display: none; }
+    .gp-prof-caixa { display: grid; justify-items: center; gap: 16px; width: min(560px, 100%); padding: 26px 22px 30px; background: #fff; color: ${I}; border: 4px solid ${I}; border-radius: 28px; text-align: center; }
+    .gp-prof-caixa img { width: 112px; height: 112px; }
+    .gp-prof-caixa h2 { margin: 0; font-size: clamp(26px, 5vw, 40px); font-weight: 700; line-height: 1.15; }
+    .gp-prof-caixa button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; padding: 6px 28px; background: #4fd6a6; color: ${I}; border: 4px solid ${I}; border-radius: 999px; box-shadow: 0 6px 0 ${I}; font: 700 22px/1.1 "Fredoka", "Trebuchet MS", sans-serif; cursor: pointer; }
+    .gp-prof-caixa button:active { transform: translateY(4px); box-shadow: 0 2px 0 ${I}; }
+    .gp-prof-caixa button:focus-visible { outline: 4px solid #ff5f8f; outline-offset: 3px; }
+    .gp-modo-professor body { padding-bottom: 90px; }
+    .gp-pausado *, .gp-pausado *::before, .gp-pausado *::after { animation-play-state: paused !important; }
+    .gp-resposta { outline: 6px solid #ff8a3d !important; outline-offset: 3px; filter: drop-shadow(0 0 3px #ff8a3d) drop-shadow(0 0 3px #ff8a3d) drop-shadow(0 0 8px #ffd23f); }
+    /* Dentro de um desenho SVG o contorno sairia como um retângulo, então a marca é só o brilho */
+    svg .gp-resposta { outline: none !important; filter: drop-shadow(0 0 1px #ff8a3d) drop-shadow(0 0 2px #ff8a3d) drop-shadow(0 0 3px #ff8a3d) drop-shadow(0 0 10px #ffd23f) drop-shadow(0 0 16px #ffd23f); }
+    @media (max-width: 800px) { .gp-prof-rotulo, .gp-prof-botao .gp-jogo-rotulo { display: none; } .gp-prof { gap: 6px; } .gp-prof-botao { padding: 4px 10px; } }
     /* Em tela estreita, os botões com texto mostram só o desenho; o nome continua para o leitor de tela */
     @media (max-width: 420px) { .gp-jogo-botao .gp-jogo-rotulo { display: none; } }
     @media (prefers-reduced-motion: reduce) { .gp-contagem span { animation: none; } .gp-jogo-redondo { transition: none; } }
@@ -217,6 +258,8 @@
       if (document.hidden) { pausado = pausar() !== false; return; }
       if (!pausado) return;
       pausado = false;
+      // Se o professor pausou, quem volta é o botão Continuar dele
+      if (modoProfessor.pausado) return;
       await contagem(['3', '2', '1']);
       voltar();
     });
@@ -235,7 +278,158 @@
     return fileira;
   };
 
-  window.Jogo = { menu, som, progresso, telaCheia, botao, contagem, confete, aoSairDaAba, acoesDoFim };
+  // Modo professor: uma barra no canto para escolher a fase, mostrar a resposta e pausar. Só existe quando o jogo
+  // registra as funções e o modo está ligado (?professor ou a tecla P)
+  let prof = null, profLigado = false, profPausado = false, barra = null, cortina = null, observador = null;
+  let destacados = [], bloqueados = [];
+  const fasesDaPagina = () => [...document.querySelectorAll('#fases .fase')];
+  const faseAtual = () => Math.max(0, fasesDaPagina().findIndex((botao) => botao.getAttribute('aria-pressed') === 'true'));
+
+  const limparDestaque = () => {
+    destacados.forEach((elemento) => elemento.classList.remove('gp-resposta'));
+    destacados = [];
+  };
+  const destacar = (...itens) => {
+    limparDestaque();
+    destacados = itens.flat().filter((elemento) => elemento?.classList);
+    destacados.forEach((elemento) => elemento.classList.add('gp-resposta'));
+    destacados[0]?.scrollIntoView?.({ block: 'nearest', behavior: reduzido ? 'auto' : 'smooth' });
+  };
+
+  const atualizarFases = () => {
+    if (!barra) return;
+    const total = fasesDaPagina().length, atual = faseAtual();
+    barra.querySelector('[data-acao="anterior"]').disabled = atual <= 0;
+    barra.querySelector('[data-acao="proxima"]').disabled = atual >= total - 1;
+  };
+  const irParaFase = (numero) => {
+    if (numero < 1 || numero > fasesDaPagina().length) return;
+    limparDestaque();
+    if (prof.irParaFase) prof.irParaFase(numero);
+    else fasesDaPagina()[numero - 1]?.click();
+    atualizarFases();
+  };
+  const pausarAula = () => {
+    if (profPausado) return;
+    profPausado = true;
+    limparDestaque();
+    document.documentElement.classList.add('gp-pausado');
+    prof.pausar?.();
+    cortina.hidden = false;
+    bloqueados = [...document.body.children].filter((elemento) => elemento !== cortina && !elemento.hasAttribute('inert'));
+    bloqueados.forEach((elemento) => elemento.setAttribute('inert', ''));
+    cortina.querySelector('button').focus();
+  };
+  const continuarAula = () => {
+    if (!profPausado) return;
+    profPausado = false;
+    cortina.hidden = true;
+    bloqueados.forEach((elemento) => elemento.removeAttribute('inert'));
+    bloqueados = [];
+    document.documentElement.classList.remove('gp-pausado');
+    prof.continuar?.();
+  };
+
+  const montarProfessor = () => {
+    const acoes = [
+      ['anterior', 'prof-anterior', 'Fase anterior', 'A'],
+      ['proxima', 'prof-proxima', 'Próxima fase', 'S'],
+      ['resposta', 'prof-resposta', 'Mostrar resposta', 'R'],
+      ['pausar', 'prof-pausar', 'Pausar', 'E'],
+    ];
+    barra = Object.assign(document.createElement('div'), { className: 'gp-prof', hidden: true });
+    barra.setAttribute('role', 'toolbar');
+    barra.setAttribute('aria-label', 'Modo professor');
+    barra.innerHTML = '<span class="gp-prof-rotulo">Modo professor</span>';
+    for (const [acao, desenho, rotulo, tecla] of acoes) {
+      const botao = document.createElement('button');
+      botao.type = 'button';
+      botao.className = 'gp-prof-botao';
+      botao.dataset.acao = acao;
+      botao.innerHTML = `${svg(desenho)}<span class="gp-jogo-rotulo">${rotulo}</span>`;
+      botao.setAttribute('aria-label', rotulo);
+      botao.setAttribute('aria-keyshortcuts', tecla);
+      botao.title = `${rotulo} (tecla ${tecla})`;
+      barra.append(botao);
+    }
+    barra.addEventListener('click', (evento) => {
+      const acao = evento.target.closest('button')?.dataset.acao;
+      if (acao === 'anterior') irParaFase(faseAtual());
+      if (acao === 'proxima') irParaFase(faseAtual() + 2);
+      if (acao === 'resposta') prof.resposta?.();
+      if (acao === 'pausar') pausarAula();
+    });
+    cortina = Object.assign(document.createElement('div'), { className: 'gp-prof-cortina', hidden: true });
+    cortina.setAttribute('role', 'dialog');
+    cortina.setAttribute('aria-modal', 'true');
+    cortina.setAttribute('aria-labelledby', 'gp-prof-titulo');
+    const bit = script ? new URL('../mascote/bit-pensando.svg', script.src).href : '';
+    cortina.innerHTML = `<div class="gp-prof-caixa"><img src="${bit}" alt="" width="112" height="112"><h2 id="gp-prof-titulo">Pausado: o professor está explicando</h2><button type="button">${svg('prof-continuar')}<span>Continuar</span></button></div>`;
+    cortina.querySelector('button').addEventListener('click', continuarAula);
+    document.body.prepend(barra);
+    document.body.append(cortina);
+    observador = new MutationObserver(atualizarFases);
+  };
+
+  const alternarProfessor = (valor = !profLigado) => {
+    if (!prof) return;
+    valor = Boolean(valor);
+    if (valor === profLigado) return;
+    if (valor && !barra) {
+      if (!document.body) return addEventListener('DOMContentLoaded', () => alternarProfessor(true), { once: true });
+      montarProfessor();
+    }
+    profLigado = valor;
+    if (!valor) { continuarAula(); limparDestaque(); }
+    barra.hidden = !valor;
+    document.documentElement.classList.toggle('gp-modo-professor', valor);
+    const lista = document.getElementById('fases');
+    if (valor && lista) observador.observe(lista, { attributes: true, attributeFilter: ['aria-pressed'], subtree: true });
+    else observador.disconnect();
+    if (valor) atualizarFases();
+    // O endereço acompanha, para a página recarregada continuar como está
+    try {
+      const endereco = new URL(location.href);
+      if (valor) endereco.searchParams.set('professor', '');
+      else endereco.searchParams.delete('professor');
+      history.replaceState(history.state, '', endereco.href.replace('professor=', 'professor'));
+    } catch {}
+  };
+
+  const modoProfessor = (funcoes = {}) => {
+    prof = funcoes;
+    const pedido = new URLSearchParams(location.search).get('professor');
+    if (pedido !== null && !['0', 'nao', 'não', 'false'].includes(pedido.toLowerCase())) alternarProfessor(true);
+    return modoProfessor;
+  };
+  Object.defineProperties(modoProfessor, {
+    ligado: { get: () => profLigado },
+    pausado: { get: () => profPausado },
+  });
+  Object.assign(modoProfessor, { alternar: alternarProfessor, destacar });
+
+  // A tecla P liga e desliga; com o modo ligado, A, S, R e E fazem o mesmo que os botões. Em campo de texto e com
+  // Ctrl, Alt ou Cmd, nada acontece, e o jogo que não registrou o modo nem percebe a tecla
+  addEventListener('keydown', (evento) => {
+    if (!prof || evento.repeat || evento.isComposing || evento.metaKey || evento.ctrlKey || evento.altKey) return;
+    if (evento.target.closest?.('input, textarea, select, [contenteditable]')) return;
+    const tecla = evento.key.toLowerCase();
+    if (tecla === 'p') return alternarProfessor();
+    if (!profLigado) return;
+    if (profPausado) {
+      if (tecla === 'e' || tecla === 'escape') { evento.preventDefault(); continuarAula(); }
+      return;
+    }
+    if (tecla === 'a') irParaFase(faseAtual());
+    else if (tecla === 's') irParaFase(faseAtual() + 2);
+    else if (tecla === 'r') prof.resposta?.();
+    else if (tecla === 'e') pausarAula();
+  });
+  // A marca da resposta sai no próximo toque, menos nos botões do professor
+  addEventListener('pointerdown', (evento) => { if (destacados.length && !evento.target.closest?.('.gp-prof')) limparDestaque(); }, true);
+  addEventListener('keydown', (evento) => { if (destacados.length && (evento.key === 'Enter' || evento.key === ' ')) limparDestaque(); }, true);
+
+  window.Jogo = { menu, som, progresso, telaCheia, botao, contagem, confete, aoSairDaAba, acoesDoFim, modoProfessor };
 
   // Os objetos de aula no céu do jogo (objetos.js), carregados ao lado deste arquivo
   const objetos = () => {
