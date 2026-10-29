@@ -1,10 +1,15 @@
-/* Peças comuns dos jogos do GamificaPampa: som guardado para todos os jogos, tela cheia, botão de voltar ao menu
-   da turma, pausa ao trocar de aba, contagem 3, 2, 1 e confete. Cada jogo põe os botões no próprio topo.
+/* Peças comuns dos jogos do GamificaPampa: som guardado para todos os jogos (começa desligado), estrelas das fases
+   guardadas no aparelho, tela cheia, botão de voltar ao menu da turma, pausa ao trocar de aba, contagem 3, 2, 1 e
+   confete. Cada jogo põe os botões no próprio topo.
 
    <script src="/identidade-visual/js/jogo.js"></script>
 
-   Jogo.som.ligado              se o som está ligado. Vale para todos os jogos e fica guardado no aparelho
+   Jogo.som.ligado              se o som está ligado. Começa desligado, vale para todos os jogos e a escolha fica guardada no aparelho
    Jogo.som.mudar()             liga ou desliga; Jogo.som.aoMudar(f) chama f(ligado) agora e a cada mudança
+   Jogo.progresso.estrelas(fase)   as estrelas guardadas da fase (0 a 3; 0 se nenhuma). A fase é o número, como 1, 2, 3
+   Jogo.progresso.guardar(fase, estrelas)   guarda as estrelas da fase, só se forem mais que as de antes; devolve as guardadas
+   Jogo.progresso.total()       soma das estrelas guardadas das fases deste jogo
+   Jogo.progresso.limpar()      apaga as estrelas guardadas deste jogo. A chave leva o nome da pasta do jogo (funciona por file://)
    Jogo.botao('casa')           botão que volta ao menu da turma (também 'tela-cheia' e 'som')
    Jogo.botao(nome, { classe: 'btn btn--small', texto: true }) faz o botão com o estilo da página e com texto
    Jogo.aoSairDaAba(pausar, voltar)   pausa quando a criança troca de aba e volta com a contagem
@@ -58,10 +63,11 @@
   `;
   document.head.append(estilo);
 
-  // Som: uma chave só para todos os jogos, então quem desliga num jogo encontra o próximo sem som
+  // Som: uma chave só para todos os jogos, então quem liga num jogo encontra o próximo com som.
+  // Quem nunca escolheu começa sem som; quem já tinha escolhido (1 ou 0) mantém a escolha
   const CHAVE = 'gp-som';
-  let ligado = true;
-  try { ligado = localStorage.getItem(CHAVE) !== '0'; } catch {}
+  let ligado = false;
+  try { ligado = localStorage.getItem(CHAVE) === '1'; } catch {}
   const ouvintes = new Set();
   const som = {
     get ligado() { return ligado; },
@@ -71,6 +77,41 @@
       ouvintes.forEach((ouvinte) => ouvinte(ligado));
     },
     aoMudar(ouvinte) { ouvintes.add(ouvinte); ouvinte(ligado); },
+  };
+
+  // Progresso: as estrelas de cada fase, por jogo. A chave leva o nome da pasta do jogo e não a origem,
+  // porque o kit sem internet abre por file:// e o mesmo jogo aparece em endereços diferentes
+  const pasta = (() => {
+    const partes = decodeURI(location.pathname).split('/').filter(Boolean);
+    if (/\.html?$/i.test(partes[partes.length - 1] || '')) partes.pop();
+    return partes.pop() || 'raiz';
+  })();
+  const CHAVE_ESTRELAS = `gp-estrelas:${pasta}`;
+  let guardadas = null;
+  const ler = () => {
+    if (guardadas) return guardadas;
+    guardadas = {};
+    try {
+      const texto = JSON.parse(localStorage.getItem(CHAVE_ESTRELAS) || '{}');
+      if (texto && typeof texto === 'object') for (const [fase, n] of Object.entries(texto)) if (Number.isFinite(n)) guardadas[fase] = Math.max(0, Math.min(3, Math.round(n)));
+    } catch {}
+    return guardadas;
+  };
+  const progresso = {
+    estrelas(fase) { return ler()[String(fase)] || 0; },
+    guardar(fase, estrelas) {
+      const novas = Math.max(0, Math.min(3, Math.round(Number(estrelas)) || 0));
+      if (novas > progresso.estrelas(fase)) {
+        ler()[String(fase)] = novas;
+        try { localStorage.setItem(CHAVE_ESTRELAS, JSON.stringify(guardadas)); } catch {}
+      }
+      return progresso.estrelas(fase);
+    },
+    total() { return Object.values(ler()).reduce((soma, n) => soma + n, 0); },
+    limpar() {
+      guardadas = {};
+      try { localStorage.removeItem(CHAVE_ESTRELAS); } catch {}
+    },
   };
 
   const telaCheia = {
@@ -194,7 +235,7 @@
     return fileira;
   };
 
-  window.Jogo = { menu, som, telaCheia, botao, contagem, confete, aoSairDaAba, acoesDoFim };
+  window.Jogo = { menu, som, progresso, telaCheia, botao, contagem, confete, aoSairDaAba, acoesDoFim };
 
   // Os objetos de aula no céu do jogo (objetos.js), carregados ao lado deste arquivo
   const objetos = () => {
