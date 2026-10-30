@@ -22,6 +22,7 @@
     ['/recursos-pedagogicos/', 'Recursos'],
     ['/recursos-pedagogicos/professores/oficina-prompts/', 'Oficina de Prompts'],
     ['/recursos-pedagogicos/professores/aula-engenharia-de-software/', 'Aula com os jogos'],
+    ['/recursos-pedagogicos/professores/aula-inteligencia-artificial/', 'Aula sobre IA'],
     ['/recursos-pedagogicos/professores/medalhas/', 'Medalhas do Bit'],
     ['/maquina/', 'Máquina de prompts'],
     ['/turma/', 'Jogos para a turma'],
@@ -43,7 +44,7 @@
     return 'file://' + raiz + lugar.slice(1) + 'index.html';
   };
   // No kit não há a página de recursos nem as da oficina; a trilha pula o que não veio
-  const noKit = (lugar) => !local || lugar === '/' || lugar.startsWith('/recursos-pedagogicos/professores/aula-engenharia-de-software/');
+  const noKit = (lugar) => !local || lugar === '/' || lugar.startsWith('/recursos-pedagogicos/professores/aula-engenharia-de-software/') || lugar.startsWith('/recursos-pedagogicos/professores/aula-inteligencia-artificial/');
 
   const acima = LUGARES.filter(([lugar]) => lugar !== aqui && aqui.startsWith(lugar) && noKit(lugar));
   const proprio = LUGARES.find(([lugar]) => lugar === aqui);
