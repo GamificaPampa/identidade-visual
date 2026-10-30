@@ -10,7 +10,7 @@
    Jogo.progresso.guardar(fase, estrelas)   guarda as estrelas da fase, só se forem mais que as de antes; devolve as guardadas
    Jogo.progresso.total()       soma das estrelas guardadas das fases deste jogo
    Jogo.progresso.limpar()      apaga as estrelas guardadas deste jogo. A chave leva o nome da pasta do jogo (funciona por file://)
-   Jogo.botao('casa')           botão que volta ao menu da turma (também 'tela-cheia', 'som', 'ouvir' e 'ler-sozinho')
+   Jogo.botao('casa')           botão que volta ao menu da turma (também 'tela-cheia', 'som', 'ouvir', 'ler-sozinho' e 'telao')
    Jogo.botao(nome, { classe: 'btn btn--small', texto: true }) faz o botão com o estilo da página e com texto
    Jogo.aoSairDaAba(pausar, voltar)   pausa quando a criança troca de aba e volta com a contagem
    Jogo.contagem()              mostra 3, 2, 1, Já! por cima da tela e devolve uma promessa
@@ -49,7 +49,19 @@
    e não valem em campo de texto. Pausar põe uma cortina por cima do jogo, com o botão Continuar (também E ou Esc).
    Sem o modo ligado, nada muda na página.
    Jogo.modoProfessor.destacar(elemento, ...)   marca elementos HTML ou SVG como a resposta; a marca sai no próximo toque
-   Jogo.modoProfessor.ligado / .pausado / .alternar(valor)   o estado e o interruptor */
+   Jogo.modoProfessor.ligado / .pausado / .alternar(valor)   o estado e o interruptor
+
+   Modo telão, para o projetor da sala: o jogo cresce até ocupar a largura da tela e o que é só do professor sai da frente.
+   Jogo.botao('telao')          botão que liga e desliga (também com { classe, texto: true }). Pôr o botão liga a tecla T e o ?telao
+   O modo liga com ?telao no endereço, com a tecla T (fora de campo de texto) ou com o botão, e a escolha fica guardada no
+   aparelho, para todos os jogos. Só vale em tela de 900 px ou mais: abaixo disso o botão some e a página fica igual.
+   Ligado, o <html> ganha a classe telao e a variável --telao-escala (1,2 em 1280 x 720; até 1,6), o <body> cresce com
+   zoom por essa escala, #na-aula, .rodape, o <footer> do <body> e o que tiver [data-telao-esconder] somem, e a página rola
+   até o jogo ([data-telao-jogo] ou .jogo). Nas peças do modelo de jogo (#fases, .fala-bit) o kit já tira altura.
+   O jogo ajusta o resto no próprio CSS, com .telao dentro de @media (min-width: 900px). Com o zoom, 100vh passa da tela:
+   use calc(100vh / var(--telao-escala)). O jogo que já ocupa a tela inteira sozinho põe data-telao="sem-zoom" no <body>
+   e só a fala do Bit (bit.js) cresce.
+   Jogo.telao.ligado / .escala / .alternar(valor) / .aoMudar(f)   o estado (ligado e valendo nesta tela), a escala e o interruptor */
 (() => {
   const I = '#2f2a4a';
   const script = document.currentScript;
@@ -79,6 +91,8 @@
     'ler-sozinho': `<rect x="2.5" y="12" width="5" height="8" rx="1.6" fill="#fff" ${contorno(2.2)}/><path d="M7.5 13 14 8v16l-6.5-5z" fill="#fff" ${contorno(2.2)}/><path d="M20 12.5a5.5 5.5 0 1 1-2 3.6" fill="none" ${contorno(2.6)}/><path d="M16.8 9.8l3.6 2.2-3.6 2.6z" fill="#fff" ${contorno(2)}/>`,
     'ler-sozinho-ligado': `<rect x="2.5" y="12" width="5" height="8" rx="1.6" fill="#4fd6a6" ${contorno(2.2)}/><path d="M7.5 13 14 8v16l-6.5-5z" fill="#4fd6a6" ${contorno(2.2)}/><path d="M20 12.5a5.5 5.5 0 1 1-2 3.6" fill="none" ${contorno(2.6)}/><path d="M16.8 9.8l3.6 2.2-3.6 2.6z" fill="#4fd6a6" ${contorno(2)}/>`,
     mudo: `<path d="M5 12h5l7-6v20l-7-6H5z" fill="#cfcbe6" ${contorno()}/><path d="M21 12l7 8M28 12l-7 8" stroke="#ff5f8f" stroke-width="3" stroke-linecap="round"/>`,
+    telao: `<rect x="3" y="4" width="26" height="17" rx="2.5" fill="#fff" ${contorno()}/><path d="M16 21v4.5M10 29.5l6-4 6 4" fill="none" ${contorno(2.4)}/><path d="M11.5 17.5 16 8l4.5 9.5M13.2 14h5.6" fill="none" ${contorno(2.4)}/>`,
+    'telao-ligado': `<rect x="3" y="4" width="26" height="17" rx="2.5" fill="#ffd23f" ${contorno()}/><path d="M16 21v4.5M10 29.5l6-4 6 4" fill="none" ${contorno(2.4)}/><path d="M11.5 17.5 16 8l4.5 9.5M13.2 14h5.6" fill="none" ${contorno(2.4)}/>`,
   };
   const svg = (nome) => `<svg class="gp-jogo-icone" viewBox="0 0 32 32" aria-hidden="true" focusable="false">${desenhos[nome]}</svg>`;
 
@@ -124,6 +138,21 @@
     .gp-resposta { outline: 6px solid #ff8a3d !important; outline-offset: 3px; filter: drop-shadow(0 0 3px #ff8a3d) drop-shadow(0 0 3px #ff8a3d) drop-shadow(0 0 8px #ffd23f); }
     /* Dentro de um desenho SVG o contorno sairia como um retângulo, então a marca é só o brilho */
     svg .gp-resposta { outline: none !important; filter: drop-shadow(0 0 1px #ff8a3d) drop-shadow(0 0 2px #ff8a3d) drop-shadow(0 0 3px #ff8a3d) drop-shadow(0 0 10px #ffd23f) drop-shadow(0 0 16px #ffd23f); }
+    /* Modo telão: o jogo cresce na tela do projetor e o que é só do professor sai da frente. Em tela estreita o botão some */
+    @media (max-width: 899px) { .gp-telao-botao { display: none !important; } }
+    html.telao body:not([data-telao~="sem-zoom"]) { zoom: var(--telao-escala, 1); }
+    html.telao #na-aula, html.telao .rodape, html.telao body > footer, html.telao [data-telao-esconder] { display: none !important; }
+    /* As peças do modelo de jogo ficam mais baixas, para o desafio e as respostas caberem juntos na altura do projetor */
+    @media (min-width: 900px) {
+      html.telao .jogo.card { padding: 10px 22px 18px; }
+      html.telao #fases { margin-bottom: 10px; }
+      html.telao #fases .fase { min-height: 42px; }
+      html.telao .fala-bit { max-width: none; margin-bottom: 8px; gap: 12px; }
+      html.telao .fala-bit__bit { width: 76px; }
+      html.telao .fala-bit__balao { min-height: 0; }
+    }
+    /* Num jogo que já ocupa a tela sozinho (sem-zoom), a fala do Bit cresce do mesmo jeito */
+    html.telao body[data-telao~="sem-zoom"] .bit-fala { zoom: var(--telao-escala, 1); }
     @media (max-width: 800px) { .gp-prof-rotulo, .gp-prof-botao .gp-jogo-rotulo { display: none; } .gp-prof { gap: 6px; } .gp-prof-botao { padding: 4px 10px; } }
     /* Em tela estreita, os botões com texto mostram só o desenho; o nome continua para o leitor de tela */
     @media (max-width: 420px) { .gp-jogo-botao .gp-jogo-rotulo { display: none; } }
@@ -201,6 +230,83 @@
       if (evento.target.closest?.('input, textarea, select, [contenteditable]')) return;
       telaCheia.alternar();
     });
+  };
+
+  // Modo telão: uma chave só para todos os jogos, como o som, porque o computador do projetor costuma abrir um jogo
+  // depois do outro. Só vale na página que pôs o botão (ou chamou Jogo.telao.alternar), então o jogo que não foi
+  // ajustado para o telão nem percebe a tecla T. É coisa de tela larga: abaixo de 900 px o botão some e nada muda
+  const CHAVE_TELAO = 'gp-telao', LARGURA_TELAO = 900;
+  let telaoLigado = false, telaoUsado = false, telaoAtivo = false, telaoEscala = 1;
+  try { telaoLigado = localStorage.getItem(CHAVE_TELAO) === '1'; } catch {}
+  const ouvintesTelao = new Set();
+  const avisarTelao = () => ouvintesTelao.forEach((ouvinte) => ouvinte(telaoAtivo));
+  // A página do jogo foi feita para uns 1000 px de largura: a escala faz ela ocupar a largura do projetor, sem
+  // passar da altura (em 1280 x 720, fica 1,2)
+  const calcularEscala = () => Math.round(Math.min(1.6, Math.max(1, Math.min(innerWidth / 1024, innerHeight / 600))) * 100) / 100;
+  const aplicarTelao = () => {
+    const raiz = document.documentElement, ativo = telaoUsado && telaoLigado && innerWidth >= LARGURA_TELAO;
+    telaoAtivo = ativo;
+    telaoEscala = ativo ? calcularEscala() : 1;
+    raiz.classList.toggle('telao', ativo);
+    if (ativo) raiz.style.setProperty('--telao-escala', String(telaoEscala));
+    else raiz.style.removeProperty('--telao-escala');
+  };
+  // Leva o jogo para o alto da tela: o título e os botões do topo ficam logo acima, a uma rolagem
+  const mostrarJogo = () => {
+    const alvo = [...document.querySelectorAll('[data-telao-jogo], .jogo')].find((elemento) => elemento.getClientRects().length);
+    if (!alvo || document.documentElement.scrollHeight <= innerHeight + 4) return;
+    const topo = alvo.getBoundingClientRect().top + scrollY - 10;
+    if (topo > 0) scrollTo({ top: topo, behavior: 'auto' });
+  };
+  const alternarTelao = (valor = !telaoLigado) => {
+    usarTelao();
+    valor = Boolean(valor);
+    if (valor === telaoLigado) return;
+    telaoLigado = valor;
+    try { localStorage.setItem(CHAVE_TELAO, valor ? '1' : '0'); } catch {}
+    aplicarTelao();
+    // O endereço acompanha, como no modo professor
+    try {
+      const endereco = new URL(location.href);
+      if (valor) endereco.searchParams.set('telao', '');
+      else endereco.searchParams.delete('telao');
+      history.replaceState(history.state, '', endereco.href.replace(/=(?=&|#|$)/g, ''));
+    } catch {}
+    avisarTelao();
+    if (telaoAtivo) requestAnimationFrame(mostrarJogo);
+  };
+  const usarTelao = () => {
+    if (telaoUsado) return;
+    telaoUsado = true;
+    // ?telao no endereço liga (e guarda); ?telao=0 desliga
+    const pedido = new URLSearchParams(location.search).get('telao');
+    if (pedido !== null) {
+      telaoLigado = !['0', 'nao', 'não', 'false'].includes(pedido.toLowerCase());
+      try { localStorage.setItem(CHAVE_TELAO, telaoLigado ? '1' : '0'); } catch {}
+    }
+    aplicarTelao();
+    addEventListener('resize', () => {
+      const antes = [telaoAtivo, telaoEscala].join();
+      aplicarTelao();
+      if ([telaoAtivo, telaoEscala].join() !== antes) avisarTelao();
+    });
+    // A tecla T liga e desliga. Em campo de texto e com Ctrl, Alt ou Cmd, nada acontece
+    addEventListener('keydown', (evento) => {
+      if (evento.repeat || evento.isComposing || evento.metaKey || evento.ctrlKey || evento.altKey) return;
+      if (evento.key !== 't' && evento.key !== 'T') return;
+      if (evento.target.closest?.('input, textarea, select, [contenteditable]')) return;
+      alternarTelao();
+    });
+    if (telaoAtivo) {
+      if (document.readyState === 'complete') requestAnimationFrame(mostrarJogo);
+      else addEventListener('load', () => requestAnimationFrame(mostrarJogo), { once: true });
+    }
+  };
+  const telao = {
+    get ligado() { return telaoAtivo; },
+    get escala() { return telaoEscala; },
+    alternar: alternarTelao,
+    aoMudar(ouvinte) { ouvintesTelao.add(ouvinte); ouvinte(telao.ligado); },
   };
 
   // Ouvir: a voz do navegador lê a tela. A leitura é acessibilidade, então não depende do som ligado
@@ -474,6 +580,17 @@
       });
       elemento.addEventListener('click', () => alternarSozinho());
     }
+    if (nome === 'telao') {
+      usarTelao();
+      elemento.classList.add('gp-telao-botao');
+      telao.aoMudar((agora) => {
+        pintar(agora ? 'telao-ligado' : 'telao', 'Modo telão');
+        elemento.title = 'Modo telão (tecla T)';
+        elemento.setAttribute('aria-pressed', String(agora));
+        elemento.setAttribute('aria-keyshortcuts', 'T');
+      });
+      elemento.addEventListener('click', () => alternarTelao());
+    }
     return elemento;
   };
 
@@ -662,7 +779,7 @@
       const endereco = new URL(location.href);
       if (valor) endereco.searchParams.set('professor', '');
       else endereco.searchParams.delete('professor');
-      history.replaceState(history.state, '', endereco.href.replace('professor=', 'professor'));
+      history.replaceState(history.state, '', endereco.href.replace(/=(?=&|#|$)/g, ''));
     } catch {}
   };
 
@@ -699,7 +816,7 @@
   addEventListener('pointerdown', (evento) => { if (destacados.length && !evento.target.closest?.('.gp-prof')) limparDestaque(); }, true);
   addEventListener('keydown', (evento) => { if (destacados.length && (evento.key === 'Enter' || evento.key === ' ')) limparDestaque(); }, true);
 
-  window.Jogo = { menu, som, progresso, telaCheia, ouvir, botao, contagem, confete, aoSairDaAba, acoesDoFim, modoProfessor };
+  window.Jogo = { menu, som, progresso, telaCheia, telao, ouvir, botao, contagem, confete, aoSairDaAba, acoesDoFim, modoProfessor };
 
   // Os objetos de aula no céu do jogo (objetos.js), carregados ao lado deste arquivo
   const objetos = () => {
