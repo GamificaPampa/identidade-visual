@@ -161,6 +161,22 @@
     .icone-item:hover { transform: translateY(2px); box-shadow: 0 3px 0 var(--ink); }
     .icone-item:active { transform: translateY(5px); box-shadow: none; }
     .icone-item svg { width: 48px; height: 48px; transition: transform .3s var(--bounce); }
+    /* Objetos no céu: só para ver, então sem a sombra dura de quem se clica */
+    .objeto-item { display: flex; flex-direction: column; align-items: center; gap: 6px; margin: 0; padding: 12px 4px 8px; background: var(--white); border: 4px solid var(--ink); border-radius: 18px; font-weight: 600; font-size: 14px; }
+    .objeto-item svg { width: 52px; height: 52px; }
+    .objetos-uso { display: grid; gap: 24px; }
+    .objetos-uso > p { max-width: 660px; margin: 0; font-weight: 600; font-size: clamp(17px, 1.6vw, 20px); }
+
+    /* Kit de jogo */
+    .demo-teclas { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 14px; margin: 0; padding: 0; list-style: none; font-weight: 600; }
+    .demo-teclas li { display: flex; align-items: center; gap: 8px; }
+    kbd { display: inline-grid; place-items: center; min-width: 40px; height: 40px; padding: 0 8px; background: var(--white); border: 3px solid var(--ink); border-bottom-width: 6px; border-radius: 10px; font: 700 20px var(--font); color: var(--ink); }
+    .demo-estrelas { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .demo-fase { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 4px 16px 4px 6px; background: var(--white); border: 4px solid var(--ink); border-radius: 999px; font-weight: 700; }
+    .demo-fase b { display: grid; place-items: center; width: 32px; height: 32px; background: var(--sky2); border: 3px solid var(--ink); border-radius: 50%; }
+    .demo-fase svg { width: 20px; height: 20px; }
+    .demo-fase .apagada { opacity: .25; filter: grayscale(1); }
+    .demo .pecas { margin: 0; }
     .icone-item:hover svg { transform: scale(1.15) rotate(-6deg); }
 
     /* Bit e logos */
@@ -249,6 +265,7 @@
         <a href="#animacoes">Animações</a>
         <a href="#icones">Ícones</a>
         <a href="#pecas">Peças das páginas</a>
+        <a href="#kit-jogo">Kit de jogo</a>
         <a href="#bit">Bit e logos</a>
         <a href="#como-usar">Como usar</a>
       </nav>
@@ -463,11 +480,22 @@
           <dl class="pecas">
             <div><dt>.cena .ceu / .cena .noite</dt><dd>O bloco que recebe o desenho. O conteúdo fica sempre na frente.</dd></div>
             <div style="--c: var(--white)"><dt>.nuvem</dt><dd><code>--w</code> largura, <code>--t</code> tempo para atravessar, <code>--d</code> negativo para espalhar.</dd></div>
-            <div style="--c: var(--purple)"><dt>.simbolo</dt><dd>Código flutuando. Posição com <code>left</code>, <code>right</code> e <code>top</code>.</dd></div>
+            <div style="--c: var(--purple)"><dt>.simbolo</dt><dd>Um lugar no céu. Com o <code>objetos.js</code>, vira um objeto de sala de aula. Posição com <code>left</code>, <code>right</code> e <code>top</code>.</dd></div>
             <div style="--c: var(--yellow)"><dt>.estrela</dt><dd>Para a noite. <code>--w</code> muda o tamanho.</dd></div>
             <div style="--c: var(--hill)"><dt>.morros</dt><dd>No pé do bloco. <code>--altura</code> muda o tamanho.</dd></div>
             <div style="--c: var(--pink)"><dt>.cenario--fixo</dt><dd>Com <code>&lt;body class="ceu"&gt;</code>, para o céu ficar parado atrás da página inteira, como nos jogos.</dd></div>
           </dl>
+        </div>
+
+        <h3 class="grupo" style="margin-top: 48px">Objetos no céu</h3>
+        <div class="objetos-uso">
+          <p>Lápis, livro, globo e outros objetos de sala de aula flutuam no céu, como nos dois quadros acima. O <code>js/objetos.js</code> troca cada <code>.simbolo</code> por um objeto e deixa cada céu com pelo menos três. Cada página sorteia os seus, sempre os mesmos, e o objeto que cairia atrás de um texto se afasta ou some. A barra do topo e o kit de jogo já carregam o arquivo onde há céu.</p>
+          <div class="icones" id="lista-objetos"></div>
+          <div class="codigo"><span class="codigo__nome">objetos.js</span><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;!-- Só nas páginas com céu que não carregam a barra do topo nem o kit de jogo --&gt;
+&lt;script src="/identidade-visual/js/objetos.js" defer&gt;&lt;/script&gt;
+
+&lt;!-- Cada .simbolo vira um objeto no mesmo lugar --&gt;
+&lt;span class="simbolo" style="left: 6%; top: 30%"&gt;&amp;lt;/&amp;gt;&lt;/span&gt;</code></pre></div>
         </div>
       </div>
     </section>
@@ -610,19 +638,96 @@ el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anim
 
 &lt;p class="privacidade"&gt;&lt;svg aria-hidden="true"&gt;&lt;use href="#icone-cadeado"/&gt;&lt;/svg&gt;Nunca escreva o nome ou dados das crianças na conversa com a IA. Fale da turma de um jeito geral.&lt;/p&gt;</code></pre></div>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="kit-jogo">
+      <div class="caixa">
+        <div class="secao__topo">
+          <p class="pill" style="--c: var(--orange)">Fase 8</p>
+          <h2 class="loud">Kit de jogo</h2>
+          <p>O que todo jogo para as crianças repete fica no <code>js/jogo.js</code>: os botões do topo, o som, as estrelas, a leitura em voz alta e os modos para a aula no projetor. Cada jogo põe os botões no próprio topo.</p>
+        </div>
+        <div class="demos">
           <article class="card demo demo--largo">
-            <h3>Kit de jogo</h3>
+            <h3>Botões do topo, contagem e confete</h3>
             <div class="palco"><div class="demo-jogo" id="demo-jogo"></div><button class="btn btn--small" type="button" id="demo-contagem">Contagem</button><button class="btn btn--small" type="button" id="demo-confete">Confete</button></div>
-            <p>As peças que todo jogo repete: o botão que volta ao menu da turma, a tela cheia (também na tecla F), o som guardado para todos os jogos, a pausa quando a criança troca de aba, a contagem 3, 2, 1, o confete e a fileira da tela final com Jogar de novo e Outros jogos.</p>
+            <p>O botão que volta ao menu da turma, a tela cheia (também na tecla F), o som guardado para todos os jogos (começa desligado), Ouvir, Ler sozinho e o modo telão. Sem <code>classe</code>, o botão é redondo; com <code>classe</code> e <code>texto: true</code>, segue o botão da página. O kit também pausa quando a criança troca de aba, faz a contagem 3, 2, 1, solta confete e monta a fileira da tela final com Jogar de novo e Outros jogos.</p>
             <div class="codigo"><span class="codigo__nome">jogo.js</span><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;script src="/identidade-visual/js/jogo.js"&gt;&lt;/script&gt;
 &lt;script&gt;
-  topo.append(Jogo.botao('casa'), Jogo.botao('tela-cheia'), Jogo.botao('som'));
+  topo.append(Jogo.botao('casa'), Jogo.botao('ouvir'), Jogo.botao('ler-sozinho'),
+    Jogo.botao('tela-cheia'), Jogo.botao('telao'), Jogo.botao('som'));
+  // Com o estilo da página e o texto ao lado
+  topo.prepend(Jogo.botao('casa', { classe: 'btn btn--small', texto: true }));
   Jogo.som.aoMudar(ligado =&gt; { musica.muted = !ligado; });
   Jogo.aoSairDaAba(pausar, continuar);
   await Jogo.contagem();                        // 3, 2, 1, Já!
   Jogo.confete();
   fim.append(Jogo.acoesDoFim(jogarDeNovo));     // Jogar de novo e Outros jogos
 &lt;/script&gt;</code></pre></div>
+          </article>
+          <article class="card demo">
+            <h3>Estrelas das fases</h3>
+            <div class="palco"><div class="demo-estrelas" id="demo-estrelas"></div><button class="btn btn--jogar btn--small" type="button" id="demo-ganhar"><svg width="18" height="18" aria-hidden="true"><use href="#icone-estrela"/></svg>Ganhar estrela</button><button class="btn btn--small" type="button" id="demo-apagar">Apagar</button></div>
+            <p>Guarda no aparelho as estrelas de cada fase (0 a 3), só quando a criança faz mais que antes. A chave leva o nome da pasta do jogo, então vale também no kit sem internet. Ganhe estrelas aqui e recarregue a página.</p>
+            <div class="codigo"><span class="codigo__nome">jogo.js</span><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>Jogo.progresso.guardar(fase, estrelas);   // fase 1, 2, 3...; devolve as guardadas
+Jogo.progresso.estrelas(fase);            // para pintar o botão da fase
+Jogo.progresso.total();                   // soma das fases deste jogo
+Jogo.progresso.limpar();                  // apaga as deste jogo</code></pre></div>
+          </article>
+          <article class="card demo">
+            <h3>Ouvir e Ler sozinho</h3>
+            <div class="palco"><p class="demo-texto" data-ouvir>Toque no alto-falante: a voz do navegador lê esta frase em voz alta.</p><div class="demo-jogo" id="demo-ouvir"></div></div>
+            <p>Para quem ainda não lê bem: o alto-falante lê a pergunta, as respostas e a última fala do Bit, mesmo com o som desligado. Ler sozinho, guardado no aparelho, lê cada tela nova sem apertar nada. Sem voz em português no aparelho, os dois botões não aparecem.</p>
+            <dl class="pecas">
+              <div style="--c: var(--blue)"><dt>data-ouvir</dt><dd>Lê o texto do elemento, ou o valor do atributo no lugar dele.</dd></div>
+              <div style="--c: var(--yellow)"><dt>data-ouvir-lista="Respostas"</dt><dd>Lê os filhos como "Respostas: a, b, c".</dd></div>
+              <div style="--c: var(--pink)"><dt>data-ouvir-sobre</dt><dd>A tela final ou um aviso: enquanto aparece, vale sozinho.</dd></div>
+              <div style="--c: var(--mint)"><dt>data-ouvir-botoes</dt><dd>Os botões da área são texto (frases, cartas) e entram na leitura.</dd></div>
+              <div style="--c: var(--white)"><dt>data-ouvir-nao</dt><dd>Fica de fora da leitura.</dd></div>
+            </dl>
+            <div class="codigo"><span class="codigo__nome">jogo.js</span><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;p data-ouvir&gt;Toque no vermelho.&lt;/p&gt;
+&lt;div data-ouvir-lista="Respostas"&gt;...botões...&lt;/div&gt;
+
+&lt;script&gt;
+  // A cada pergunta nova: corta a leitura e, com Ler sozinho, lê a nova
+  Jogo.ouvir.novaTela();
+  // Ou o jogo diz o que ler, num texto que soe bem ("um quarto", não "1/4")
+  Jogo.ouvir.textoDaTela(() =&gt; [pergunta.textContent, 'Respostas: ' + nomes.join(', ')]);
+  Jogo.ouvir.bit = false;   // jogo de reflexo: sem as falas do Bit
+&lt;/script&gt;</code></pre></div>
+          </article>
+          <article class="card demo">
+            <h3>Modo professor</h3>
+            <div class="palco"><ul class="demo-teclas"><li><kbd>P</kbd>liga</li><li><kbd>A</kbd><kbd>S</kbd>fase</li><li><kbd>R</kbd>resposta</li><li><kbd>E</kbd>pausa</li></ul><a class="btn btn--conhecer btn--small" href="/recursos-pedagogicos/criancas/ciclo-da-agua/?professor"><svg width="18" height="18" aria-hidden="true"><use href="#i-conhecer"/></svg>Ver num jogo</a></div>
+            <p>Para quem conduz a aula no projetor. Com a tecla P ou <code>?professor</code> no fim do endereço, aparece uma barra no canto com Fase anterior, Próxima fase, Mostrar resposta e Pausar. Mostrar a resposta não conta acerto. Pausar põe uma cortina com o Bit por cima do jogo.</p>
+            <div class="codigo"><span class="codigo__nome">jogo.js</span><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>Jogo.modoProfessor({
+  irParaFase: n =&gt; abrirFase(n),   // sem ela, a barra toca nos botões de #fases .fase
+  resposta: () =&gt; {
+    Jogo.modoProfessor.destacar(botaoCerto);
+    Bit.diz('pensando', 'É esta, porque...');
+  },
+  pausar: () =&gt; relogio.parar(),     // pausar e continuar são opcionais
+  continuar: () =&gt; relogio.seguir(),
+});</code></pre></div>
+          </article>
+          <article class="card demo">
+            <h3>Modo telão</h3>
+            <div class="palco"><ul class="demo-teclas"><li><kbd>T</kbd>liga e desliga</li></ul><a class="btn btn--conhecer btn--small" href="/recursos-pedagogicos/criancas/ciclo-da-agua/?telao"><svg width="18" height="18" aria-hidden="true"><use href="#i-conhecer"/></svg>Ver num jogo</a></div>
+            <p>No projetor da sala, o jogo cresce até ocupar a largura da tela (1,2 vezes em 1280 x 720), a página rola até o jogo e a parte "Para usar na aula" e o rodapé saem da frente. Liga com o botão, a tecla T ou <code>?telao</code>, e a escolha fica guardada para todos os jogos. Só vale em tela de 900 px ou mais.</p>
+            <div class="codigo"><span class="codigo__nome">jogo.js</span><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>topo.append(Jogo.botao('telao'));
+
+/* No CSS do jogo, o que precisa caber na altura do projetor.
+   Com o zoom do telão, a altura da tela é 100vh / var(--telao-escala) */
+@media (min-width: 900px) {
+  .telao #cena { max-height: calc(100vh / var(--telao-escala) - 270px); width: auto; }
+}
+
+&lt;!-- Jogo que já ocupa a tela sozinho: sem zoom, só a fala do Bit cresce --&gt;
+&lt;body data-telao="sem-zoom"&gt;
+&lt;!-- Some no telão, como #na-aula e o rodapé --&gt;
+&lt;p data-telao-esconder&gt;...&lt;/p&gt;</code></pre></div>
           </article>
         </div>
       </div>
@@ -631,7 +736,7 @@ el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anim
     <section class="secao" id="bit">
       <div class="caixa">
         <div class="secao__topo">
-          <p class="pill" style="--c: var(--blue)">Fase 8</p>
+          <p class="pill" style="--c: var(--blue)">Fase 9</p>
           <h2 class="loud">Bit e logos</h2>
         </div>
         <div class="card bit">
@@ -748,7 +853,7 @@ el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anim
       </div>
       <div class="caixa">
         <div class="secao__topo">
-          <p class="pill" style="--c: var(--yellow)">Fase 9</p>
+          <p class="pill" style="--c: var(--yellow)">Fase 10</p>
           <h2 class="yellow">Como usar</h2>
           <p>Ponha estas linhas no <code>&lt;head&gt;</code> da página, nesta ordem, e carregue só o que a página usa.</p>
         </div>
@@ -782,6 +887,7 @@ el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anim
   <script src="js/copiar.js"></script>
   <script src="js/lembrar.js"></script>
   <script src="js/jogo.js"></script>
+  <script src="js/objetos.js"></script>
   <script>
     // Os ícones vêm do icones.js, então a vitrine mostra sempre todos, separados por grupo
     const listaIcones = document.getElementById('lista-icones');
@@ -841,6 +947,26 @@ el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anim
     document.getElementById('demo-copiar').addEventListener('click', () => copiar(document.getElementById('demo-prompt').textContent, 'Copiado! Agora cole no Gemini.'));
     Lembrar.campos('vitrine', [document.getElementById('demo-turma')]);
     document.getElementById('demo-jogo').append(Jogo.botao('casa'), Jogo.botao('tela-cheia'), Jogo.botao('som'));
+    // Ouvir lê de verdade a frase com data-ouvir, a única desta página
+    document.getElementById('demo-ouvir').append(Jogo.botao('ouvir', { classe: 'btn btn--small', texto: true }), Jogo.botao('ler-sozinho', { classe: 'btn btn--small', texto: true }));
+    // As estrelas ficam guardadas de verdade, com a chave desta página
+    const estrelas = document.getElementById('demo-estrelas');
+    const pintarEstrelas = () => {
+      estrelas.innerHTML = [1, 2].map(fase => `<span class="demo-fase"><b>${fase}</b>${[1, 2, 3].map(n => `<svg aria-hidden="true"${n > Jogo.progresso.estrelas(fase) ? ' class="apagada"' : ''}><use href="#icone-estrela"/></svg>`).join('')}</span>`).join('');
+      estrelas.setAttribute('aria-label', `Fase 1 com ${Jogo.progresso.estrelas(1)} e fase 2 com ${Jogo.progresso.estrelas(2)} estrelas`);
+    };
+    estrelas.setAttribute('role', 'img');
+    pintarEstrelas();
+    document.getElementById('demo-ganhar').addEventListener('click', () => {
+      const fase = Jogo.progresso.estrelas(1) < 3 ? 1 : 2;
+      Jogo.progresso.guardar(fase, Jogo.progresso.estrelas(fase) + 1);
+      pintarEstrelas();
+    });
+    document.getElementById('demo-apagar').addEventListener('click', () => { Jogo.progresso.limpar(); pintarEstrelas(); });
+
+    // Os objetos do céu vêm do objetos.js
+    const listaObjetos = document.getElementById('lista-objetos');
+    if (window.Objetos) Object.keys(Objetos.desenhos).forEach(nome => listaObjetos.insertAdjacentHTML('beforeend', `<figure class="objeto-item">${Objetos.desenho(nome)}<figcaption>${nome}</figcaption></figure>`));
     document.getElementById('demo-contagem').addEventListener('click', () => Jogo.contagem());
     document.getElementById('demo-confete').addEventListener('click', () => Jogo.confete());
 
