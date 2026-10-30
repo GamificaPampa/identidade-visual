@@ -10,13 +10,34 @@
    Jogo.progresso.guardar(fase, estrelas)   guarda as estrelas da fase, só se forem mais que as de antes; devolve as guardadas
    Jogo.progresso.total()       soma das estrelas guardadas das fases deste jogo
    Jogo.progresso.limpar()      apaga as estrelas guardadas deste jogo. A chave leva o nome da pasta do jogo (funciona por file://)
-   Jogo.botao('casa')           botão que volta ao menu da turma (também 'tela-cheia' e 'som')
+   Jogo.botao('casa')           botão que volta ao menu da turma (também 'tela-cheia', 'som', 'ouvir' e 'ler-sozinho')
    Jogo.botao(nome, { classe: 'btn btn--small', texto: true }) faz o botão com o estilo da página e com texto
    Jogo.aoSairDaAba(pausar, voltar)   pausa quando a criança troca de aba e volta com a contagem
    Jogo.contagem()              mostra 3, 2, 1, Já! por cima da tela e devolve uma promessa
    Jogo.confete()               solta confete pela tela
    Jogo.acoesDoFim(jogarDeNovo) fileira da tela final: Jogar de novo (verde) e Outros jogos (branco)
    A tecla F liga e desliga a tela cheia quando a página tem o botão de tela cheia.
+
+   Ouvir, para quem ainda não lê bem: lê em voz alta, com a voz do navegador (speechSynthesis, pt-BR), o texto da tela.
+   Sem speechSynthesis ou sem voz em português do Brasil, os botões ficam escondidos e o jogo segue igual. A leitura é
+   acessibilidade: funciona mesmo com o som desligado, prefere voz que roda no aparelho (vale no kit sem internet) e
+   para ao trocar de tela, ao pausar (modo professor) e ao sair da aba.
+   Jogo.botao('ouvir')          botão de alto-falante: toca para ouvir a tela e toca de novo para parar
+   Jogo.botao('ler-sozinho')    botão que liga e desliga o Ler sozinho (também com { classe, texto: true }). Fica guardado no aparelho:
+                                ligado, cada fala nova do Bit e cada tela nova são lidas sem apertar nada
+   Jogo.ouvir.textoDaTela(() => texto)   o jogo diz o que ler: a pergunta ou o desafio e, se fizer sentido, as opções, num texto
+                                que soe bem em voz alta (escreva "um quarto", não "1/4"). Devolve texto ou lista de textos.
+                                A última fala do Bit entra sozinha no fim. Sem isso, vale o texto dos elementos com [data-ouvir]
+                                visíveis: [data-ouvir] lê o texto do elemento (ou o valor, se tiver), [data-ouvir-lista="Respostas"]
+                                lê os filhos como "Respostas: a, b, c" (cada filho vale pelo próprio data-ouvir, pelo aria-label ou pelo texto, nessa ordem), [data-ouvir-nao] deixa um elemento de fora, [data-ouvir-botoes] numa área diz que os botões dentro dela
+                                são texto (as frases de uma resposta, as cartas) e não comandos, e [data-ouvir-sobre] marca a tela final ou um aviso, que
+                                vale sozinho enquanto aparece. Botões, fora dessas áreas, e desenhos SVG sem nome (role="img" e aria-label) não entram
+   Jogo.ouvir.novaTela()        o jogo chama quando mostra uma pergunta ou tela nova: corta a leitura que estava rolando e,
+                                com o Ler sozinho ligado, lê a tela nova
+   Jogo.ouvir.falar(texto, ritmo) / .parar() / .ler()   fala um texto (ritmo de 0,1 a 2; o normal é 0,92), para, lê a tela agora (o que o botão faz)
+   Jogo.ouvir.bit               true por padrão: a fala do Bit entra na leitura. Os jogos de reflexo põem false e leem só as instruções e o resultado
+   Jogo.ouvir.disponivel / .falando / .sozinho / .alternarSozinho(valor) / .aoMudar(f)   o estado
+   O Bit.diz(pose, texto) é acompanhado sozinho, seja o do bit.js, seja o que a página define em window.Bit.
 
    Modo professor, para quem conduz a aula no projetor. O jogo registra o que cada botão faz:
    Jogo.modoProfessor({ irParaFase(n), resposta(), pausar(), continuar() })
@@ -53,6 +74,10 @@
     'prof-resposta': `<path d="M16 3.5a8.5 8.5 0 0 0-4.6 15.7V22h9.2v-2.8A8.5 8.5 0 0 0 16 3.5z" fill="#fff" ${contorno()}/><path d="M12.5 25.5h7M14 28.5h4" fill="none" ${contorno(2.6)}/>`,
     'prof-pausar': `<rect x="8" y="6" width="5.5" height="20" rx="1.5" fill="#fff" ${contorno(2.2)}/><rect x="18.5" y="6" width="5.5" height="20" rx="1.5" fill="#fff" ${contorno(2.2)}/>`,
     'prof-continuar': `<path d="M10 6l15 10-15 10z" fill="#fff" ${contorno(2.6)}/>`,
+    ouvir: `<rect x="3" y="11" width="7" height="10" rx="2" fill="#4da3ff" ${contorno()}/><path d="M10 12.5 19 6v20l-9-6.5z" fill="#4da3ff" ${contorno()}/><path d="M22.5 11q2.8 5 0 10M26 8q5.5 8 0 16" fill="none" ${contorno(2.6)}/>`,
+    'ouvir-parar': `<rect x="7" y="7" width="18" height="18" rx="4" fill="#ff5f8f" ${contorno()}/>`,
+    'ler-sozinho': `<rect x="2.5" y="12" width="5" height="8" rx="1.6" fill="#fff" ${contorno(2.2)}/><path d="M7.5 13 14 8v16l-6.5-5z" fill="#fff" ${contorno(2.2)}/><path d="M20 12.5a5.5 5.5 0 1 1-2 3.6" fill="none" ${contorno(2.6)}/><path d="M16.8 9.8l3.6 2.2-3.6 2.6z" fill="#fff" ${contorno(2)}/>`,
+    'ler-sozinho-ligado': `<rect x="2.5" y="12" width="5" height="8" rx="1.6" fill="#4fd6a6" ${contorno(2.2)}/><path d="M7.5 13 14 8v16l-6.5-5z" fill="#4fd6a6" ${contorno(2.2)}/><path d="M20 12.5a5.5 5.5 0 1 1-2 3.6" fill="none" ${contorno(2.6)}/><path d="M16.8 9.8l3.6 2.2-3.6 2.6z" fill="#4fd6a6" ${contorno(2)}/>`,
     mudo: `<path d="M5 12h5l7-6v20l-7-6H5z" fill="#cfcbe6" ${contorno()}/><path d="M21 12l7 8M28 12l-7 8" stroke="#ff5f8f" stroke-width="3" stroke-linecap="round"/>`,
   };
   const svg = (nome) => `<svg class="gp-jogo-icone" viewBox="0 0 32 32" aria-hidden="true" focusable="false">${desenhos[nome]}</svg>`;
@@ -63,6 +88,8 @@
     .gp-jogo-redondo:active { transform: translateY(3px); box-shadow: 0 1px 0 ${I}; }
     .gp-jogo-redondo .gp-jogo-icone { width: 28px; height: 28px; }
     .gp-jogo-icone { width: 1.2em; height: 1.2em; flex: none; vertical-align: -.25em; }
+    .gp-jogo-redondo[hidden], .gp-jogo-botao[hidden] { display: none !important; }
+    .gp-jogo-redondo[aria-pressed="true"] { background: #d9f7ec; }
     .gp-jogo-redondo:focus-visible, .gp-jogo-botao:focus-visible { outline: 4px solid #ff5f8f; outline-offset: 2px; }
     .gp-fim-acoes { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin: 6px 0; }
     .gp-fim-acoes > * { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; padding: 6px 26px; border: 4px solid ${I}; border-radius: 999px; box-shadow: 0 6px 0 ${I}; color: ${I}; font: 700 22px/1.1 "Fredoka", "Trebuchet MS", sans-serif; text-decoration: none; cursor: pointer; }
@@ -176,6 +203,233 @@
     });
   };
 
+  // Ouvir: a voz do navegador lê a tela. A leitura é acessibilidade, então não depende do som ligado
+  const CHAVE_LER = 'gp-ler-sozinho';
+  let sozinho = false;
+  try { sozinho = localStorage.getItem(CHAVE_LER) === '1'; } catch {}
+  const sintese = window.speechSynthesis, Enunciado = window.SpeechSynthesisUtterance;
+  const ouvintesOuvir = new Set();
+  let voz = null, falando = false, registro = null, bitLido = true;
+  let ultimaFala = '', ultimaFalaEm = 0, telaEm = 0, fila = [], ficha = 0, adiar = 0, atual = null;
+  let pendente = null, relogioAuto = 0;
+  const avisarOuvir = () => ouvintesOuvir.forEach((ouvinte) => ouvinte());
+
+  // Prefere a voz que roda no próprio aparelho: funciona sem internet e não corta frases longas
+  const escolherVoz = () => {
+    let vozes = [];
+    try { vozes = sintese?.getVoices?.() || []; } catch {}
+    const brasil = vozes.filter((v) => /^(pt[-_]br|por[-_]bra)$/i.test(v.lang));
+    const lista = brasil.length ? brasil : vozes.filter((v) => /^pt$/i.test(v.lang));
+    return lista.find((v) => v.localService) || lista[0] || null;
+  };
+  const atualizarVoz = () => {
+    const antes = Boolean(voz);
+    voz = sintese && Enunciado ? escolherVoz() : null;
+    if (Boolean(voz) !== antes) avisarOuvir();
+  };
+  if (sintese && Enunciado) {
+    atualizarVoz();
+    sintese.addEventListener?.('voiceschanged', atualizarVoz);
+    // Alguns navegadores carregam as vozes sem avisar
+    for (let tentativa = 1; tentativa <= 8 && !voz; tentativa++) setTimeout(atualizarVoz, tentativa * 500);
+  }
+
+  // Fração de um algarismo por outro (1/4, 3/8) é lida como "um quarto", "três oitavos"; datas e números maiores ficam como estão
+  const NUMERAIS = ['', 'um', 'dois', 'três', 'quatro', 'cinco', 'seis', 'sete', 'oito', 'nove'];
+  const PARTES = ['', '', 'meio', 'terço', 'quarto', 'quinto', 'sexto', 'sétimo', 'oitavo', 'nono', 'décimo'];
+  const fracao = (texto) => texto.replace(/(^|[^\d/.,])([1-9])\/([2-9]|10)(?![\d/.,])/g, (_, antes, cima, baixo) => `${antes}${NUMERAIS[cima]} ${PARTES[baixo]}${cima > 1 ? 's' : ''}`);
+  // O que soa estranho lido letra por letra vira palavra; o resto o navegador lê bem
+  const falavel = (texto) => fracao(String(texto ?? ''))
+    .replace(/\s[×÷+=−–]\s/g, (m) => ({ '×': ' vezes ', '÷': ' dividido por ', '+': ' mais ', '=': ' igual a ', '−': ' menos ', '–': ' menos ' })[m.trim()])
+    .replace(/(\d)\s*×(?!\s*\d)/g, '$1 vezes')
+    .replace(/(\d)\s*×\s*(\d)/g, '$1 vezes $2')
+    .replace(/\b([A-Za-zΩ])\s·\s([A-Za-z])\b/g, '$1 vezes $2')
+    .replace(/(\d)\s:\s(\d)/g, '$1 para $2')
+    .replace(/(\d)\s*÷\s*(\d)/g, '$1 dividido por $2')
+    .replace(/(\d|\))\s*=\s*(\d|\?|\()/g, '$1 igual a $2')
+    .replace(/(\d)\s*\+\s*(\d)/g, '$1 mais $2')
+    .replace(/(\d)\s*−\s*(\d)/g, '$1 menos $2')
+    .replace(/\s*[·•]\s*/g, ', ')
+    .replace(/[…→←]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  // Frases curtas, uma por vez: o Chrome corta falas longas
+  const pedacos = (texto) => {
+    const saida = [];
+    for (const frase of texto.match(/[^.!?;:]+[.!?;:]*\s*/g) || []) {
+      const t = frase.trim();
+      if (!t) continue;
+      const anterior = saida[saida.length - 1];
+      if (anterior && anterior.length + t.length < 90) saida[saida.length - 1] = `${anterior} ${t}`;
+      else saida.push(t);
+    }
+    return saida.flatMap((t) => (t.length <= 180 ? [t] : t.match(/.{1,170}(\s|$)/g).map((x) => x.trim())));
+  };
+
+  const parar = () => {
+    ficha++;
+    fila = [];
+    atual = null;
+    clearTimeout(adiar);
+    clearTimeout(relogioAuto);
+    pendente = null;
+    if (sintese) try { sintese.cancel(); } catch {}
+    if (falando) { falando = false; avisarOuvir(); }
+  };
+  const proximo = (minha, ritmo) => {
+    if (minha !== ficha) return;
+    const parte = fila.shift();
+    if (!parte) { falando = false; atual = null; avisarOuvir(); return; }
+    const frase = new Enunciado(parte);
+    frase.lang = 'pt-BR';
+    try { frase.voice = voz; } catch {}
+    frase.rate = ritmo;
+    frase.onend = () => proximo(minha, ritmo);
+    frase.onerror = (evento) => {
+      if (minha !== ficha) return;
+      // Sem toque antes na página, o navegador não deixa falar: a leitura só fica para a próxima vez
+      if (evento.error === 'not-allowed') { fila = []; falando = false; avisarOuvir(); return; }
+      // Outra fala tomou a vez (o jogo falando uma palavra por conta própria): esta leitura acaba aqui
+      if (evento.error === 'interrupted' || evento.error === 'canceled') { fila = []; falando = false; avisarOuvir(); return; }
+      proximo(minha, ritmo);
+    };
+    atual = frase; // guardada, senão o navegador pode descartar a fala no meio
+    try { sintese.speak(frase); } catch { falando = false; avisarOuvir(); }
+  };
+  const falar = (texto, ritmo = 0.92) => {
+    if (!sintese || !Enunciado || !voz) return false;
+    const partes = pedacos(falavel(Array.isArray(texto) ? texto.filter(Boolean).join('. ') : texto));
+    if (!partes.length) return false;
+    parar();
+    const minha = ficha;
+    fila = partes;
+    falando = true;
+    avisarOuvir();
+    // O Chrome às vezes ignora um speak() logo depois de um cancel()
+    adiar = setTimeout(() => proximo(minha, ritmo), 60);
+    return true;
+  };
+
+  // Lê o que se vê dentro de um elemento, uma linha por bloco. Botões, desenhos SVG e o que está escondido ficam de fora
+  const linhasDe = (raiz) => {
+    const linhas = [''];
+    const botoesSaoTexto = Boolean(raiz.closest('[data-ouvir-botoes]'));
+    const quebra = () => { if (linhas[linhas.length - 1] !== '') linhas.push(''); };
+    const andar = (no) => {
+      if (no.nodeType === 3) { linhas[linhas.length - 1] += no.data; return; }
+      if (no.nodeType !== 1) return;
+      if (no.hidden || no.getAttribute('aria-hidden') === 'true' || no.hasAttribute('data-ouvir-nao')) return;
+      const css = getComputedStyle(no);
+      if (css.display === 'none' || css.visibility === 'hidden') return;
+      if (/^svg$/i.test(no.tagName)) {
+        // Um desenho com nome (gráfico, mapa) entra pelo nome; sem nome, fica de fora
+        const nome = no.getAttribute('role') === 'img' ? no.getAttribute('aria-label') : '';
+        if (nome) { quebra(); linhas[linhas.length - 1] += nome; quebra(); }
+        return;
+      }
+      if (no !== raiz && /^(script|style|select|textarea|input)$/i.test(no.tagName)) return;
+      if (no !== raiz && !botoesSaoTexto && /^button$/i.test(no.tagName) && !no.closest('[data-ouvir-botoes]')) return;
+      const bloco = css.display !== 'inline' && css.display !== 'contents';
+      if (bloco) quebra();
+      no.childNodes.forEach(andar);
+      if (bloco) quebra();
+    };
+    andar(raiz);
+    return linhas.map(falavel).filter((linha) => /[\p{L}\p{N}]/u.test(linha));
+  };
+  const aparece = (elemento) => !elemento.closest('[hidden]') && elemento.getClientRects().length > 0;
+  const comPonto = (texto) => (/[.!?:;]$/.test(texto.trim()) ? texto.trim() : `${texto.trim()}.`);
+  const emFrases = (texto) => String(texto ?? '').split(/\n+/).map(falavel).filter(Boolean).map(comPonto).join(' ');
+  // [data-ouvir-sobre]: uma tela por cima do jogo (a final, um aviso); enquanto aparece, vale só ela
+  // [data-ouvir]: um texto da tela (o valor, se tiver, no lugar do que está escrito)
+  // [data-ouvir-lista]: as escolhas, lidas como "Respostas: a, b, c" (o valor é a palavra do começo)
+  const lerSobre = () => [...document.querySelectorAll('[data-ouvir-sobre]')].filter(aparece)
+    .map((e) => linhasDe(e).map(comPonto).join(' ')).filter(Boolean).join(' ');
+  const lerElementos = () => {
+    return [...document.querySelectorAll('[data-ouvir], [data-ouvir-lista]')].filter((e) => aparece(e) && !e.parentElement?.closest('[data-ouvir-lista]')).map((e) => {
+      if (e.hasAttribute('data-ouvir-lista')) {
+        const itens = [...e.children].filter(aparece).map((f) => falavel(f.dataset.ouvir || f.getAttribute('aria-label') || linhasDe(f).join(' '))).filter(Boolean);
+        return itens.length ? comPonto(`${e.dataset.ouvirLista || 'Respostas'}: ${itens.join(', ')}`) : '';
+      }
+      return e.dataset.ouvir ? comPonto(falavel(e.dataset.ouvir)) : linhasDe(e).map(comPonto).join(' ');
+    }).filter(Boolean).join(' ');
+  };
+  const textoDaTela = () => {
+    let base = '';
+    try {
+      base = lerSobre();
+      if (!base && registro) { base = registro(); base = (Array.isArray(base) ? base : [base]).map(emFrases).filter(Boolean).join(' '); }
+      if (!base) base = lerElementos();
+    } catch { base = ''; }
+    const bit = bitLido && ultimaFala && ultimaFalaEm >= telaEm - 150 ? emFrases(ultimaFala) : '';
+    return [base, bit].filter(Boolean).join(' ');
+  };
+  const lerTela = () => { const texto = textoDaTela(); return texto ? falar(texto) : false; };
+
+  // Ler sozinho: junta o que aconteceu em meio segundo (pergunta nova e fala do Bit) numa leitura só
+  const agendar = (tela) => {
+    pendente = { tela: Boolean(pendente?.tela) || tela };
+    clearTimeout(relogioAuto);
+    relogioAuto = setTimeout(() => {
+      const quando = pendente;
+      pendente = null;
+      if (!sozinho || !quando) return;
+      if (quando.tela) lerTela();
+      else if (bitLido && ultimaFala) falar(ultimaFala);
+    }, 350);
+  };
+  const novaTela = () => {
+    telaEm = performance.now();
+    parar();
+    if (sozinho) agendar(true);
+  };
+  const dizBit = (frase) => {
+    if (!bitLido || !frase) return;
+    ultimaFala = String(frase);
+    ultimaFalaEm = performance.now();
+    if (sozinho) agendar(Boolean(pendente?.tela));
+  };
+  // Acompanha o Bit.diz, seja o do bit.js, seja o que a página define em window.Bit, antes ou depois deste arquivo
+  const acompanharBit = (bit) => {
+    if (!bit || typeof bit.diz !== 'function' || bit.diz.gpOuvir) return;
+    const original = bit.diz;
+    bit.diz = function (pose, frase, ...resto) {
+      try { dizBit(frase); } catch {}
+      return original.call(this, pose, frase, ...resto);
+    };
+    bit.diz.gpOuvir = true;
+  };
+  try {
+    let bitAtual = window.Bit;
+    acompanharBit(bitAtual);
+    Object.defineProperty(window, 'Bit', { configurable: true, get: () => bitAtual, set: (valor) => { bitAtual = valor; acompanharBit(valor); } });
+  } catch {}
+
+  if (sintese) {
+    document.addEventListener('visibilitychange', () => { if (document.hidden) parar(); });
+    addEventListener('pagehide', parar);
+  }
+
+  const alternarSozinho = (valor = !sozinho) => {
+    sozinho = Boolean(valor);
+    try { localStorage.setItem(CHAVE_LER, sozinho ? '1' : '0'); } catch {}
+    avisarOuvir();
+    if (sozinho) lerTela();
+    else parar();
+  };
+  const ouvir = {
+    get disponivel() { return Boolean(sintese && Enunciado && voz); },
+    get falando() { return falando; },
+    get sozinho() { return sozinho; },
+    get bit() { return bitLido; },
+    set bit(valor) { bitLido = Boolean(valor); },
+    falar, parar, novaTela, alternarSozinho,
+    ler: lerTela,
+    texto: textoDaTela,
+    textoDaTela(funcao) { registro = typeof funcao === 'function' ? funcao : null; return ouvir; },
+    aoMudar(ouvinte) { ouvintesOuvir.add(ouvinte); ouvinte(); },
+  };
+
   // Um botão pronto: redondo só com o desenho, ou com a classe da página e texto ao lado
   const botao = (nome, { classe = '', texto = false } = {}) => {
     const casa = nome === 'casa';
@@ -204,6 +458,21 @@
         elemento.setAttribute('aria-pressed', String(agora));
       });
       elemento.addEventListener('click', () => som.mudar());
+    }
+    if (nome === 'ouvir') {
+      ouvir.aoMudar(() => {
+        elemento.hidden = !ouvir.disponivel;
+        pintar(falando ? 'ouvir-parar' : 'ouvir', falando ? 'Parar de ouvir' : 'Ouvir a tela');
+      });
+      elemento.addEventListener('click', () => (falando ? parar() : lerTela()));
+    }
+    if (nome === 'ler-sozinho') {
+      ouvir.aoMudar(() => {
+        elemento.hidden = !ouvir.disponivel;
+        pintar(sozinho ? 'ler-sozinho-ligado' : 'ler-sozinho', 'Ler sozinho');
+        elemento.setAttribute('aria-pressed', String(sozinho));
+      });
+      elemento.addEventListener('click', () => alternarSozinho());
     }
     return elemento;
   };
@@ -312,6 +581,7 @@
   const pausarAula = () => {
     if (profPausado) return;
     profPausado = true;
+    parar();
     limparDestaque();
     document.documentElement.classList.add('gp-pausado');
     prof.pausar?.();
@@ -429,7 +699,7 @@
   addEventListener('pointerdown', (evento) => { if (destacados.length && !evento.target.closest?.('.gp-prof')) limparDestaque(); }, true);
   addEventListener('keydown', (evento) => { if (destacados.length && (evento.key === 'Enter' || evento.key === ' ')) limparDestaque(); }, true);
 
-  window.Jogo = { menu, som, progresso, telaCheia, botao, contagem, confete, aoSairDaAba, acoesDoFim, modoProfessor };
+  window.Jogo = { menu, som, progresso, telaCheia, ouvir, botao, contagem, confete, aoSairDaAba, acoesDoFim, modoProfessor };
 
   // Os objetos de aula no céu do jogo (objetos.js), carregados ao lado deste arquivo
   const objetos = () => {
