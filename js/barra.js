@@ -26,6 +26,7 @@
     ['/recursos-pedagogicos/professores/medalhas/', 'Medalhas do Bit'],
     ['/maquina/', 'Máquina de prompts'],
     ['/turma/', 'Jogos para a turma'],
+    ['/projetos/', 'Projetos'],
   ];
 
   // No kit, o endereço é do disco: a raiz do kit fica antes de /recursos-pedagogicos/, e o menu da turma é o index.html dela
@@ -164,15 +165,6 @@
     if (window.Objetos || !document.querySelector('.cenario, .scenery')) return;
     document.head.append(Object.assign(document.createElement('script'), { src: new URL('js/objetos.js', pasta).href }));
   };
-  // Os três níveis do hub: passar pelo Jogo do Prompt ou pela Máquina marca o nível como feito, só neste aparelho
-  const NIVEIS = { '/recursos-pedagogicos/professores/oficina-prompts/jogo.html': 'jogo-do-prompt', '/maquina/': 'maquina' };
-  if (!local && NIVEIS[aqui]) {
-    try {
-      const feitos = JSON.parse(localStorage.getItem('gp-lembrar:passos')) || {};
-      feitos[NIVEIS[aqui]] = true;
-      localStorage.setItem('gp-lembrar:passos', JSON.stringify(feitos));
-    } catch {}
-  }
   const pronto = () => { document.body.prepend(barra); paisagem(); objetos(); };
   if (document.body) pronto();
   else addEventListener('DOMContentLoaded', pronto);
