@@ -129,30 +129,16 @@ g:nth-child(even) > .pp-ovelha .pp-cabeca { animation-delay: -2.4s; }
 @keyframes pp-gira { to { transform: rotate(360deg); } }
 @keyframes pp-capim { from { transform: skewX(-5deg); } to { transform: skewX(6deg); } }
 
-/* O céu da hora (paisagem.js com <html data-ceu="hora">): o céu de agora em Alegrete. O meio-dia é o céu de sempre;
-   o fim da tarde usa o --dia; a manhã, a geada e a noite têm o seu céu. À noite o texto direto no céu fica branco */
-.ceu-hora--manha .ceu { background: radial-gradient(70% 55% at 12% 70%, rgb(255 236 190 / .75) 0%, rgb(255 236 190 / 0) 60%), linear-gradient(180deg, #4f9fe4 0%, #8cc6f2 45%, #d9eefc 72%, #fff1d2 100%); }
-.ceu-hora--geada .ceu { background: radial-gradient(60% 45% at 14% 74%, rgb(255 240 214 / .55) 0%, rgb(255 240 214 / 0) 60%), linear-gradient(180deg, #7a98c4 0%, #a9c1df 45%, #d6e3f1 75%, #eef3f8 100%); }
-.ceu-hora--noite .ceu { color: #fff; background: radial-gradient(40% 30% at 80% 12%, rgb(255 243 184 / .16) 0%, rgb(255 243 184 / 0) 70%), linear-gradient(180deg, #120f2c 0%, #23205a 45%, #3e3779 80%, #5a4a86 100%); }
-.ceu-hora--manha .paisagem-ceu__sol, .ceu-hora--geada .paisagem-ceu__sol { left: 10%; top: min(34%, 260px); background: radial-gradient(circle, #fffdf2 0 38%, #ffe9b0 54%, rgb(255 236 170 / 0) 72%); }
-.ceu-hora--tarde .paisagem-ceu__sol { left: 84%; top: min(40%, 300px); }
-.ceu-hora--noite .paisagem-ceu__sol { left: 80%; top: min(8%, 60px); width: clamp(40px, 4.5vw, 64px); background: none; box-shadow: -14px 7px 0 0 #fff3b8; filter: drop-shadow(0 0 18px rgb(255 243 184 / .45)); }
-.ceu-hora--noite .paisagem-ceu::before { content: ""; position: absolute; inset: 0 0 35% 0; background-image: radial-gradient(1.6px 1.6px at 20% 30%, #fff 50%, transparent 51%), radial-gradient(1.2px 1.2px at 60% 20%, #fff 50%, transparent 51%), radial-gradient(1.8px 1.8px at 80% 55%, #fff 50%, transparent 51%), radial-gradient(1.2px 1.2px at 35% 65%, #fff 50%, transparent 51%), radial-gradient(1.4px 1.4px at 8% 80%, #fff 50%, transparent 51%); background-size: 140px 120px; opacity: .85; }
-.ceu-hora--noite .pp-nuvem { opacity: .18; }
-.ceu-hora--noite .pp-bando { display: none; }
-.ceu-hora--noite .paisagem__camada { filter: brightness(.45) saturate(.7) hue-rotate(12deg); }
-.ceu-hora--noite .paisagem__luz { opacity: 0; }
-.ceu-hora--geada .paisagem__camada { filter: saturate(.45) brightness(1.12); }
-.ceu-hora--geada .paisagem::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 62%; background-image: radial-gradient(2px 2px at 20% 30%, #fff 50%, transparent 51%), radial-gradient(1.5px 1.5px at 60% 60%, #fff 50%, transparent 51%), radial-gradient(2px 2px at 80% 25%, #fff 50%, transparent 51%), radial-gradient(1.5px 1.5px at 40% 75%, #fff 50%, transparent 51%); background-size: 48px 32px; opacity: .9; pointer-events: none; }
-.ceu-hora--noite .ceu .glyph, .ceu-hora--noite .ceu .simbolo { color: rgb(255 255 255 / .18); }
-
-/* O botão com a hora de Alegrete: discreto, em cima do título */
-.hora-de-alegrete { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 4px 16px; background: rgb(255 255 255 / .72); color: var(--ink); border: 3px solid var(--ink); border-radius: 999px; font: 600 15px var(--font); cursor: pointer; }
-.hora-de-alegrete::before { content: ""; width: 14px; height: 14px; border-radius: 50%; background: #ffd23f; border: 2px solid var(--ink); }
-.ceu-hora--noite .hora-de-alegrete::before { background: #fff3b8; box-shadow: inset -5px 0 0 0 #2a2650; }
-.hora-de-alegrete:hover { background: #fff; }
-.hora-de-alegrete:focus-visible { outline: 4px solid var(--pink); outline-offset: 3px; }
-.hora-de-alegrete[hidden] { display: none; }
+/* A noite (ceu.js, com <html data-ceu="dia-noite">): céu escuro, lua, estrelas e o campo escuro, como um modo escuro.
+   O texto direto no céu fica branco */
+.ceu-noite .ceu { color: #fff; background: radial-gradient(40% 30% at 80% 12%, rgb(255 243 184 / .16) 0%, rgb(255 243 184 / 0) 70%), linear-gradient(180deg, #120f2c 0%, #23205a 45%, #3e3779 80%, #5a4a86 100%); }
+.ceu-noite .paisagem-ceu__sol { left: 80%; top: min(8%, 60px); width: clamp(40px, 4.5vw, 64px); background: none; box-shadow: -14px 7px 0 0 #fff3b8; filter: drop-shadow(0 0 18px rgb(255 243 184 / .45)); }
+.ceu-noite .paisagem-ceu::before { content: ""; position: absolute; inset: 0 0 35% 0; background-image: radial-gradient(1.6px 1.6px at 20% 30%, #fff 50%, transparent 51%), radial-gradient(1.2px 1.2px at 60% 20%, #fff 50%, transparent 51%), radial-gradient(1.8px 1.8px at 80% 55%, #fff 50%, transparent 51%), radial-gradient(1.2px 1.2px at 35% 65%, #fff 50%, transparent 51%), radial-gradient(1.4px 1.4px at 8% 80%, #fff 50%, transparent 51%); background-size: 140px 120px; opacity: .85; }
+.ceu-noite .pp-nuvem { opacity: .18; }
+.ceu-noite .pp-bando { display: none; }
+.ceu-noite .paisagem__camada { filter: brightness(.45) saturate(.7) hue-rotate(12deg); }
+.ceu-noite .paisagem__luz { opacity: 0; }
+.ceu-noite .ceu .glyph, .ceu-noite .ceu .simbolo { color: rgb(255 255 255 / .18); }
 
 /* Entrada do conteúdo: cada bloco sobe um pouco quando aparece na rolagem (o paisagem.js marca quem) */
 .gp-surge { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .7s cubic-bezier(.2, .8, .2, 1); }

@@ -4,7 +4,7 @@
 
    <script src="/identidade-visual/js/paisagem.js" defer></script>
    A barra do topo (barra.js) já carrega este arquivo nas páginas do professor que têm .morros.
-   Com <html data-ceu="hora">, o céu é o da hora de agora em Alegrete, e não o da rolagem.
+   Com <html data-ceu="dia-noite"> e o ceu.js, o céu é o dia ou a noite escolhidos no botão, e não o da rolagem.
    Sem script, ou sem movimento, as coxilhas do cenario.css continuam no lugar. */
 (() => {
   if (window.Paisagem) return;
@@ -204,45 +204,8 @@
   const raiz = document.documentElement;
   let pedido = 0;
 
-  // O céu da hora: com <html data-ceu="hora">, o céu mostra a hora de agora em Alegrete (fuso de Brasília), em vez
-  // de passar o dia na rolagem. As manhãs de inverno (junho a agosto, antes das 9h) têm geada no campo.
-  // Um botão com data-hora-de-alegrete mostra a hora e, tocado, passa para o próximo céu
-  const HORAS = ['geada', 'manha', 'dia', 'tarde', 'noite'];
-  const NOMES = { geada: 'manhã de geada', manha: 'manhã', dia: 'meio-dia', tarde: 'fim da tarde', noite: 'noite' };
-  const DIA_DA_HORA = { geada: 0, manha: 0, dia: 0.08, tarde: 0.85, noite: 1 };
-  const comHora = raiz.dataset.ceu === 'hora';
-  const agoraEmAlegrete = () => {
-    const partes = Object.fromEntries(new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', hour: 'numeric', minute: '2-digit', month: 'numeric', hourCycle: 'h23' })
-      .formatToParts(new Date()).map((parte) => [parte.type, parte.value]));
-    const hora = Number(partes.hour);
-    const mes = Number(partes.month);
-    const inverno = mes >= 6 && mes <= 8;
-    const ceu = hora < 6 || hora >= 19 ? 'noite' : inverno && hora < 9 ? 'geada' : hora < 11 ? 'manha' : hora < 16 ? 'dia' : 'tarde';
-    return { ceu, texto: `${hora}h${partes.minute} em Alegrete` };
-  };
-  let ceuDaHora = '';
-  const mostrarHora = (ceu, texto) => {
-    ceuDaHora = ceu;
-    HORAS.forEach((nome) => raiz.classList.toggle(`ceu-hora--${nome}`, nome === ceu));
-    raiz.style.setProperty('--dia', DIA_DA_HORA[ceu]);
-    document.querySelectorAll('[data-hora-de-alegrete]').forEach((botao) => {
-      botao.hidden = false;
-      botao.textContent = texto || `Céu de ${NOMES[ceu]}`;
-      botao.setAttribute('aria-label', `${botao.textContent}. Tocar para ver o próximo céu`);
-    });
-  };
-  if (comHora) {
-    raiz.classList.add('ceu-hora');
-    const agora = agoraEmAlegrete();
-    mostrarHora(agora.ceu, agora.texto);
-    document.addEventListener('click', (evento) => {
-      if (!evento.target.closest('[data-hora-de-alegrete]')) return;
-      const proximo = HORAS[(HORAS.indexOf(ceuDaHora) + 1) % HORAS.length];
-      const deAgora = agoraEmAlegrete();
-      mostrarHora(proximo, proximo === deAgora.ceu ? deAgora.texto : '');
-    });
-  }
-  window.CeuDaHora = { mostrar: (ceu) => mostrarHora(ceu, '') };
+  // Com <html data-ceu>, o céu é o dia ou a noite que o ceu.js escolhe, e a rolagem não passa o dia
+  const comHora = 'ceu' in raiz.dataset;
   // A rolagem move as camadas (a de perto mais que a de longe) e passa o dia na página
   const rolar = () => {
     pedido = 0;
