@@ -4,10 +4,10 @@
    <script src="/identidade-visual/js/copiar.js"></script>
 
    await Copiar.texto(texto)                          copia e mostra "Copiado!"; devolve true ou false
-   await Copiar.texto(texto, { aviso: 'Copiado! Agora cole no Gemini.' })   com outra frase
+   await Copiar.texto(texto, { aviso: 'Copiado! Agora cole no ChatGPT.' })   com outra frase
    await Copiar.texto(texto, { avisar: false })       copia sem a faixa, para a página avisar do seu jeito
    Copiar.avisar('Frase')                             mostra a faixa com qualquer frase
-   Copiar.barraFixa({ observar, copiar, contador })   no celular, uma barra no pé da tela com Copiar e Abrir o Gemini
+   Copiar.barraFixa({ observar, copiar, contador })   no celular, uma barra no pé da tela com Copiar e Abrir o ChatGPT
      aparece quando a área de copiar (observar) saiu da tela; o Copiar dela aperta o botão copiar da página */
 (() => {
   const I = '#2f2a4a';
@@ -88,14 +88,14 @@
     return ok;
   };
 
-  const barraFixa = ({ observar, copiar, contador = null, largura = 980, gemini = 'https://gemini.google.com/app' }) => {
+  const barraFixa = ({ observar, copiar, contador = null, largura = 980, ia = 'https://chatgpt.com/', nomeDaIa = 'ChatGPT' }) => {
     const barra = Object.assign(document.createElement('div'), { className: 'gp-barra-fixa' });
     barra.setAttribute('role', 'region');
     barra.setAttribute('aria-label', 'Copiar o prompt');
     const info = Object.assign(document.createElement('span'), { className: 'gp-barra-fixa__info' });
     const botao = Object.assign(document.createElement('button'), { type: 'button', textContent: 'Copiar' });
     botao.addEventListener('click', () => copiar.click());
-    const link = Object.assign(document.createElement('a'), { href: gemini, target: '_blank', rel: 'noopener', textContent: 'Abrir o Gemini' });
+    const link = Object.assign(document.createElement('a'), { href: ia, target: '_blank', rel: 'noopener', textContent: `Abrir o ${nomeDaIa}` });
     barra.append(info, botao, link);
     document.body.append(barra);
     const sincronizar = () => {

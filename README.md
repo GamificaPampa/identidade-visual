@@ -25,7 +25,7 @@ A página [gamificapampa.github.io/identidade-visual](https://gamificapampa.gith
 | --- | --- |
 | `js/barra.js` | A barra do topo das páginas do professor: logo, Voltar, a trilha de onde a pessoa está e o botão dos jogos para a turma. Põe também a impressão comum |
 | `js/jogo.js` | O kit de jogo: voltar ao menu da turma, tela cheia, som guardado para todos os jogos (começa desligado), o botão Ouvir (a voz do navegador lê a pergunta e a fala do Bit, para quem ainda não lê bem) com o Ler sozinho guardado no aparelho, estrelas das fases guardadas no aparelho, pausa ao trocar de aba, contagem, confete, a fileira da tela final, o modo professor (tecla P ou ?professor: escolher a fase, mostrar a resposta e pausar) e o modo telão (tecla T ou ?telao: no projetor, o jogo cresce e a parte do professor sai da frente; a escolha fica guardada) |
-| `js/copiar.js` | Copiar com aviso, que só diz "copiado" quando copiou, e a barra de Copiar e Abrir o Gemini no pé da tela do celular |
+| `js/copiar.js` | Copiar com aviso, que só diz "copiado" quando copiou, e a barra de Copiar e Abrir o ChatGPT no pé da tela do celular |
 | `js/lembrar.js` | Guarda no aparelho as escolhas do professor e devolve na próxima visita. Nunca guarde nome ou dado de criança |
 | `js/paisagem.js` | Troca as coxilhas (`.morros`) por uma paisagem do Pampa em camadas: umbu, ipê-amarelo, capão de mato, cata-vento, galpão, cerca, vacas pastando, cavalo crioulo, ovelhas, quero-quero, flores, nuvens com volume e pássaros. Na rolagem, as camadas andam em velocidades diferentes (paralaxe), o dia passa até o fim da tarde e os blocos abaixo da primeira tela sobem ao aparecer. A barra do topo já carrega o arquivo; o hub e a vitrine têm a tag. Com "Parar animações" ou movimento reduzido, tudo fica parado |
 | `js/animacoes.js` | O botão "Parar animações": para tudo o que se mexe na página e o site lembra a escolha no aparelho. A barra do topo e o hub já põem o botão |
@@ -53,7 +53,7 @@ Cada ação tem uma cor e um ícone, iguais em todas as páginas da org. Assim, 
 Três ações do professor seguem as mesmas cores:
 
 - **Copiar** um prompt ou instruções é verde quando é a ação principal da página, e branco quando vem ao lado de outra ação principal.
-- **Abrir o Gemini** é verde quando está sozinho. Ao lado do Copiar, fica branco.
+- **Abrir o ChatGPT** (ou o Gemini) é verde quando está sozinho. Ao lado do Copiar, fica branco.
 - **Imprimir** é laranja, como baixar.
 
 O código dos ícones está na [vitrine](https://gamificapampa.github.io/identidade-visual/#componentes), no quadro do botão. Não use a cor de uma ação em outra. As cores soltas `.btn--yellow`, `.btn--mint` e `.btn--pink` continuam funcionando nas páginas antigas, mas numa página nova use o nome da ação.

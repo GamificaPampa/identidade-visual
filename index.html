@@ -592,11 +592,11 @@ el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anim
           <article class="card demo">
             <h3>Copiar</h3>
             <div class="palco"><p class="demo-texto" id="demo-prompt">Você é professora do 2º ano. Crie uma atividade de leitura sobre animais do Pampa.</p><button class="btn btn--jogar btn--small" type="button" id="demo-copiar"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar o prompt</button></div>
-            <p>Copia, avisa numa faixa embaixo da tela e só diz que copiou quando copiou. Se o navegador não deixar, mostra o texto já selecionado para copiar à mão. No celular, <code>Copiar.barraFixa</code> põe Copiar e Abrir o Gemini no pé da tela quando o botão sai de vista. Os botões Copiar desta página usam ele.</p>
+            <p>Copia, avisa numa faixa embaixo da tela e só diz que copiou quando copiou. Se o navegador não deixar, mostra o texto já selecionado para copiar à mão. No celular, <code>Copiar.barraFixa</code> põe Copiar e Abrir o ChatGPT no pé da tela quando o botão sai de vista. Os botões Copiar desta página usam ele.</p>
             <div class="codigo"><span class="codigo__nome">copiar.js</span><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;script src="/identidade-visual/js/copiar.js"&gt;&lt;/script&gt;
 &lt;script&gt;
-  botao.addEventListener('click', () =&gt; Copiar.texto(prompt, { aviso: 'Copiado! Agora cole no Gemini.' }));
-  // No celular: barra no pé da tela com Copiar e Abrir o Gemini
+  botao.addEventListener('click', () =&gt; Copiar.texto(prompt, { aviso: 'Copiado! Agora cole no ChatGPT.' }));
+  // No celular: barra no pé da tela com Copiar e Abrir o ChatGPT
   Copiar.barraFixa({ observar: resultado, copiar: botao });
 &lt;/script&gt;</code></pre></div>
           </article>
@@ -944,7 +944,7 @@ Jogo.progresso.limpar();                  // apaga as deste jogo</code></pre></d
     });
 
     // Os exemplos das peças das páginas funcionam de verdade
-    document.getElementById('demo-copiar').addEventListener('click', () => copiar(document.getElementById('demo-prompt').textContent, 'Copiado! Agora cole no Gemini.'));
+    document.getElementById('demo-copiar').addEventListener('click', () => copiar(document.getElementById('demo-prompt').textContent, 'Copiado! Agora cole no ChatGPT.'));
     Lembrar.campos('vitrine', [document.getElementById('demo-turma')]);
     document.getElementById('demo-jogo').append(Jogo.botao('casa'), Jogo.botao('tela-cheia'), Jogo.botao('som'));
     // Ouvir lê de verdade a frase com data-ouvir, a única desta página
