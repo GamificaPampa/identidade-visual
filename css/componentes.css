@@ -1,5 +1,6 @@
 /* Peças visuais do estilo de jogo, iguais às do site do hub. Carregue depois de fontes.css e cores.css. */
 @import url("botoes.css");
+@import url("carimbo.css");
 *, *::before, *::after { box-sizing: border-box; }
 body { margin: 0; font: 500 18px/1.45 var(--font); color: var(--ink); background: linear-gradient(var(--sky1), var(--sky2)) fixed; -webkit-font-smoothing: antialiased; }
 h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.05; letter-spacing: -.012em; text-wrap: balance; }
@@ -41,9 +42,9 @@ a { color: inherit; }
 .prompt-parte--contexto { --c: var(--yellow); --c-claro: #fff1a8; }
 .prompt-parte--formato { --c: var(--orange); --c-claro: #ffdcc4; }
 
-/* Aviso de privacidade, rosa claro e com o cadeado: vai perto de todo campo que vira prompt */
+/* Aviso de privacidade, rosa claro e com o quero-quero, o guarda dos filhotes: vai perto de todo campo que vira prompt */
 .privacidade { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: #ffd6e3; color: var(--ink); border: 3px solid var(--ink); border-radius: 16px; font-weight: 600; line-height: 1.35; }
-.privacidade svg { width: 36px; height: 36px; flex: none; }
+.privacidade svg { width: 44px; height: 44px; flex: none; }
 
 /* Rodapé das páginas da org: quem faz e o caminho de volta ao site */
 .rodape-gp { position: relative; padding: 28px 16px calc(28px + env(safe-area-inset-bottom)); color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.5; text-align: center; }

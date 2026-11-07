@@ -17,6 +17,7 @@ A página [gamificapampa.github.io/identidade-visual](https://gamificapampa.gith
 | `css/fontes.css` | O `@font-face` da Fredoka |
 | `css/cores.css` | As cores e as medidas do estilo de jogo |
 | `css/componentes.css` | Fundo de céu, título com contorno (`.loud`), cartão (`.card`), botão (traz o `botoes.css`), etiqueta (`.pill`), balão de fala (`.bubble`), opção de filtro (`.filtro-opcao`), partes do prompt (`.prompt-parte`), aviso de privacidade (`.privacidade`) e rodapé (`.rodape-gp`) |
+| `css/carimbo.css` | O carimbo (`.carimbo`), o Visto da professora no lugar do ícone de certo: vermelho, ou roxo de mimeógrafo (`.carimbo--roxo`) para o que sai pronto para a turma. O `componentes.css` já traz |
 | `css/botoes.css` | Só o botão em 3D com uma cor por ação (`.btn`), para a página que tem o próprio layout |
 | `css/cenario.css` | Céu do Pampa (`.ceu`, com sol e grão de papel) ou noite (`.noite`), nuvens (`.nuvem`), o lugar dos objetos de aula (`.simbolo`), estrelas (`.estrela`) e as coxilhas (`.morros`) em três camadas com um umbu. Sem script, é isso que aparece. Também tem o estilo da paisagem do `paisagem.js` |
 | `css/animacoes.css` | Classes `.anima-<nome>`: `flutuar`, `pular`, `respirar`, `balancar`, `brilhar`, `girar`, `piscar`, `pulsar` e `letras`, que não param, e `surgir`, `subir`, `saltar`, `tremer`, `pontos` e `balao`, que tocam uma vez |

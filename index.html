@@ -631,12 +631,21 @@ el.classList.remove("anima-saltar"); void el.offsetWidth; el.classList.add("anim
 &lt;mark class="prompt-parte--papel" style="background: var(--c-claro)"&gt;Você é professora do 2º ano.&lt;/mark&gt;</code></pre></div>
           </article>
           <article class="card demo">
+            <h3>Carimbo</h3>
+            <div class="palco"><span class="carimbo">Visto</span><span class="carimbo carimbo--roxo" style="--giro: 4deg">Pronto para colar</span><span class="carimbo carimbo--redondo carimbo--roxo" style="--giro: 8deg">Pronto para a turma</span></div>
+            <p>O Visto da professora no lugar do ícone de certo. Vermelho para o que é da escola, roxo de mimeógrafo para o que sai pronto para a turma. A tinta falha nas bordas, e com <code>is-batendo</code> ele cai na página uma vez. É sinal, não botão.</p>
+            <div class="codigo"><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;link rel="stylesheet" href="/identidade-visual/css/carimbo.css"&gt;
+
+&lt;span class="carimbo"&gt;Visto&lt;/span&gt;
+&lt;span class="carimbo carimbo--roxo"&gt;Pronto para colar&lt;/span&gt;</code></pre></div>
+          </article>
+          <article class="card demo">
             <h3>Aviso de privacidade</h3>
-            <div class="palco"><p class="privacidade"><svg aria-hidden="true"><use href="#icone-cadeado"/></svg>Nunca escreva o nome ou dados das crianças na conversa com a IA. Fale da turma de um jeito geral.</p></div>
-            <p>Fica perto de todo campo que vira prompt e de todo lugar que fala da turma. Rosa claro, com o cadeado do <code>icones.js</code>.</p>
+            <div class="palco"><p class="privacidade"><svg aria-hidden="true"><use href="#icone-quero-quero"/></svg>Nunca escreva o nome ou dados das crianças na conversa com a IA. Fale da turma de um jeito geral.</p></div>
+            <p>Fica perto de todo campo que vira prompt e de todo lugar que fala da turma. Rosa claro, com o quero-quero do <code>icones.js</code>: ele grita quando alguém chega perto dos filhotes, como o aviso faz com os dados dos alunos.</p>
             <div class="codigo"><button class="copiar" type="button"><svg width="18" height="18" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar</button><pre><code>&lt;script src="/identidade-visual/js/icones.js" data-simbolos&gt;&lt;/script&gt;
 
-&lt;p class="privacidade"&gt;&lt;svg aria-hidden="true"&gt;&lt;use href="#icone-cadeado"/&gt;&lt;/svg&gt;Nunca escreva o nome ou dados das crianças na conversa com a IA. Fale da turma de um jeito geral.&lt;/p&gt;</code></pre></div>
+&lt;p class="privacidade"&gt;&lt;svg aria-hidden="true"&gt;&lt;use href="#icone-quero-quero"/&gt;&lt;/svg&gt;Nunca escreva o nome ou dados das crianças na conversa com a IA. Fale da turma de um jeito geral.&lt;/p&gt;</code></pre></div>
           </article>
         </div>
       </div>
