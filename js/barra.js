@@ -1,5 +1,6 @@
 /* Barra do topo das páginas do professor: o ícone leva ao início, "Voltar" leva à página de cima, a trilha diz
-   onde a pessoa está, o botão redondo para as animações (animacoes.js) e o botão verde abre os jogos para a turma.
+   onde a pessoa está, a lua da noite (ceu.js), o botão redondo para as animações (animacoes.js) e o botão verde
+   abre os jogos para a turma.
    Some na impressão e na tela cheia.
 
    <script src="/identidade-visual/js/barra.js" defer></script>
@@ -15,6 +16,11 @@
   const script = document.currentScript;
   const compacta = script.dataset.modo === 'compacta';
   const pasta = new URL('../', script.src);
+  // A noite (ceu.js): a página pede o escurecer automático, e o céu já abre certo antes do ceu.js chegar
+  const raizHtml = document.documentElement;
+  if (!('ceu' in raizHtml.dataset)) raizHtml.dataset.ceu = 'dia-noite';
+  raizHtml.dataset.ceuAuto = '';
+  try { const guardado = localStorage.getItem('gp-ceu'); if (guardado ? guardado === 'noite' : matchMedia('(prefers-color-scheme: dark)').matches) raizHtml.classList.add('ceu-noite'); } catch {}
 
   // Os lugares com página própria, do mais alto para o mais baixo
   const LUGARES = [
@@ -90,6 +96,12 @@
     :root:fullscreen .gp-barra { display: none; }
     @media print { .gp-barra { display: none !important; } }
     @media (prefers-reduced-motion: reduce) { .gp-barra__botao { transition: none; } }
+    .ceu-noite .gp-barra { background: #0e0c22; border-bottom-color: #000; color: #fff; }
+    .ceu-noite .gp-barra__trilha, .ceu-noite .gp-barra__trilha a { color: #c3bde8; }
+    .ceu-noite .gp-barra__trilha [aria-current] { color: #fff; }
+    .ceu-noite .gp-barra--compacta { background: none; }
+    .gp-barra .gp-ceu { margin-left: auto; }
+    .gp-barra .gp-ceu + .gp-animacoes { margin-left: 0; }
   `;
   document.head.append(estilo);
 
@@ -149,6 +161,10 @@
     dentro.append(logo, voltar, trilha, turma);
     // "Parar animações", que vale para o site todo e fica lembrado no aparelho, ao lado dos jogos
     const animacoes = () => turma.before(window.Animacoes.botao());
+    // "Noite" (ceu.js), o modo escuro do site, antes do parar animações
+    const ceu = () => (dentro.querySelector('.gp-animacoes') || turma).before(window.Ceu.botao());
+    if (window.Ceu) ceu();
+    else document.head.append(Object.assign(document.createElement('script'), { src: new URL('js/ceu.js', pasta).href, onload: ceu }));
     if (window.Animacoes) animacoes();
     else document.head.append(Object.assign(document.createElement('script'), { src: new URL('js/animacoes.js', pasta).href, onload: animacoes }));
   } else {
