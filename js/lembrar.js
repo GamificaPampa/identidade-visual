@@ -23,7 +23,9 @@
   const nomeDo = (campo) => ((campo.type === 'radio' || campo.type === 'checkbox') && campo.name ? `${campo.name}=${campo.value}` : campo.id || campo.name);
   const campos = (chave, lista) => {
     const elementos = [...lista].filter((campo) => nomeDo(campo));
-    const salvo = ler(chave, {});
+    // Só um objeto serve: null, texto ou lista estragados no aparelho fariam o "in" abaixo travar a página
+    const lido = ler(chave, {});
+    const salvo = lido && typeof lido === 'object' && !Array.isArray(lido) ? lido : {};
     elementos.forEach((campo) => {
       const nome = nomeDo(campo);
       if (!(nome in salvo)) return;
