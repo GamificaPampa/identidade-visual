@@ -9,7 +9,8 @@
 
    <script src="/identidade-visual/js/bit.js" data-canto="baixo-direita" defer></script>
    Cantos: baixo-direita (o normal), baixo-esquerda, topo-direita e topo-esquerda.
-   Poses: normal, acenando, pensando, feliz, comemorando, ops e formatura, as mesmas de mascote/. */
+   Poses: normal, acenando, pensando, feliz, comemorando, ops e formatura, as mesmas de mascote/. A de chimarrão
+   (mascote/bit-chimarrao.svg) é só da primeira tela do hub e da Oficina, e não entra nas falas. */
 (() => {
   const script = document.currentScript;
   const pasta = new URL('../mascote/', script.src);

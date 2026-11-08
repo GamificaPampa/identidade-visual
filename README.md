@@ -73,6 +73,7 @@ O botão é em 3D: brilho no alto, sombra embaixo e um reflexo que atravessa qua
 | `mascote/bit-comemorando.svg` | Fim de fase, fim de jogo e prompt pronto |
 | `mascote/bit-ops.svg` | Erro: o Bit explica o que deu errado, sem bronca |
 | `mascote/bit-formatura.svg` | Professores, certificado e fim da oficina |
+| `mascote/bit-chimarrao.svg` | Só a primeira tela do hub e da Oficina: o Bit gaúcho recebe a pessoa com a cuia |
 
 Todas têm o mesmo tamanho (100 × 100), menos a de formatura, que tem 100 × 110 por causa do capelo. O Bit sempre fala num balão (`.bubble`), com frases curtas.
 
