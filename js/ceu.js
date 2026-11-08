@@ -81,13 +81,17 @@
       html.ceu-noite[data-ceu-auto] body { background-color: #0e0c22; }
       /* O céu de noite do cenario.css deixa o texto branco; aqui quem clareia o texto é o escurecer, peça por peça */
       html.ceu-noite[data-ceu-auto] body.ceu, html.ceu-noite[data-ceu-auto] .ceu { color: #2f2a4a; }
-      html.ceu-noite [data-gp-fundo="cartao"] { background-color: #1f1b42 !important; border-color: #000 !important; }
-      html.ceu-noite [data-gp-fundo="campo"] { background-color: #16132f !important; color: #f4f1ff !important; border-color: #6d66a8 !important; }
-      html.ceu-noite [data-gp-cor="texto"] { color: #f4f1ff !important; }
-      html.ceu-noite [data-gp-cor="suave"] { color: #c3bde8 !important; }
-      html.ceu-noite [data-gp-cor="tinta"] { color: #2f2a4a !important; }
-      html.ceu-noite [data-gp-fundo="campo"]::placeholder { color: #8f88c0; }
+      html.ceu-noite:not([data-gp-medindo]) [data-gp-fundo="cartao"] { background-color: #1f1b42 !important; border-color: #000 !important; }
+      html.ceu-noite:not([data-gp-medindo]) [data-gp-fundo="campo"] { background-color: #16132f !important; color: #f4f1ff !important; border-color: #6d66a8 !important; }
+      html.ceu-noite:not([data-gp-medindo]) [data-gp-cor="texto"] { color: #f4f1ff !important; }
+      html.ceu-noite:not([data-gp-medindo]) [data-gp-cor="suave"] { color: #c3bde8 !important; }
+      html.ceu-noite:not([data-gp-medindo]) [data-gp-cor="tinta"] { color: #2f2a4a !important; }
+      html.ceu-noite:not([data-gp-medindo]) [data-gp-fundo="campo"]::placeholder { color: #8f88c0; }
     }
+    /* Na medição, as peças marcadas mostram a cor do dia na hora, sem transição, para a leitura ser a cor de verdade.
+       Depois, as cores da noite voltam também sem transição. Só as peças marcadas param, e só nesse instante */
+    html[data-gp-medindo] [data-gp-fundo], html[data-gp-medindo] [data-gp-cor],
+    html[data-gp-firmando] [data-gp-fundo], html[data-gp-firmando] [data-gp-cor] { transition: none !important; }
   `;
   document.head.append(marcasNoite);
   const PAPEL = '.sheet, .cert, [data-papel], .gp-barra, .gp-ceu, .gp-animacoes, svg, img, video, canvas, .btn, .carimbo';
@@ -114,6 +118,24 @@
     return true;
   };
   const escurecer = () => {
+    // De dia, sem nada marcado, não há o que medir
+    if ((!noite || !auto()) && !mexidos.size) return;
+    // A cor do dia aparece nas peças marcadas já sem transição; só depois as marcas saem
+    raiz.setAttribute('data-gp-medindo', '');
+    void raiz.offsetHeight;
+    try { medirEMarcar(); } finally {
+      // As cores da noite voltam ainda sem transição; recalculada a página (offsetHeight recalcula tudo, e não só
+      // o elemento lido), as transições voltam e nada anima
+      raiz.setAttribute('data-gp-firmando', '');
+      raiz.removeAttribute('data-gp-medindo');
+      void raiz.offsetHeight;
+      raiz.removeAttribute('data-gp-firmando');
+      // O que estava escondido (um details fechado) não entra no recálculo e, ao aparecer, faria a transição do
+      // branco para o escuro: a transição de cor das peças marcadas termina na hora
+      mexidos.forEach((el) => el.getAnimations?.().forEach((a) => { if (/^(background-color|color|border-.*-color)$/.test(a.transitionProperty || '')) a.finish(); }));
+    }
+  };
+  const medirEMarcar = () => {
     limpar();
     if (!noite || !auto()) return;
     const papel = (el) => el.closest(PAPEL);
@@ -154,7 +176,9 @@
   let pendente = 0;
   const pedirEscurecer = () => { if (!pendente) pendente = requestAnimationFrame(() => { pendente = 0; observar(false); escurecer(); observar(true); }); };
   const vigia = new MutationObserver(pedirEscurecer);
-  const observar = (ligar) => { if (!auto() || !document.body) return; if (ligar) vigia.observe(document.body, { childList: true, subtree: true }); else vigia.disconnect(); };
+  // Olha o que entra na página e também a troca de estado (classe, aberto, escolhido), que muda o fundo sem criar elemento
+  const ESTADOS = ['class', 'hidden', 'open', 'aria-selected', 'aria-pressed', 'aria-expanded', 'aria-current', 'disabled'];
+  const observar = (ligar) => { if (!auto() || !document.body) return; if (ligar) vigia.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ESTADOS }); else vigia.disconnect(); };
   const aplicarTudo = aplicar;
   aplicar = () => { aplicarTudo(); if (document.body) pedirEscurecer(); };
   addEventListener('beforeprint', () => { observar(false); limpar(); });
