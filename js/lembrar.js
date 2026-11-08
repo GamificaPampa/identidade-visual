@@ -3,7 +3,8 @@
 
    <script src="/identidade-visual/js/lembrar.js"></script>
 
-   Lembrar.ler('maquina', {})           o que foi guardado com essa chave, ou o padrão
+   Lembrar.ler('maquina', {})           o que foi guardado com essa chave, ou o padrão (com padrão objeto ou lista,
+                                        só volta o guardado que for do mesmo tipo)
    Lembrar.guardar('maquina', dados)    guarda (qualquer valor que vire JSON)
    Lembrar.campos('certificado', [escola, apresentador])   devolve os valores aos campos e guarda a cada mudança
    Lembrar.botaoEsquecer(lugar)         põe depois de "lugar" o botão que apaga tudo o que o site lembra neste aparelho */
@@ -12,7 +13,11 @@
   const ler = (chave, padrao = null) => {
     try {
       const texto = localStorage.getItem(PREFIXO + chave);
-      return texto === null ? padrao : JSON.parse(texto);
+      if (texto === null) return padrao;
+      const valor = JSON.parse(texto);
+      // Quem pede {} lê um campo do que volta (lembrado.caso): um null ou texto estragado no aparelho travaria a página
+      if (padrao && typeof padrao === 'object' && (!valor || typeof valor !== 'object' || Array.isArray(valor) !== Array.isArray(padrao))) return padrao;
+      return valor;
     } catch { return padrao; }
   };
   const guardar = (chave, dados) => {
