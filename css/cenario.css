@@ -131,12 +131,12 @@ g:nth-child(even) > .pp-ovelha .pp-cabeca { animation-delay: -2.4s; }
 
 /* A noite (ceu.js, com <html data-ceu="dia-noite">): céu escuro, lua, estrelas e o campo escuro, como um modo escuro.
    O texto direto no céu fica branco */
-.ceu-noite .ceu { color: #fff; background: radial-gradient(40% 30% at 80% 12%, rgb(255 243 184 / .16) 0%, rgb(255 243 184 / 0) 70%), linear-gradient(180deg, #120f2c 0%, #23205a 45%, #3e3779 80%, #5a4a86 100%); }
+.ceu-noite .ceu { color: #fff; background: radial-gradient(40% 30% at 80% 12%, rgb(255 243 184 / .1) 0%, rgb(255 243 184 / 0) 70%), linear-gradient(180deg, #08071a 0%, #0f0d29 40%, #171436 75%, #1d1940 100%); }
 .ceu-noite .paisagem-ceu__sol { left: 80%; top: min(8%, 60px); width: clamp(40px, 4.5vw, 64px); background: none; box-shadow: -14px 7px 0 0 #fff3b8; filter: drop-shadow(0 0 18px rgb(255 243 184 / .45)); }
 .ceu-noite .paisagem-ceu::before { content: ""; position: absolute; inset: 0 0 35% 0; background-image: radial-gradient(1.6px 1.6px at 20% 30%, #fff 50%, transparent 51%), radial-gradient(1.2px 1.2px at 60% 20%, #fff 50%, transparent 51%), radial-gradient(1.8px 1.8px at 80% 55%, #fff 50%, transparent 51%), radial-gradient(1.2px 1.2px at 35% 65%, #fff 50%, transparent 51%), radial-gradient(1.4px 1.4px at 8% 80%, #fff 50%, transparent 51%); background-size: 140px 120px; opacity: .85; }
-.ceu-noite .pp-nuvem { opacity: .18; }
+.ceu-noite .pp-nuvem { opacity: .1; }
 .ceu-noite .pp-bando { display: none; }
-.ceu-noite .paisagem__camada { filter: brightness(.45) saturate(.7) hue-rotate(12deg); }
+.ceu-noite .paisagem__camada { filter: brightness(.32) saturate(.6) hue-rotate(14deg); }
 .ceu-noite .paisagem__luz { opacity: 0; }
 .ceu-noite .ceu .glyph, .ceu-noite .ceu .simbolo { color: rgb(255 255 255 / .18); }
 
