@@ -122,7 +122,8 @@
       if (papel(el)) return;
       const estilo = getComputedStyle(el);
       const [r, g, b, a = 1] = rgba(estilo.backgroundColor);
-      if (a < .55 || !quaseBranco([r, g, b]) || estilo.backgroundImage !== 'none') return;
+      // Branco translúcido (uma pastilha de 50% sobre um cartão) também vira cartão: misturado com o escuro, daria cinza
+      if (a < .3 || !quaseBranco([r, g, b]) || estilo.backgroundImage !== 'none') return;
       // A moldura branca de um logo ou de um desenho, sem texto, continua branca
       if (!el.textContent.trim() && el.querySelector('img, svg')) return;
       marcarFundo(el, el.matches('input, textarea, select') ? 'campo' : 'cartao');
