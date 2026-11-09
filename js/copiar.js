@@ -107,7 +107,13 @@
     sincronizar();
     const estreita = matchMedia(`(max-width: ${largura - 1}px)`);
     let aVista = true;
-    const atualizar = () => barra.classList.toggle('is-on', estreita.matches && !aVista);
+    // Escondida embaixo da tela, a barra sai do Tab e do leitor de tela (inert), para o foco não sumir nela
+    const atualizar = () => {
+      const aparece = estreita.matches && !aVista;
+      barra.classList.toggle('is-on', aparece);
+      barra.inert = !aparece;
+    };
+    atualizar();
     new IntersectionObserver(([item]) => { aVista = item.isIntersecting; atualizar(); }).observe(observar);
     estreita.addEventListener('change', atualizar);
     return barra;
