@@ -187,6 +187,9 @@
   else pedirEscurecer();
 
   // Sem escolha guardada, acompanha o modo escuro do aparelho
-  doSistema.addEventListener('change', (evento) => { if (!escolha) { noite = evento.matches; aplicar(); } });
   aplicar();
+  // O Safari antes do 14 só tem o addListener: sem esta conferência, o erro aqui impedia a noite de aparecer
+  const aoMudarSistema = (evento) => { if (!escolha) { noite = evento.matches; aplicar(); } };
+  if (doSistema.addEventListener) doSistema.addEventListener('change', aoMudarSistema);
+  else if (doSistema.addListener) doSistema.addListener(aoMudarSistema);
 })();

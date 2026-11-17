@@ -400,9 +400,18 @@
     frase.lang = 'pt-BR';
     try { frase.voice = voz; } catch {}
     frase.rate = ritmo;
-    frase.onend = () => proximo(minha, ritmo);
+    // No Chrome do Android, às vezes o fim da frase não chega: sem o vigia, o botão ficava preso em "Parar de ouvir"
+    let seguiu = false, vigia = 0;
+    const seguir = () => { if (seguiu) return; seguiu = true; clearTimeout(vigia); proximo(minha, ritmo); };
+    const conferir = () => {
+      if (minha !== ficha || seguiu) return;
+      if (sintese.speaking || sintese.pending) { vigia = setTimeout(conferir, 2000); return; }
+      seguir();
+    };
+    frase.onend = seguir;
     frase.onerror = (evento) => {
       if (minha !== ficha) return;
+      seguiu = true; clearTimeout(vigia);
       // Sem toque antes na página, o navegador não deixa falar: a leitura só fica para a próxima vez
       if (evento.error === 'not-allowed') { fila = []; falando = false; avisarOuvir(); return; }
       // Outra fala tomou a vez (o jogo falando uma palavra por conta própria): esta leitura acaba aqui
@@ -410,7 +419,8 @@
       proximo(minha, ritmo);
     };
     atual = frase; // guardada, senão o navegador pode descartar a fala no meio
-    try { sintese.speak(frase); } catch { falando = false; avisarOuvir(); }
+    try { sintese.speak(frase); } catch { falando = false; avisarOuvir(); return; }
+    vigia = setTimeout(conferir, 2000 + parte.length * 80 / ritmo);
   };
   const falar = (texto, ritmo = 0.92) => {
     if (!sintese || !Enunciado || !voz) return false;
@@ -609,7 +619,7 @@
   const bipe = (frequencia, duracao) => {
     if (!ligado) return;
     try {
-      audio ??= new (window.AudioContext || window.webkitAudioContext)();
+      audio = audio || new (window.AudioContext || window.webkitAudioContext)();
       // No iPad, um contexto criado sem toque fica suspenso, e volta suspenso do fundo: sem o resume, o som some de vez
       if (audio.state !== 'running') audio.resume().catch(() => {});
       const oscilador = audio.createOscillator(), volume = audio.createGain(), agora = audio.currentTime;
