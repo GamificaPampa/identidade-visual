@@ -63,9 +63,19 @@
    e só a fala do Bit (bit.js) cresce.
    Jogo.telao.ligado / .escala / .alternar(valor) / .aoMudar(f)   o estado (ligado e valendo nesta tela), a escala e o interruptor */
 (() => {
+  // Incluído duas vezes, o segundo kit duplicaria botões e o Ler sozinho deixaria de acompanhar o Bit
+  if (window.Jogo) return;
   const I = '#2f2a4a';
   const script = document.currentScript;
   const reduzido = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // O "Parar animações" do site (animacoes.js) vale também no céu do jogo: o cenário e os objetos param, e o jogo
+  // continua. O animacoes.js inteiro não entra, porque ele pararia também as animações que fazem parte do jogo
+  let paradas = false;
+  try { paradas = localStorage.getItem('gp-animacoes-paradas') === '1'; } catch {}
+  if (paradas) {
+    document.documentElement.classList.add('gp-parado');
+    document.head.append(Object.assign(document.createElement('style'), { textContent: '.gp-parado :is(.cenario, .scenery), .gp-parado :is(.cenario, .scenery) :is(*, *::before, *::after) { animation-play-state: paused !important; }' }));
+  }
 
   // No kit sem internet, o menu da turma é o index.html da raiz do kit
   const menu = (() => {
@@ -600,6 +610,8 @@
     if (!ligado) return;
     try {
       audio ??= new (window.AudioContext || window.webkitAudioContext)();
+      // No iPad, um contexto criado sem toque fica suspenso, e volta suspenso do fundo: sem o resume, o som some de vez
+      if (audio.state !== 'running') audio.resume().catch(() => {});
       const oscilador = audio.createOscillator(), volume = audio.createGain(), agora = audio.currentTime;
       oscilador.type = 'triangle';
       oscilador.frequency.value = frequencia;
@@ -624,7 +636,7 @@
   };
 
   const confete = (quantos = 70) => {
-    if (reduzido) return;
+    if (reduzido || paradas) return;
     const cores = ['#ff5f8f', '#ffd23f', '#4fd6a6', '#a08bff', '#ff8a3d', '#4da3ff'];
     for (let indice = 0; indice < quantos; indice++) {
       const peca = Object.assign(document.createElement('span'), { className: 'gp-confete' });
@@ -640,13 +652,24 @@
   // Trocar de aba pausa a rodada; ao voltar, a contagem dá tempo de a criança se preparar
   const aoSairDaAba = (pausar, voltar) => {
     let pausado = false;
+    let contando = false;
     document.addEventListener('visibilitychange', async () => {
-      if (document.hidden) { pausado = pausar() !== false; return; }
-      if (!pausado) return;
-      pausado = false;
+      if (document.hidden) {
+        // Saiu de novo durante a contagem: o jogo já está parado, e a próxima volta faz outra contagem
+        if (!contando) pausado = pausar() !== false;
+        return;
+      }
+      if (!pausado || contando) return;
       // Se o professor pausou, quem volta é o botão Continuar dele
-      if (modoProfessor.pausado) return;
+      if (modoProfessor.pausado) { pausado = false; return; }
+      contando = true;
       await contagem(['3', '2', '1']);
+      contando = false;
+      // A aba sumiu de novo durante a contagem: o jogo continua parado até a próxima volta
+      if (document.hidden) return;
+      pausado = false;
+      // O professor pausou durante a contagem: quem volta é o Continuar dele, e não o jogo por trás da cortina
+      if (modoProfessor.pausado) return;
       voltar();
     });
   };

@@ -27,7 +27,8 @@
   // Cada campo é lembrado pelo id, ou pelo nome e valor no caso de caixas de marcar e opções
   const nomeDo = (campo) => ((campo.type === 'radio' || campo.type === 'checkbox') && campo.name ? `${campo.name}=${campo.value}` : campo.id || campo.name);
   const campos = (chave, lista) => {
-    const elementos = [...lista].filter((campo) => nomeDo(campo));
+    // Campo de arquivo não recebe valor guardado (o navegador recusa e a página travaria)
+    const elementos = [...lista].filter((campo) => nomeDo(campo) && campo.type !== 'file');
     // Só um objeto serve: null, texto ou lista estragados no aparelho fariam o "in" abaixo travar a página
     const lido = ler(chave, {});
     const salvo = lido && typeof lido === 'object' && !Array.isArray(lido) ? lido : {};

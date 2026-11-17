@@ -12,6 +12,8 @@
    Poses: normal, acenando, pensando, feliz, comemorando, ops e formatura, as mesmas de mascote/. A de chimarrão
    (mascote/bit-chimarrao.svg) é só da primeira tela do hub e da Oficina, e não entra nas falas. */
 (() => {
+  // Incluído duas vezes, apareceriam dois Bits
+  if (window.Bit) return;
   const script = document.currentScript;
   const pasta = new URL('../mascote/', script.src);
   const canto = script.dataset.canto || 'baixo-direita';
