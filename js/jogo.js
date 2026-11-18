@@ -268,12 +268,12 @@
     const topo = alvo.getBoundingClientRect().top + scrollY - 10;
     if (topo > 0) scrollTo({ top: topo, behavior: 'auto' });
   };
-  const alternarTelao = (valor = !telaoLigado) => {
+  const alternarTelao = (valor = !telaoLigado, guardar = true) => {
     usarTelao();
     valor = Boolean(valor);
     if (valor === telaoLigado) return;
     telaoLigado = valor;
-    try { localStorage.setItem(CHAVE_TELAO, valor ? '1' : '0'); } catch {}
+    if (guardar) try { localStorage.setItem(CHAVE_TELAO, valor ? '1' : '0'); } catch {}
     aplicarTelao();
     // O endereço acompanha, como no modo professor
     try {
@@ -300,12 +300,15 @@
       aplicarTelao();
       if ([telaoAtivo, telaoEscala].join() !== antes) avisarTelao();
     });
-    // A tecla T liga e desliga. Em campo de texto e com Ctrl, Alt ou Cmd, nada acontece
+    // A tecla T liga e desliga. Em campo de texto e com Ctrl, Alt ou Cmd, nada acontece. Em tela pequena, onde o
+    // telão não vale, também nada acontece. O T só fica guardado no aparelho com o modo professor ligado: um T
+    // apertado sem querer por uma criança vale só nesta visita, e o próximo jogo não abre no telão
     addEventListener('keydown', (evento) => {
       if (evento.repeat || evento.isComposing || evento.metaKey || evento.ctrlKey || evento.altKey) return;
       if (evento.key !== 't' && evento.key !== 'T') return;
       if (evento.target.closest?.('input, textarea, select, [contenteditable]')) return;
-      alternarTelao();
+      if (innerWidth < LARGURA_TELAO) return;
+      alternarTelao(!telaoLigado, Boolean(window.Jogo?.modoProfessor?.ligado));
     });
     if (telaoAtivo) {
       if (document.readyState === 'complete') requestAnimationFrame(mostrarJogo);
@@ -326,7 +329,7 @@
   const sintese = window.speechSynthesis, Enunciado = window.SpeechSynthesisUtterance;
   const ouvintesOuvir = new Set();
   let voz = null, falando = false, registro = null, bitLido = true;
-  let ultimaFala = '', ultimaFalaEm = 0, telaEm = 0, fila = [], ficha = 0, adiar = 0, atual = null;
+  let ultimaFala = '', ultimaFalaEm = 0, telaEm = 0, fila = [], ficha = 0, adiar = 0, atual = null, vigiaFala = 0;
   let pendente = null, relogioAuto = 0;
   const avisarOuvir = () => ouvintesOuvir.forEach((ouvinte) => ouvinte());
 
@@ -387,6 +390,7 @@
     fila = [];
     atual = null;
     clearTimeout(adiar);
+    clearTimeout(vigiaFala);
     clearTimeout(relogioAuto);
     pendente = null;
     if (sintese) try { sintese.cancel(); } catch {}
@@ -420,6 +424,14 @@
     };
     atual = frase; // guardada, senão o navegador pode descartar a fala no meio
     try { sintese.speak(frase); } catch { falando = false; avisarOuvir(); return; }
+    // O Safari do iPhone às vezes descarta a fala sem avisar (sem onend nem onerror): se nada começou em 1,5 s,
+    // a leitura acaba e o botão volta a "Ouvir", em vez de ficar preso em "Parar de ouvir"
+    clearTimeout(vigiaFala);
+    vigiaFala = setTimeout(() => {
+      if (minha !== ficha || atual !== frase || sintese.speaking || sintese.pending) return;
+      fila = []; atual = null;
+      if (falando) { falando = false; avisarOuvir(); }
+    }, 1500);
     vigia = setTimeout(conferir, 2000 + parte.length * 80 / ritmo);
   };
   const falar = (texto, ritmo = 0.92) => {
@@ -496,13 +508,17 @@
   const agendar = (tela) => {
     pendente = { tela: Boolean(pendente?.tela) || tela };
     clearTimeout(relogioAuto);
-    relogioAuto = setTimeout(() => {
+    const ler = (tentativas = 0) => {
+      // O jogo está falando por conta própria (a palavra em inglês, no Inglês com o Bit): espera ele acabar, até uns
+      // 6 segundos, em vez de cortar a fala dele com o cancel() da leitura
+      if (sintese && sintese.speaking && !falando && tentativas < 20) { relogioAuto = setTimeout(() => ler(tentativas + 1), 300); return; }
       const quando = pendente;
       pendente = null;
       if (!sozinho || !quando) return;
       if (quando.tela) lerTela();
       else if (bitLido && ultimaFala) falar(ultimaFala);
-    }, 350);
+    };
+    relogioAuto = setTimeout(ler, 350);
   };
   const novaTela = () => {
     telaEm = performance.now();

@@ -175,7 +175,12 @@
   };
   let pendente = 0;
   const pedirEscurecer = () => { if (!pendente) pendente = requestAnimationFrame(() => { pendente = 0; observar(false); escurecer(); observar(true); }); };
-  const vigia = new MutationObserver(pedirEscurecer);
+  // As trocas do balão do Bit, da paisagem e dos objetos que boiam não mudam fundo de nada: não pedem outra varredura.
+  // À noite, cada dica do Bit na rolagem trocava classes e varria a página inteira, e a rolagem pesava no Chromebook
+  const SEM_VARREDURA = '.bit-fala, .paisagem, .paisagem-ceu, .objeto';
+  const vigia = new MutationObserver((mudancas) => {
+    if (mudancas.some((mudanca) => !(mudanca.target.closest && mudanca.target.closest(SEM_VARREDURA)))) pedirEscurecer();
+  });
   // Olha o que entra na página e também a troca de estado (classe, aberto, escolhido), que muda o fundo sem criar elemento
   const ESTADOS = ['class', 'hidden', 'open', 'aria-selected', 'aria-pressed', 'aria-expanded', 'aria-current', 'disabled'];
   const observar = (ligar) => { if (!auto() || !document.body) return; if (ligar) vigia.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ESTADOS }); else vigia.disconnect(); };
