@@ -161,11 +161,13 @@
       if (l > .45 || !fundoEscuro(el)) return;
       decisoes.push([el, l > .28 ? 'suave' : 'texto']);
     });
-    // 3. O que tem fundo claro próprio (uma bolinha pastel, um selo amarelo) dentro de um texto que clareou volta à tinta
+    // 3. O que tem fundo claro próprio (uma bolinha pastel, um selo amarelo) dentro de um texto que clareou volta à tinta.
+    // O que já virou cartão ou campo escuro no passo 1 fica de fora: a caixa de texto dentro de um <label> que clareou
+    // voltava à tinta e o que o professor digita ficava escuro sobre escuro
     const clareados = new Set(decisoes.map(([el]) => el));
     const tinta = [];
     clareados.forEach((pai) => pai.querySelectorAll('*').forEach((el) => {
-      if (clareados.has(el) || papel(el)) return;
+      if (clareados.has(el) || papel(el) || el.dataset.gpFundo) return;
       const estilo = getComputedStyle(el);
       const [r, g, b, a = 1] = rgba(estilo.backgroundColor);
       if (a > .55 && luz([r, g, b]) > .5 && luz(rgba(estilo.color)) < .45) tinta.push(el);
