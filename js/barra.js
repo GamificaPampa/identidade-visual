@@ -181,7 +181,11 @@
     if (window.Objetos || !document.querySelector('.cenario, .scenery')) return;
     document.head.append(Object.assign(document.createElement('script'), { src: new URL('js/objetos.js', pasta).href }));
   };
-  const pronto = () => { document.body.prepend(barra); paisagem(); objetos(); };
+  // O Passaporte da Oficina (passaporte.js) dá o carimbo da página que a pessoa abriu
+  const passaporte = () => {
+    if (!window.Passaporte) document.head.append(Object.assign(document.createElement('script'), { src: new URL('js/passaporte.js', pasta).href }));
+  };
+  const pronto = () => { document.body.prepend(barra); paisagem(); objetos(); passaporte(); };
   if (document.body) pronto();
   else addEventListener('DOMContentLoaded', pronto);
 })();
