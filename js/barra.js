@@ -1,5 +1,6 @@
 /* Barra do topo das páginas do professor: o ícone leva ao início, "Voltar" leva à página de cima, a trilha diz
-   onde a pessoa está, a lua da noite (ceu.js), o botão redondo para as animações (animacoes.js) e o botão verde
+   onde a pessoa está, o QR da página (qr-da-pagina.js), a lua da noite (ceu.js), o botão redondo para as animações
+   (animacoes.js) e o botão verde
    abre os jogos para a turma.
    Some na impressão e na tela cheia.
 
@@ -92,6 +93,8 @@
     @media (max-width: 520px) {
       .gp-barra__turma .gp-barra__longo { display: none; }
       .gp-barra__turma .gp-barra__curto { display: inline; }
+      /* No celular ninguém projeta: o QR da página sai e a barra cabe */
+      .gp-barra .gp-qr { display: none; }
     }
     :root:fullscreen .gp-barra { display: none; }
     @media print { .gp-barra { display: none !important; } }
@@ -101,6 +104,8 @@
     .ceu-noite .gp-barra__trilha [aria-current] { color: #fff; }
     .ceu-noite .gp-barra--compacta { background: none; }
     .gp-barra .gp-ceu { margin-left: auto; }
+    .gp-barra .gp-qr { margin-left: auto; }
+    .gp-barra .gp-qr + .gp-ceu { margin-left: 0; }
     .gp-barra .gp-ceu + .gp-animacoes { margin-left: 0; }
   `;
   document.head.append(estilo);
@@ -167,6 +172,10 @@
     else document.head.append(Object.assign(document.createElement('script'), { src: new URL('js/ceu.js', pasta).href, onload: ceu }));
     if (window.Animacoes) animacoes();
     else document.head.append(Object.assign(document.createElement('script'), { src: new URL('js/animacoes.js', pasta).href, onload: animacoes }));
+    // "QR desta página" (qr-da-pagina.js), só nas páginas que têm link curto, antes da lua
+    const qr = () => window.QrDaPagina.pronto.then((botao) => { if (botao) (dentro.querySelector('.gp-ceu, .gp-animacoes') || turma).before(botao); });
+    if (window.QrDaPagina) qr();
+    else document.head.append(Object.assign(document.createElement('script'), { src: new URL('js/qr-da-pagina.js', pasta).href, onload: qr }));
   } else {
     dentro.append(voltar);
   }
