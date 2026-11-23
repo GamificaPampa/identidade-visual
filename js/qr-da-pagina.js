@@ -82,13 +82,15 @@
     if (location.protocol === 'file:') return null;
     const atalhos = await lista();
     const aqui = limpo(location.pathname);
-    for (const [nome, [, rotulo, destino, qr]] of Object.entries(atalhos)) {
-      if (!rotulo || !String(destino).startsWith(SITE + '/')) continue;
+    // A página em si, ou o PDF dela (guia.html e guia.pdf são o mesmo material: o link curto leva ao PDF)
+    const comoPdf = aqui.endsWith('.html/') ? aqui.replace(/\.html\/$/, '.pdf/') : '';
+    const procurar = (caminho) => Object.entries(atalhos).find(([, [, rotulo, destino]]) => {
+      if (!rotulo || !String(destino).startsWith(SITE + '/')) return false;
       const alvo = new URL(destino);
-      if (alvo.search || limpo(alvo.pathname) !== aqui) continue;
-      achado = { nome, rotulo, qr: qr || `/atalhos/qr/${nome}.svg` };
-      break;
-    }
+      return !alvo.search && limpo(alvo.pathname) === caminho;
+    });
+    const [nome, [, rotulo, , qr] = []] = procurar(aqui) || (comoPdf && procurar(comoPdf)) || [];
+    if (nome) achado = { nome, rotulo, qr: qr || `/atalhos/qr/${nome}.svg` };
     if (!achado) return null;
     const botao = Object.assign(document.createElement('button'), { type: 'button', className: 'gp-qr' });
     botao.innerHTML = desenho;
