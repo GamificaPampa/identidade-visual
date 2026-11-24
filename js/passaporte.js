@@ -6,6 +6,7 @@
    <script src="/identidade-visual/js/passaporte.js" defer></script>
 
    Passaporte.CARIMBOS        a lista: id, nome, frase, ícone, endereço e o padrão do endereço que dá o carimbo
+                              (as conquistas, com conquista: true, vêm de Passaporte.marcar na própria ferramenta)
    Passaporte.ler()           { id: 'AAAA-MM-DD' } dos carimbos já ganhos
    Passaporte.marcar(id)      dá um carimbo (para uma conquista que não é só abrir a página)
    Passaporte.esquecer()      apaga todos
@@ -28,6 +29,10 @@
     { id: 'publicar', nome: 'Publicar meu jogo', frase: 'O jogo da IA vira link e QR para a turma.', icone: 'foguete', href: '/publicador/', padrao: /^\/publicador\/(index\.html)?$/ },
     { id: 'turma', nome: 'Jogos para a turma', frase: 'Os jogos prontos, para o projetor ou o celular.', icone: 'jogo', href: '/turma/', padrao: /^\/turma\/(index\.html)?$/ },
     { id: 'imprimir', nome: 'Tudo para imprimir', frase: 'Os papéis da aula, com o número de folhas.', icone: 'prancheta', href: RP + 'imprimir/', padrao: /\/professores\/imprimir\/(index\.html)?$/ },
+    // Conquistas: não basta abrir a página, a ferramenta dá o carimbo quando a pessoa faz a coisa (Passaporte.marcar)
+    { id: 'copiou-prompt', conquista: true, nome: 'Primeiro prompt pronto', frase: 'Copiar um prompt montado na Máquina.', icone: 'estrela', href: '/maquina/' },
+    { id: 'raio-x-feito', conquista: true, nome: 'Prompt no Raio-X', frase: 'Passar um prompt seu pelo Raio-X.', icone: 'lupa', href: RP + 'oficina-prompts/raio-x.html' },
+    { id: 'publicou', conquista: true, nome: 'Jogo no ar', frase: 'Publicar um jogo e ganhar o link e o QR.', icone: 'foguete', href: '/publicador/' },
   ];
 
   const ler = () => {
@@ -48,7 +53,7 @@
 
   // Abrir a página já vale o carimbo dela. No kit sem internet o caminho é outro e nada é marcado
   const caminho = location.pathname;
-  CARIMBOS.forEach((c) => { if (c.padrao.test(caminho)) marcar(c.id); });
+  CARIMBOS.forEach((c) => { if (c.padrao && c.padrao.test(caminho)) marcar(c.id); });
 
   window.Passaporte = { CARIMBOS, ler, marcar, esquecer };
 })();
